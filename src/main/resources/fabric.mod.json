@@ -1,38 +1,31 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "${mod_name}",
   "version": "${version}",
-
-  "name": "Example Mod",
+  "name": "OpenMCCapes",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
-    "Me!"
+    "Zatrit156"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "${mod_url}",
+    "sources": "${mod_url}"
   },
-
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
-
+  "license": "Apache License 2.0",
+  "icon": "assets/openmcskins/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "net.zatrit.openmcskins.OpenMCSkins"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "openmcskins.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.13.3",
     "fabric": "*",
-    "minecraft": "1.18.x",
+    "minecraft": ">=1.18",
     "java": ">=17"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }
