@@ -2,31 +2,40 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.google.gson.Gson;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.minecraft.client.multiplayer.PlayerInfo;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.util.Identifier;
 
 import java.io.IOException;
 import java.io.Serializable;
 
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
-public abstract class AbstractResolver<D extends AbstractResolver.PlayerData> {
+public abstract class AbstractResolver<D extends AbstractResolver.IndexedPlayerData> {
     protected static final Gson GSON = new Gson();
 
-    public abstract D resolvePlayer(PlayerInfo playerInfo) throws IOException;
+    public abstract D resolvePlayer(PlayerListEntry player) throws IOException;
 
     public abstract String getName();
 
-    public abstract static class PlayerData implements Serializable {
-        public int index;
+    public abstract static class IndexedPlayerData implements Serializable {
         public String model = "default";
+        private int index;
 
-        public abstract ResourceLocation downloadTexture(MinecraftProfileTexture.Type type);
+        public abstract Identifier downloadTexture(MinecraftProfileTexture.Type type);
 
         public abstract boolean hasTexture(MinecraftProfileTexture.Type type);
 
         public String getModelOrDefault() {
             return firstNonNull(model, "default");
+        }
+
+        public final IndexedPlayerData withIndex(int index) {
+            this.index = index;
+            return this;
+        }
+
+        public int getIndex() {
+            return index;
         }
     }
 }

@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.config;
+package net.zatrit.openmcskins.util;
 
 import net.zatrit.openmcskins.resolvers.*;
 import org.jetbrains.annotations.Contract;

@@ -1,3 +1,4 @@
 {
-  "modmenu.descriptionTranslation.openmcskins": "Мод, позволяющий игрокам использовать свои скины и плащи"
+  "modmenu.descriptionTranslation.openmcskins": "Мод, позволяющий игрокам использовать свои скины и плащи. Конфиг находится в [папка игры]/config/openmcskins.yml",
+  "openmcskins.mojangauthlib": "Библиотека аутентификация Mojang"
 }

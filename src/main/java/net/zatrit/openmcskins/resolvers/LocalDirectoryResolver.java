@@ -2,25 +2,28 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.google.common.hash.Hashing;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import com.mojang.blaze3d.platform.NativeImage;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.PlayerInfo;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.client.texture.NativeImage;
+import net.minecraft.client.texture.NativeImageBackedTexture;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.zip.CRC32;
 
-public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResolver.PlayerData> {
+public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResolver.IndexedPlayerData> {
     private final File directory;
 
+    public LocalDirectoryResolver(File directory) {
+        this.directory = directory;
+    }
+
     @Override
-    public PlayerData resolvePlayer(@NotNull PlayerInfo playerInfo) throws FileNotFoundException {
-        return new PlayerData(playerInfo.getProfile().getName());
+    public IndexedPlayerData resolvePlayer(@NotNull PlayerListEntry player) throws FileNotFoundException {
+        return new IndexedPlayerData(player.getProfile().getName());
     }
 
     @Override
@@ -28,43 +31,14 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
         return directory.getAbsolutePath();
     }
 
-    public LocalDirectoryResolver(File directory) {
-        this.directory = directory;
-    }
-
     public String getDirectory() {
         return directory.getAbsolutePath();
     }
 
-    public class PlayerData extends AbstractResolver.PlayerData {
-        protected Map<MinecraftProfileTexture.Type, File> textures = new HashMap<>();
-        private static final CRC32 CRC_32 = new CRC32();
+    public class IndexedPlayerData extends AbstractResolver.IndexedPlayerData {
+        protected final Map<MinecraftProfileTexture.Type, File> textures = new HashMap<>();
 
-        @Override
-        public ResourceLocation downloadTexture(MinecraftProfileTexture.Type type) {
-            try {
-                FileInputStream stream = new FileInputStream(textures.get(type));
-                DynamicTexture texture = new DynamicTexture(NativeImage.read(stream));
-
-                stream = new FileInputStream(textures.get(type));
-                String hash = String.valueOf(Hashing.crc32().hashBytes(stream.readAllBytes()));
-                ResourceLocation resourceLocation = new ResourceLocation("skins/" + hash);
-                stream.close();
-
-                Minecraft.getInstance().getTextureManager().register(resourceLocation, texture);
-                return resourceLocation;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        public boolean hasTexture(MinecraftProfileTexture.Type type) {
-            return textures.containsKey(type);
-        }
-
-        public PlayerData(String name) throws FileNotFoundException {
+        public IndexedPlayerData(String name) throws FileNotFoundException {
             File texturesDirectory = new File(directory, "textures");
             File metadataDirectory = new File(directory, "metadata");
 
@@ -89,6 +63,28 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
                 }
         }
 
+        @Override
+        public Identifier downloadTexture(MinecraftProfileTexture.Type type) {
+            try {
+                FileInputStream stream = new FileInputStream(textures.get(type));
+                NativeImageBackedTexture texture = new NativeImageBackedTexture(NativeImage.read(stream));
 
+                stream = new FileInputStream(textures.get(type));
+                String hash = String.valueOf(Hashing.crc32().hashBytes(stream.readAllBytes()));
+                Identifier identifier = new Identifier("skins/" + hash);
+                stream.close();
+
+                MinecraftClient.getInstance().getTextureManager().registerTexture(identifier, texture);
+                return identifier;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        public boolean hasTexture(MinecraftProfileTexture.Type type) {
+            return textures.containsKey(type);
+        }
     }
 }
