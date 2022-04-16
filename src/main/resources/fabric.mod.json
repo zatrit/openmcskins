@@ -2,14 +2,15 @@
   "schemaVersion": 1,
   "id": "${mod_name}",
   "version": "${version}",
-  "name": "OpenMCCapes",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "OpenMCSkins",
+  "description": "Mod that's allows to use own skins and capes",
   "authors": [
     "Zatrit156"
   ],
   "contact": {
     "homepage": "${mod_url}",
-    "sources": "${mod_url}"
+    "sources": "${mod_url}",
+    "issues": "${mod_url}/issues"
   },
   "license": "Apache License 2.0",
   "icon": "assets/openmcskins/icon.png",
@@ -17,6 +18,9 @@
   "entrypoints": {
     "main": [
       "net.zatrit.openmcskins.OpenMCSkins"
+    ],
+    "modmenu": [
+      "net.zatrit.openmcskins.OpenMCSkinsModMenu"
     ]
   },
   "mixins": [
@@ -24,7 +28,7 @@
   ],
   "depends": {
     "fabricloader": ">=0.13.3",
-    "minecraft": ">=1.18",
+    "minecraft": ">=1.14.4",
     "java": ">=17"
   }
 }

@@ -36,8 +36,7 @@ public final class TextureLoader {
                 return Optional.empty();
             }
         }).sequential().timeout(OpenMCSkins.CONFIG_FILE.resolvingTimeout, TimeUnit.SECONDS).doOnEach(x -> {
-            if (x.getValue() != null) for (int i = 0; i < SUPPORTED_TYPES.length; i = i + 1) {
-                Type t = SUPPORTED_TYPES[i];
+            if (x.getValue() != null) for (Type t : SUPPORTED_TYPES) {
                 if (!x.getValue().hasTexture(t)) continue;
                 if (!leading.get().containsKey(t) || leading.get().get(t).index > x.getValue().index)
                     leading.get().put(t, x.getValue());

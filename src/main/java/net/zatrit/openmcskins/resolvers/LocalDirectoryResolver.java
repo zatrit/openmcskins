@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.zip.CRC32;
 
 public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResolver.PlayerData> {
@@ -70,11 +71,11 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
             if (!texturesDirectory.exists()) throw new FileNotFoundException(texturesDirectory.getAbsolutePath());
 
             File[] subdirectories = texturesDirectory.listFiles(File::isDirectory);
-            for (int i = 0; i < subdirectories.length; i = i + 1)
+            for (File subdirectory : Objects.requireNonNull(subdirectories))
                 try {
-                    String typeName = texturesDirectory.toPath().relativize(subdirectories[i].toPath()).toFile().getName();
+                    String typeName = texturesDirectory.toPath().relativize(subdirectory.toPath()).toFile().getName();
                     MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(typeName.toUpperCase());
-                    File textureFile = new File(subdirectories[i], name + ".png");
+                    File textureFile = new File(subdirectory, name + ".png");
                     if (textureFile.exists()) {
                         this.textures.put(type, textureFile);
                     }
