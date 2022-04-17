@@ -45,8 +45,7 @@ public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.
         return this.host;
     }
 
-    public static class IndexedPlayerData extends AbstractResolver.IndexedPlayerData {
-        private final Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> textures = new HashMap<>();
+    public static class IndexedPlayerData extends AbstractResolver.IndexedPlayerData<MinecraftProfileTexture> {
 
         public IndexedPlayerData(@NotNull Map<String, Map<String, ?>> data) {
             data.forEach((k, v) -> {
@@ -61,11 +60,6 @@ public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.
         public Identifier downloadTexture(MinecraftProfileTexture.Type type) {
             MinecraftProfileTexture texture = this.textures.get(type);
             return MinecraftClient.getInstance().getSkinProvider().loadSkin(texture, MinecraftProfileTexture.Type.CAPE);
-        }
-
-        @Override
-        public boolean hasTexture(MinecraftProfileTexture.Type type) {
-            return this.textures.containsKey(type);
         }
     }
 }

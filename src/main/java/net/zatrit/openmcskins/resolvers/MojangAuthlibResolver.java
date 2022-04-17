@@ -10,8 +10,6 @@ import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.enums.SecureMode;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
-
 public class MojangAuthlibResolver extends AbstractResolver<MojangAuthlibResolver.IndexedPlayerData> {
     public final SecureMode secureMode;
 
@@ -29,14 +27,13 @@ public class MojangAuthlibResolver extends AbstractResolver<MojangAuthlibResolve
         return I18n.translate("openmcskins.mojangauthlib");
     }
 
-    public class IndexedPlayerData extends AbstractResolver.IndexedPlayerData {
+    public class IndexedPlayerData extends AbstractResolver.IndexedPlayerData<MinecraftProfileTexture> {
         private final static MinecraftSessionService SESSION_SERVICE = MinecraftClient.getInstance().getSessionService();
-        private final Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> textures;
 
         public IndexedPlayerData(@NotNull GameProfile profile) {
             boolean secure = secureMode == SecureMode.SECURE;
             if (profile.getProperties().isEmpty()) SESSION_SERVICE.fillProfileProperties(profile, secure);
-            this.textures = SESSION_SERVICE.getTextures(profile, secure);
+            this.textures.putAll(SESSION_SERVICE.getTextures(profile, secure));
             if (textures.containsKey(MinecraftProfileTexture.Type.SKIN))
                 model = textures.get(MinecraftProfileTexture.Type.SKIN).getMetadata("model");
             if (model == null) model = "default";
@@ -46,11 +43,6 @@ public class MojangAuthlibResolver extends AbstractResolver<MojangAuthlibResolve
         public Identifier downloadTexture(MinecraftProfileTexture.Type type) {
             MinecraftProfileTexture texture = this.textures.get(type);
             return MinecraftClient.getInstance().getSkinProvider().loadSkin(texture, type);
-        }
-
-        @Override
-        public boolean hasTexture(MinecraftProfileTexture.Type type) {
-            return this.textures.containsKey(type);
         }
     }
 }

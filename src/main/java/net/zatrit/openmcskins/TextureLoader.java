@@ -26,8 +26,6 @@ public final class TextureLoader {
             // Get PlayerData from resolver
             try {
                 AbstractResolver<? extends AbstractResolver.IndexedPlayerData> resolver = hosts.get(i);
-                OpenMCSkins.LOGGER.info(String.format("[%s] Attempting to load skin", resolver.getName()));
-
                 return Optional.of(resolver.resolvePlayer(info).withIndex(i));
             } catch (Exception ex) {
                 handleError(ex);
@@ -48,7 +46,7 @@ public final class TextureLoader {
     }
 
     private static void handleError(@NotNull Throwable error) {
-        error.printStackTrace();
+        OpenMCSkins.LOGGER.error(error.getMessage());
     }
 
     public interface TextureResolveCallback {

@@ -1,4 +1,5 @@
 {
   "modmenu.descriptionTranslation.openmcskins": "Mod that's allows to use own skins and capes. Config placed in [game location]/config/openmcskins.yml",
-  "openmcskins.mojangauthlib": "Mojang Auth library"
+  "openmcskins.mojangauthlib": "Mojang Auth library",
+  "openmcskins.reloadConfig": "Reload OpenMCSkins config and \nall players skins from available hosts"
 }

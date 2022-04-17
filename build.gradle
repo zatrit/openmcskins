@@ -39,6 +39,7 @@ dependencies {
     }
 
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-resource-loader-v0:${project.fabric_resource_loader_version}"
 
     implementation 'org.yaml:snakeyaml:1.30'
     implementation 'io.reactivex.rxjava3:rxjava:3.1.4'
@@ -57,10 +58,6 @@ if (project.hasProperty("mod_url")) url = project.mod_url else {
 // Format fabric.mod.json
 
 processResources {
-    inputs.properties "version": project.version,
-            "mod_name": project.mod_name,
-            "mod_url": url
-
     filesMatching("fabric.mod.json") {
         expand "version": project.version,
                 "mod_name": project.mod_name,
@@ -70,12 +67,6 @@ processResources {
 
 java {
     withSourcesJar()
-}
-
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
-    }
 }
 
 final String VERSION_AND_NAME = "${project.archivesBaseName}-${project.version}"
@@ -89,6 +80,11 @@ shadowJar {
     archiveClassifier.set("dev-shadow")
 
     minimize()
+
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+    from("NOTICE") {}
 }
 
 remapJar {

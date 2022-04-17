@@ -15,7 +15,7 @@ import java.util.Map;
 
 @KeepClass
 @Mixin(PlayerListEntry.class)
-public abstract class PlayerInfoMixin {
+public abstract class PlayerListEntryMixin {
     @Final
     @Shadow
     private Map<MinecraftProfileTexture.Type, Identifier> textures;
@@ -34,6 +34,8 @@ public abstract class PlayerInfoMixin {
     @Overwrite
     public void loadTextures() {
         if (!this.texturesLoaded) {
+            textures.clear();
+
             PlayerListEntry info = (PlayerListEntry) (Object) this;
             TextureLoader.resolve(info, (t, r, model) -> {
                 this.textures.put(t, r);

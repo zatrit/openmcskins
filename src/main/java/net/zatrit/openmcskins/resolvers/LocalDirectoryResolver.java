@@ -10,7 +10,6 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -35,9 +34,7 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
         return directory.getAbsolutePath();
     }
 
-    public class IndexedPlayerData extends AbstractResolver.IndexedPlayerData {
-        protected final Map<MinecraftProfileTexture.Type, File> textures = new HashMap<>();
-
+    public class IndexedPlayerData extends AbstractResolver.IndexedPlayerData<File> {
         public IndexedPlayerData(String name) throws FileNotFoundException {
             File texturesDirectory = new File(directory, "textures");
             File metadataDirectory = new File(directory, "metadata");
@@ -80,11 +77,6 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
                 e.printStackTrace();
                 return null;
             }
-        }
-
-        @Override
-        public boolean hasTexture(MinecraftProfileTexture.Type type) {
-            return textures.containsKey(type);
         }
     }
 }
