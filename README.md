@@ -1,4 +1,4 @@
-# OpenMCCapes
+# OpenMCSkins
 
 ## What is it?
 
