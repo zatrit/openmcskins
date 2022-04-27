@@ -14,7 +14,8 @@
 -keep @net.zatrit.openmcskins.annotation.KeepClass enum ** { *; }
 -keepclassmembers enum ** { @net.zatrit.openmcskins.annotation.DontObfuscate *; }
 
--keep class org.yaml.snakeyaml.**
--keepclassmembers class org.yaml.snakeyaml.**  { *; }
+-keep enum org.yaml.snakeyaml.nodes.NodeId { *; }
 
 -libraryjars <java.home>/jmods/java.base.jmod
+
+-printmapping build/mappings.txt

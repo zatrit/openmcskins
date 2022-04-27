@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Contract;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,10 +18,8 @@ public abstract class AbstractResolver<D extends AbstractResolver.IndexedPlayerD
 
     public abstract D resolvePlayer(PlayerListEntry player) throws IOException;
 
-    public abstract String getName();
-
     public abstract static class IndexedPlayerData<TT> implements Serializable {
-        protected final Map<MinecraftProfileTexture.Type, TT> textures = new HashMap();
+        protected final Map<MinecraftProfileTexture.Type, TT> textures = new HashMap<>();
         public String model = "default";
         private int index;
 
@@ -30,7 +29,8 @@ public abstract class AbstractResolver<D extends AbstractResolver.IndexedPlayerD
             return firstNonNull(model, "default");
         }
 
-        public final IndexedPlayerData withIndex(int index) {
+        @Contract("_ -> this")
+        public final IndexedPlayerData<TT> withIndex(int index) {
             this.index = index;
             return this;
         }

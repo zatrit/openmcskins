@@ -15,8 +15,8 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
 
 archivesBaseName = project.mod_name
 version = project.mod_version
@@ -24,10 +24,10 @@ group = project.maven_group
 
 repositories {
     mavenCentral()
-    maven {
-        name 'ParchmentMC'
-        url "https://maven.parchmentmc.org"
-    }
+    maven { url 'https://maven.parchmentmc.org' }
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://maven.shedaniel.me/' }
+    maven { url 'https://maven.terraformersmc.com/' }
 }
 
 dependencies {
@@ -35,14 +35,27 @@ dependencies {
 
     mappings loom.layered() {
         mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-        parchment "org.parchmentmc.data:parchment-1.18.2:2022.03.13@zip"
+        parchment "org.parchmentmc.data:parchment-${project.minecraft_version}:${project.parchment_version}@zip"
     }
 
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-resource-loader-v0:${project.fabric_resource_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}+${project.minecraft_version}"
 
-    implementation 'org.yaml:snakeyaml:1.30'
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.4'
+    implementation "org.yaml:snakeyaml:${project.snakeyaml_version}"
+    implementation "io.reactivex.rxjava3:rxjava:${project.rxjava_version}"
+
+    shadow "org.yaml:snakeyaml:${project.snakeyaml_version}"
+    shadow "io.reactivex.rxjava3:rxjava:${project.rxjava_version}"
+
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+        exclude group: "com.terraformersmc"
+        exclude group: "net.fabricmc"
+        exclude group: "net.fabricmc.fabric-api"
+    }
+    modApi("com.terraformersmc:modmenu:${project.modmenu_version}") {
+        exclude group: "net.fabricmc"
+        exclude group: "net.fabricmc.fabric-api"
+    }
 }
 
 // Using remote repo as mod site if project.mod_url is missing
@@ -71,12 +84,12 @@ java {
 
 final String VERSION_AND_NAME = "${project.archivesBaseName}-${project.version}"
 
-// Create shadow jar, because ReactiveX and SnakeYAML
+// Create shadow jar, because ReactiveX and SnakeYAML are third-party libraries
 
 project.configurations.implementation.setCanBeResolved(true)
 
 shadowJar {
-    configurations = [project.configurations.implementation]
+    configurations = [project.configurations.shadow]
     archiveClassifier.set("dev-shadow")
 
     minimize()
@@ -101,5 +114,7 @@ task proguard(type: ProGuardTask) {
     configuration "${projectDir}/optimize.pro"
     injars "${buildDir}/libs/${VERSION_AND_NAME}.jar"
     outjars "${buildDir}/libs/${VERSION_AND_NAME}-optimized.jar"
+
     libraryjars(project.configurations.modImplementation.files)
+    libraryjars(project.configurations.modApi.files)
 }

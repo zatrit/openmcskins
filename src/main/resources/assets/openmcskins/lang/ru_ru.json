@@ -1,5 +1,8 @@
 {
-  "modmenu.descriptionTranslation.openmcskins": "Мод, позволяющий игрокам использовать свои скины и плащи. Конфиг находится в [папка игры]/config/openmcskins.yml",
-  "openmcskins.mojangauthlib": "Библиотека аутентификация Mojang",
-  "openmcskins.reloadConfig": "Перезагрузить конфиг OpenMCSkins \nи скины всех игроков из доступных хостов"
+  "modmenu.descriptionTranslation.openmcskins": "Мод, позволяющий игрокам использовать свои скины и плащи. Конфиг находится в .minecraft/config/openmcskins.yml",
+  "openmcskins.reloadConfig": "Перезагрузить конфиг OpenMCSkins \nи скины всех игроков из доступных хостов",
+  "openmcskins.config.title": "Настройки OpenMCSkins",
+  "openmcskins.config.category.general": "Основное",
+  "openmcskins.config.hosts": "Хосты",
+  "openmcskins.config.resolveTimeout": "Время на загрузку"
 }

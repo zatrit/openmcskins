@@ -25,15 +25,6 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
         return new IndexedPlayerData(player.getProfile().getName());
     }
 
-    @Override
-    public String getName() {
-        return directory.getAbsolutePath();
-    }
-
-    public String getDirectory() {
-        return directory.getAbsolutePath();
-    }
-
     public class IndexedPlayerData extends AbstractResolver.IndexedPlayerData<File> {
         public IndexedPlayerData(String name) throws FileNotFoundException {
             File texturesDirectory = new File(directory, "textures");
@@ -53,8 +44,10 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
 
                     File metadataTypeDirectory = new File(metadataDirectory, typeName);
                     File metadataFile = new File(metadataTypeDirectory, name + ".json");
-                    if (metadataFile.exists())
-                        this.model = GSON.<Map<String, String>>fromJson(new FileReader(metadataFile), Map.class).getOrDefault("model", "default");
+                    if (metadataFile.exists()) {
+                        Map<String, String> metadata = GSON.<Map<String, String>>fromJson(new FileReader(metadataFile), Map.class);
+                        if (metadata.containsKey("model")) this.model = metadata.get("model");
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

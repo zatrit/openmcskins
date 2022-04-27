@@ -14,10 +14,13 @@
   },
   "license": "Apache License 2.0",
   "icon": "assets/openmcskins/icon.png",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "main": [
       "net.zatrit.openmcskins.OpenMCSkins"
+    ],
+    "modmenu": [
+      "net.zatrit.openmcskins.ModMenuEntry"
     ]
   },
   "mixins": [
@@ -25,8 +28,12 @@
   ],
   "depends": {
     "fabricloader": ">=0.13.3",
-    "minecraft": ">=1.18",
-    "java": ">=17",
+    "minecraft": ">=1.17",
+    "java": ">=16",
     "fabric-resource-loader-v0": "*"
+  },
+  "breaks": {
+    "offlineskins": "*",
+    "optifabric": "*"
   }
 }

@@ -36,7 +36,7 @@ def generateRedirect(type, name, extension):
         if hash == crc32(file):
             return f"/redirect/{type}/{hash}{extension}"
         else:
-            del REDIRECTS[name]
+            del REDIRECTS[type][name]
 
     if not exists(file):
         return None

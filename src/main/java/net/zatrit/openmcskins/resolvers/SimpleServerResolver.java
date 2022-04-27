@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
+import static net.zatrit.openmcskins.util.ObjectUtils.getOfDefaultNonGeneric;
 
 public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.IndexedPlayerData> {
     protected final String host;
@@ -29,11 +29,6 @@ public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.
         return fetchData(url);
     }
 
-    @Override
-    public String getName() {
-        return host;
-    }
-
     private @NotNull SimpleServerResolver.IndexedPlayerData fetchData(String url) throws IOException {
         URL realUrl = new URL(url);
         BufferedReader in = new BufferedReader(new InputStreamReader(realUrl.openStream()));
@@ -41,25 +36,23 @@ public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.
         return new IndexedPlayerData(map);
     }
 
-    public String getHost() {
-        return this.host;
-    }
-
     public static class IndexedPlayerData extends AbstractResolver.IndexedPlayerData<MinecraftProfileTexture> {
 
+        @SuppressWarnings("unchecked")
         public IndexedPlayerData(@NotNull Map<String, Map<String, ?>> data) {
             data.forEach((k, v) -> {
-                Map<String, String> metadata = firstNonNull((Map<String, String>) v.get("metadata"), new HashMap<>());
+                MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(k);
+                Map<String, String> metadata = (Map<String, String>) getOfDefaultNonGeneric(v, "metadata", new HashMap<>());
                 MinecraftProfileTexture texture = new MinecraftProfileTexture((String) v.get("url"), metadata);
-                this.textures.put(MinecraftProfileTexture.Type.valueOf(k), texture);
-                this.model = metadata.getOrDefault("model", "default");
+                this.textures.put(type, texture);
+                if (metadata.containsKey("model")) this.model = metadata.get("model");
             });
         }
 
         @Override
         public Identifier downloadTexture(MinecraftProfileTexture.Type type) {
             MinecraftProfileTexture texture = this.textures.get(type);
-            return MinecraftClient.getInstance().getSkinProvider().loadSkin(texture, MinecraftProfileTexture.Type.CAPE);
+            return MinecraftClient.getInstance().getSkinProvider().loadSkin(texture, type);
         }
     }
 }

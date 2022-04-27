@@ -34,8 +34,13 @@ public abstract class SkinOptionsScreenMixin extends GameOptionsScreen {
 
     @Inject(method = "init", at = @At("RETURN"))
     private void init(CallbackInfo info) {
-        this.addDrawableChild(new TexturedButtonWidget(this.width / 2 - 124, this.height / 6 + 12 * (PlayerModelPart.values().length + 1), 20, 20, 0, 0, 20, REFRESH_BUTTON_LOCATION, 20, 40, (button) -> {
-            OpenMCSkins.updateConfig();
-        }, (ButtonWidget button, MatrixStack matrices, int mouseX, int mouseY) -> renderTooltip(matrices, RELOAD_CONFIG_TOOLTIP, mouseX, mouseY), null));
+        // fun fact: if you inline all these variables, line 44 will take over 300 symbols
+        ButtonWidget.TooltipSupplier renderTooltip = (ButtonWidget b, MatrixStack ma, int mx, int my) -> renderTooltip(ma, RELOAD_CONFIG_TOOLTIP, mx, my);
+        ButtonWidget.PressAction buttonClick = b -> OpenMCSkins.reloadConfig();
+
+        int buttonX = this.width / 2 - 124;
+        int buttonY = this.height / 6 + 12 * (PlayerModelPart.values().length + 1);
+
+        this.addDrawableChild(new TexturedButtonWidget(buttonX, buttonY, 20, 20, 0, 0, 20, REFRESH_BUTTON_LOCATION, 20, 40, buttonClick, renderTooltip, null));
     }
 }

@@ -21,7 +21,7 @@ public abstract class PlayerListEntryMixin {
     private Map<MinecraftProfileTexture.Type, Identifier> textures;
 
     @Shadow
-    private boolean texturesLoaded = false;
+    private boolean texturesLoaded;
 
     @Shadow
     @Nullable
@@ -39,7 +39,8 @@ public abstract class PlayerListEntryMixin {
             PlayerListEntry info = (PlayerListEntry) (Object) this;
             TextureLoader.resolve(info, (t, r, model) -> {
                 this.textures.put(t, r);
-                this.model = model;
+                if (t == MinecraftProfileTexture.Type.SKIN)
+                    this.model = model;
             });
             this.texturesLoaded = true;
         }
