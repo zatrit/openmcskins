@@ -10,7 +10,7 @@ This is a lightweight mod that allows skins and capes to be use in various ways.
 * From [ely.by API](https://docs.ely.by/en/skins-system.html)
 * From [SimpleHTTP server](./server/) with an API similar to ely.by
 * From local storage
-* From Optifine capes system
+* From Optifine cape system
 
 ## How to configure this?
 
@@ -30,7 +30,7 @@ This option accepts a list of sources where the mod tries to load skins from.
 * !server [IP] - any server that implements the ely.by API
 * !elyby - ely.by skin system
 * !local [Directory] - directory where the mod will look for skins
-* !optifine - Optifine capes system
+* !optifine - Optifine cape system
 
 ### resolvingTimeout
 

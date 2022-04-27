@@ -13,6 +13,8 @@ import net.minecraft.text.TranslatableText;
 import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.config.HostConfigItem;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
+import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
+import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.AbstractResolver;
 import net.zatrit.openmcskins.util.ConfigUtil;
 import org.jetbrains.annotations.Contract;
@@ -22,8 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -67,25 +67,11 @@ public class OpenMCSkins implements ModInitializer {
         MinecraftClient client = MinecraftClient.getInstance();
 
         if (client.world != null) try {
-            // I don't know how to reload all player skins better
-            Class<AbstractClientPlayerEntity> entityClass = AbstractClientPlayerEntity.class;
-            String entityClassName = mappingResolver.unmapClassName(mappingNamespace, entityClass.getName());
-            String getPlayerListEntryName = mappingResolver.mapMethodName(mappingNamespace, entityClassName, "method_3123", "()Lnet/minecraft/class_640;");
-            Method getPlayerListEntry = entityClass.getDeclaredMethod(getPlayerListEntryName);
-            getPlayerListEntry.setAccessible(true);
-
-            Class<PlayerListEntry> playerClass = PlayerListEntry.class;
-            String playerClassName = mappingResolver.unmapClassName(mappingNamespace, playerClass.getName());
-            String texturesLoadedName = mappingResolver.mapFieldName(mappingNamespace, playerClassName, "field_3740", "Z");
-            Field texturesLoaded = playerClass.getDeclaredField(texturesLoadedName);
-            texturesLoaded.setAccessible(true);
-
             AbstractClientPlayerEntity[] players = client.world.getPlayers().toArray(new AbstractClientPlayerEntity[0]);
             for (AbstractClientPlayerEntity player : players) {
-                PlayerListEntry entry = (PlayerListEntry) getPlayerListEntry.invoke(player);
-                texturesLoaded.set(entry, false);
+                PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) player).invokeGetPlayerListEntry();
+                ((PlayerListEntryAccessor) entry).setTexturesLoaded(false);
             }
-            texturesLoaded.setAccessible(false);
         } catch (Throwable e) {
             e.printStackTrace();
         }
