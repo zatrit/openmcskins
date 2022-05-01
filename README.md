@@ -19,7 +19,7 @@ This is a mod that allows skins and capes to be use in various ways.
 ### How to configure this
 
 This mod using a [Cloth config](https://www.curseforge.com/minecraft/mc-mods/cloth-config) for configuration, and you
-can access OpenMCSkins options from "Skin customization..." options
+can access OpenMCSkins options from **"Skin customization..."** options
 
 ### How to edit config manually
 
