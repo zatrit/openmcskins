@@ -4,7 +4,11 @@ import com.google.gson.Gson;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
+import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.util.NetworkUtils;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -23,8 +27,10 @@ public abstract class AbstractResolver<D extends AbstractResolver.IndexedPlayerD
         public String model = "default";
         private int index;
 
+        @Nullable
         public abstract Identifier downloadTexture(MinecraftProfileTexture.Type type);
 
+        @NotNull
         public String getModelOrDefault() {
             return firstNonNull(model, "default");
         }
@@ -41,6 +47,19 @@ public abstract class AbstractResolver<D extends AbstractResolver.IndexedPlayerD
 
         public int getIndex() {
             return index;
+        }
+    }
+
+    public abstract static class AbstractURLPlayerData extends IndexedPlayerData<MinecraftProfileTexture> {
+        @Override
+        public Identifier downloadTexture(MinecraftProfileTexture.Type type) {
+            try {
+                String url = textures.get(type).getUrl();
+                return NetworkUtils.capeFromUrl(url);
+            } catch (IOException e) {
+                OpenMCSkins.handleError(e);
+                return null;
+            }
         }
     }
 }

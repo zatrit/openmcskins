@@ -8,7 +8,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
-import net.zatrit.openmcskins.util.ConfigUtil;
+import net.zatrit.openmcskins.util.ConfigUtils;
 
 import static net.zatrit.openmcskins.OpenMCSkins.translatable;
 
@@ -27,8 +27,9 @@ public class ModMenuEntry implements ModMenuApi {
                 ConfigEntryBuilder entryBuilder = ConfigEntryBuilder.create();
 
                 ConfigCategory general = configBuilder.getOrCreateCategory(translatable("openmcskins.config.category.general"));
+
                 general.addEntry(entryBuilder
-                        .startStrList(translatable("openmcskins.config.hosts"), ConfigUtil.hostsToStrings(OpenMCSkins.getConfig()))
+                        .startStrList(translatable("openmcskins.config.hosts"), ConfigUtils.hostsToStrings(OpenMCSkins.getConfig()))
                         .setDeleteButtonEnabled(true)
                         .setInsertInFront(true)
                         .setExpanded(true)
@@ -40,6 +41,12 @@ public class ModMenuEntry implements ModMenuApi {
                         .setDefaultValue(5)
                         .setMin(1)
                         .build());
+                general.addEntry(entryBuilder
+                        .startBooleanToggle(translatable("openmcskins.config.fullErrorMessage"), config.getFullErrorMessage())
+                        .setSaveConsumer(config::setFullErrorMessage)
+                        .setDefaultValue(false)
+                        .build()
+                );
 
                 return configBuilder.setFallbackCategory(general).setParentScreen(parent).build();
             };

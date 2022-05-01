@@ -1,9 +1,7 @@
 package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -36,7 +34,7 @@ public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.
         return new IndexedPlayerData(map);
     }
 
-    public static class IndexedPlayerData extends AbstractResolver.IndexedPlayerData<MinecraftProfileTexture> {
+    public static class IndexedPlayerData extends AbstractURLPlayerData {
 
         @SuppressWarnings("unchecked")
         public IndexedPlayerData(@NotNull Map<String, Map<String, ?>> data) {
@@ -47,12 +45,6 @@ public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.
                 this.textures.put(type, texture);
                 if (metadata.containsKey("model")) this.model = metadata.get("model");
             });
-        }
-
-        @Override
-        public Identifier downloadTexture(MinecraftProfileTexture.Type type) {
-            MinecraftProfileTexture texture = this.textures.get(type);
-            return MinecraftClient.getInstance().getSkinProvider().loadSkin(texture, type);
         }
     }
 }

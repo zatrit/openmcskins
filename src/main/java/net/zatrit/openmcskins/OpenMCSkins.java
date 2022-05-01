@@ -1,10 +1,10 @@
 package net.zatrit.openmcskins;
 
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 import io.reactivex.rxjava3.internal.functions.Functions;
 import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
@@ -16,7 +16,7 @@ import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
 import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.AbstractResolver;
-import net.zatrit.openmcskins.util.ConfigUtil;
+import net.zatrit.openmcskins.util.ConfigUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -31,8 +31,7 @@ import java.util.List;
 public class OpenMCSkins implements ModInitializer {
     public static final String MOD_ID = "openmcskins";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    private static final String mappingNamespace = "intermediary";
-    private static final MappingResolver mappingResolver = FabricLoader.getInstance().getMappingResolver();
+    public static final HashFunction SKIN_HASH_FUNCTION = Hashing.crc32();
     private static final File configFile = Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), "config", "openmcskins.yml").toFile();
     private static OpenMCSkinsConfig config = null;
     private static List<? extends AbstractResolver<?>> resolvers;
@@ -44,7 +43,7 @@ public class OpenMCSkins implements ModInitializer {
 
     public static void reloadConfig() {
         try {
-            config = ConfigUtil.load(configFile);
+            config = ConfigUtils.load(configFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -61,19 +60,25 @@ public class OpenMCSkins implements ModInitializer {
         return resolvers;
     }
 
+
+    public static void handleError(@NotNull Throwable error) {
+        if (OpenMCSkins.getConfig().getFullErrorMessage())
+            error.printStackTrace();
+        else
+            OpenMCSkins.LOGGER.error(error.getMessage());
+    }
+
     public static void invalidateAllResolvers() {
         OpenMCSkins.resolvers = null;
 
         MinecraftClient client = MinecraftClient.getInstance();
 
-        if (client.world != null) try {
+        if (client.world != null) {
             AbstractClientPlayerEntity[] players = client.world.getPlayers().toArray(new AbstractClientPlayerEntity[0]);
             for (AbstractClientPlayerEntity player : players) {
                 PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) player).invokeGetPlayerListEntry();
                 ((PlayerListEntryAccessor) entry).setTexturesLoaded(false);
             }
-        } catch (Throwable e) {
-            e.printStackTrace();
         }
     }
 

@@ -2,7 +2,7 @@ package net.zatrit.openmcskins.config;
 
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.DontObfuscate;
-import net.zatrit.openmcskins.util.ConfigUtil;
+import net.zatrit.openmcskins.util.ConfigUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -16,12 +16,14 @@ public class OpenMCSkinsConfig {
     public int resolvingTimeout = 5;
     @DontObfuscate
     public @NotNull List<HostConfigItem<?>> hosts = new ArrayList<>();
+    @DontObfuscate
+    public boolean fullErrorMessage;
 
     public OpenMCSkinsConfig() {
         this.file = OpenMCSkins.getConfigFile();
 
         this.hosts.add(new HostConfigItem<>(HostType.OPTIFINE, null));
-        this.hosts.add(new HostConfigItem<>(HostType.MOJANG, SecureMode.SECURE));
+        this.hosts.add(new HostConfigItem<>(HostType.MOJANG, AuthlibResolverMode.ONLINE));
     }
 
     public int getResolvingTimeout() {
@@ -30,7 +32,14 @@ public class OpenMCSkinsConfig {
 
     public void setResolvingTimeout(int resolvingTimeout) {
         this.resolvingTimeout = resolvingTimeout;
-        this.save();
+    }
+
+    public boolean getFullErrorMessage() {
+        return this.fullErrorMessage;
+    }
+
+    public void setFullErrorMessage(boolean fullErrorMessage) {
+        this.fullErrorMessage = fullErrorMessage;
     }
 
     public @NotNull List<HostConfigItem<?>> getHosts() {
@@ -42,15 +51,16 @@ public class OpenMCSkinsConfig {
         this.save();
     }
 
+    public void setHostsString(List<String> hostStrings) {
+        this.setHosts(ConfigUtils.stringsToHost(hostStrings));
+    }
+
     private void save() {
+        OpenMCSkins.LOGGER.info("Saving config...");
         try {
-            ConfigUtil.save(this, this.file);
+            ConfigUtils.save(this, this.file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void setHostsString(List<String> hostStrings) {
-        this.setHosts(ConfigUtil.stringsToHost(hostStrings));
     }
 }

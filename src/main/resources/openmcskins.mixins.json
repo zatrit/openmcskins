@@ -7,6 +7,8 @@
     "AbstractClientPlayerEntityAccessor",
     "PlayerListEntryAccessor",
     "PlayerListEntryMixin",
+    "PlayerSkinProviderAccessor",
+    "HashingAlgorithmChangerMixin",
     "SkinOptionsScreenMixin"
   ]
 }

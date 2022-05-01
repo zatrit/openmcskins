@@ -4,5 +4,6 @@
   "openmcskins.config.title": "OpenMCSkins configuration",
   "openmcskins.config.category.general": "General",
   "openmcskins.config.hosts": "Hosts",
-  "openmcskins.config.resolveTimeout": "Resolve timeout"
+  "openmcskins.config.resolveTimeout": "Resolve timeout",
+  "openmcskins.config.fullErrorMessage": "Print full error message"
 }

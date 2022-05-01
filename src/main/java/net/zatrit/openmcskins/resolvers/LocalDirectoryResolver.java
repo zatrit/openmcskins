@@ -1,6 +1,5 @@
 package net.zatrit.openmcskins.resolvers;
 
-import com.google.common.hash.Hashing;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
@@ -59,13 +58,7 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
                 FileInputStream stream = new FileInputStream(textures.get(type));
                 NativeImageBackedTexture texture = new NativeImageBackedTexture(NativeImage.read(stream));
 
-                stream = new FileInputStream(textures.get(type));
-                String hash = String.valueOf(Hashing.crc32().hashBytes(stream.readAllBytes()));
-                Identifier identifier = new Identifier("skins/" + hash);
-                stream.close();
-
-                MinecraftClient.getInstance().getTextureManager().registerTexture(identifier, texture);
-                return identifier;
+                return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture("skin", texture);
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;

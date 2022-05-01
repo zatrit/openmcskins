@@ -6,7 +6,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.resolvers.AbstractResolver;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +32,7 @@ public final class TextureLoader {
                 AbstractResolver<?> resolver = hosts.get(i);
                 return Optional.of(resolver.resolvePlayer(info).withIndex(i));
             } catch (Exception ex) {
-                handleError(ex);
+                OpenMCSkins.handleError(ex);
                 return Optional.empty();
             }
         }).sequential().timeout(OpenMCSkins.getConfig().getResolvingTimeout(), TimeUnit.SECONDS).doOnEach(x -> {
@@ -47,11 +46,7 @@ public final class TextureLoader {
             // When all textures are loaded
             // Or time out
             leading.get().forEach((k, v) -> callback.onTextureResolved(k, v.downloadTexture(k), v.getModelOrDefault()));
-        }).doOnError(TextureLoader::handleError).subscribe();
-    }
-
-    private static void handleError(@NotNull Throwable error) {
-        OpenMCSkins.LOGGER.error(error.getMessage());
+        }).doOnError(OpenMCSkins::handleError).subscribe();
     }
 
     public interface TextureResolveCallback {

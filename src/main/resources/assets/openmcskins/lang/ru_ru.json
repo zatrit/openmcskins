@@ -4,5 +4,6 @@
   "openmcskins.config.title": "Настройки OpenMCSkins",
   "openmcskins.config.category.general": "Основное",
   "openmcskins.config.hosts": "Хосты",
-  "openmcskins.config.resolveTimeout": "Время на загрузку"
+  "openmcskins.config.resolveTimeout": "Время на загрузку",
+  "openmcskins.config.fullErrorMessage": "Печатать полное сообщение об ошибке в логах"
 }

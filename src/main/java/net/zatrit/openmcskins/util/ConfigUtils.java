@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 import static net.zatrit.openmcskins.util.ObjectUtils.getOrNull;
 
-public class ConfigUtil implements Serializable {
+public class ConfigUtils implements Serializable {
     private static final Yaml YAML = new Yaml(new ConfigConstructor(), new ConfigRepresenter());
 
     public static OpenMCSkinsConfig load(@NotNull File file) throws IOException {
