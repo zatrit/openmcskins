@@ -74,7 +74,7 @@ public class NetworkUtils {
 
     public static Identifier capeFromUrl(String url) throws IOException {
         InputStream stream = new URL(url).openStream();
-        String hash = OpenMCSkins.SKIN_HASH_FUNCTION.hashUnencodedChars(url).toString();
+        String hash = OpenMCSkins.getHashFunction().hashUnencodedChars(url).toString();
         File cacheFile = Path.of(((PlayerSkinProviderAccessor) MinecraftClient.getInstance().getSkinProvider()).getSkinCacheDir().getPath(), hash.substring(0, 2), hash).toFile();
         cacheFile.getParentFile().mkdirs();
         NativeImage image;
@@ -84,8 +84,7 @@ public class NetworkUtils {
 
             int height = 16;
 
-            while (height < source.getHeight() || height * 2 < source.getWidth())
-                height *= 2;
+            while (height < source.getHeight() || height * 2 < source.getWidth()) height *= 2;
 
             NetworkUtils.resizeAndSaveImage(source, cacheFile, height * 2, height);
         }

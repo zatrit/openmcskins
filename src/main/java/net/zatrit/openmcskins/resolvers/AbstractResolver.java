@@ -2,6 +2,7 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.google.gson.Gson;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
@@ -54,8 +55,10 @@ public abstract class AbstractResolver<D extends AbstractResolver.IndexedPlayerD
         @Override
         public Identifier downloadTexture(MinecraftProfileTexture.Type type) {
             try {
-                String url = textures.get(type).getUrl();
-                return NetworkUtils.capeFromUrl(url);
+                MinecraftProfileTexture texture = textures.get(type);
+                if (type == MinecraftProfileTexture.Type.CAPE)
+                    return NetworkUtils.capeFromUrl(texture.getUrl());
+                else return MinecraftClient.getInstance().getSkinProvider().loadSkin(texture, type);
             } catch (IOException e) {
                 OpenMCSkins.handleError(e);
                 return null;

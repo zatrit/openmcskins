@@ -6,8 +6,11 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.text.Text;
 import net.zatrit.openmcskins.annotation.KeepClass;
+import net.zatrit.openmcskins.config.HashingAlgorithm;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
+import net.zatrit.openmcskins.gui.GUIMaker;
 import net.zatrit.openmcskins.util.ConfigUtils;
 
 import static net.zatrit.openmcskins.OpenMCSkins.translatable;
@@ -45,6 +48,13 @@ public class ModMenuEntry implements ModMenuApi {
                         .startBooleanToggle(translatable("openmcskins.config.fullErrorMessage"), config.getFullErrorMessage())
                         .setSaveConsumer(config::setFullErrorMessage)
                         .setDefaultValue(false)
+                        .build()
+                );
+                general.addEntry(entryBuilder
+                        .startEnumSelector(translatable("openmcskins.config.hashingFunction"), HashingAlgorithm.class, config.getHashingAlgorithm())
+                        .setSaveConsumer(config::setHashingAlgorithm)
+                        .setTooltip(GUIMaker.textListFromKey("openmcskins.config.hashingFunction.tooltip").toArray(new Text[0]))
+                        .setDefaultValue(HashingAlgorithm.SHA384)
                         .build()
                 );
 

@@ -1,7 +1,6 @@
 package net.zatrit.openmcskins;
 
 import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
 import io.reactivex.rxjava3.internal.functions.Functions;
 import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import net.fabricmc.api.ModInitializer;
@@ -31,7 +30,6 @@ import java.util.List;
 public class OpenMCSkins implements ModInitializer {
     public static final String MOD_ID = "openmcskins";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static final HashFunction SKIN_HASH_FUNCTION = Hashing.crc32();
     private static final File configFile = Paths.get(MinecraftClient.getInstance().runDirectory.getPath(), "config", "openmcskins.yml").toFile();
     private static OpenMCSkinsConfig config = null;
     private static List<? extends AbstractResolver<?>> resolvers;
@@ -66,6 +64,10 @@ public class OpenMCSkins implements ModInitializer {
             error.printStackTrace();
         else
             OpenMCSkins.LOGGER.error(error.getMessage());
+    }
+
+    public static HashFunction getHashFunction() {
+        return getConfig().getHashingAlgorithm().getFunction();
     }
 
     public static void invalidateAllResolvers() {

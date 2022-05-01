@@ -5,10 +5,11 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AbstractClientPlayerEntityAccessor",
+    "HashingFunctionChangerMixin",
+    "MinecraftClientAccessor",
     "PlayerListEntryAccessor",
     "PlayerListEntryMixin",
     "PlayerSkinProviderAccessor",
-    "HashingAlgorithmChangerMixin",
     "SkinOptionsScreenMixin"
   ]
 }

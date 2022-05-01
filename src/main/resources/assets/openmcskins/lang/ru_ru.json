@@ -1,9 +1,12 @@
 {
   "modmenu.descriptionTranslation.openmcskins": "Мод, позволяющий игрокам использовать свои скины и плащи. Конфиг находится в .minecraft/config/openmcskins.yml",
   "openmcskins.reloadConfig": "Перезагрузить конфиг OpenMCSkins \nи скины всех игроков из доступных хостов",
-  "openmcskins.config.title": "Настройки OpenMCSkins",
+  "openmcskins.configure": "Настройки OpenMCSkins",
   "openmcskins.config.category.general": "Основное",
+  "openmcskins.config.title": "Настройки OpenMCSkins",
   "openmcskins.config.hosts": "Хосты",
   "openmcskins.config.resolveTimeout": "Время на загрузку",
-  "openmcskins.config.fullErrorMessage": "Печатать полное сообщение об ошибке в логах"
+  "openmcskins.config.fullErrorMessage": "Печатать полное сообщение об ошибке",
+  "openmcskins.config.hashingFunction": "Алгоритм хэширования скинов",
+  "openmcskins.config.hashingFunction.tooltip": "Алгоритм, генерирующий имя для скина\n SHA384 (РЕКОМЕНДУЕТСЯ) - генерирует уникальное имя для\n  каждого файла скина, но они имеют большую длину\n SHA1 - устарел, но используется\n  в ванильной версии Minecraft \n CRC32 (не алгоритм хэширования) - генерирует\n  короткие имена файлов, но возможны повторения"
 }
