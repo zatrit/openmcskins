@@ -11,12 +11,6 @@ import java.util.UUID;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 public class ObjectUtils {
-    @Contract(pure = true)
-    public static <T> @Nullable T getOrNull(T @NotNull [] array, int index) {
-        if (index >= array.length)
-            return null;
-        return array[index];
-    }
 
     public static <T extends Enum<T>> @NotNull T valueOfOrDefault(Class<T> clazz, String str, T d) {
         try {
@@ -24,6 +18,13 @@ public class ObjectUtils {
         } catch (Exception ignore) {
             return d;
         }
+    }
+
+    @Contract(pure = true)
+    public static <T> @NotNull T getOrDefault(T @NotNull [] array, int index, T d) {
+        if (index >= array.length)
+            return d;
+        return array[index];
     }
 
     public static <T> @NotNull Object getOfDefaultNonGeneric(@NotNull Map<T, ?> map, T key, Object d) {

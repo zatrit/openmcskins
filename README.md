@@ -2,7 +2,11 @@
 
 ## What is it?
 
-This is a lightweight mod that allows skins and capes to be use in various ways.
+This is a mod that allows skins and capes to be use in various ways.
+
+### Dependencies
+
+* [Cloth config](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 
 ### Where can this mod download skins and capes from?
 
@@ -12,7 +16,12 @@ This is a lightweight mod that allows skins and capes to be use in various ways.
 * From local storage
 * From Optifine cape system
 
-## How to configure this?
+### How to configure this
+
+This mod using a [Cloth config](https://www.curseforge.com/minecraft/mc-mods/cloth-config) for configuration, and you
+can access OpenMCSkins options from "Skin customization..." options
+
+### How to edit config manually
 
 The mod's configuration is located at **[minecraft game location]/config/openmcskins.yml**. You can edit it with any
 text editor (e.g. Notepad++).
