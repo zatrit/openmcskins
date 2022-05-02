@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.mixin.PlayerSkinProviderAccessor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -72,7 +73,7 @@ public class NetworkUtils {
         source.flush();
     }
 
-    public static Identifier capeFromUrl(String url) throws IOException {
+    public static @Nullable Identifier capeFromUrl(String url) throws IOException {
         InputStream stream = new URL(url).openStream();
         String hash = OpenMCSkins.getHashFunction().hashUnencodedChars(url).toString();
         File cacheFile = Path.of(((PlayerSkinProviderAccessor) MinecraftClient.getInstance().getSkinProvider()).getSkinCacheDir().getPath(), hash.substring(0, 2), hash).toFile();
@@ -90,6 +91,8 @@ public class NetworkUtils {
         }
 
         image = NativeImage.read(new FileInputStream(cacheFile));
+        if (image == null)
+            return null;
         NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
         return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture("skin", texture);
     }

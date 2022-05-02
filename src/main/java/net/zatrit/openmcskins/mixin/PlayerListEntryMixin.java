@@ -38,6 +38,9 @@ public abstract class PlayerListEntryMixin {
 
             PlayerListEntry info = (PlayerListEntry) (Object) this;
             TextureLoader.resolve(info, (t, r, model) -> {
+                if (r == null)
+                    return;
+
                 this.textures.put(t, r);
                 if (t == MinecraftProfileTexture.Type.SKIN)
                     this.model = model;

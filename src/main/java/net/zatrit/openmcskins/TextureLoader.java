@@ -6,6 +6,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.resolvers.AbstractResolver;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +51,6 @@ public final class TextureLoader {
     }
 
     public interface TextureResolveCallback {
-        void onTextureResolved(Type type, Identifier location, String model);
+        void onTextureResolved(Type type, @Nullable Identifier location, String model);
     }
 }
