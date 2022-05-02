@@ -12,7 +12,7 @@ import java.io.*;
 import java.util.Map;
 import java.util.Objects;
 
-public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResolver.IndexedPlayerData> {
+public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResolver.PlayerData> {
     private final File directory;
 
     public LocalDirectoryResolver(File directory) {
@@ -20,12 +20,12 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
     }
 
     @Override
-    public IndexedPlayerData resolvePlayer(@NotNull PlayerListEntry player) throws FileNotFoundException {
-        return new IndexedPlayerData(player.getProfile().getName());
+    public PlayerData resolvePlayer(@NotNull PlayerListEntry player) throws FileNotFoundException {
+        return new PlayerData(player.getProfile().getName());
     }
 
-    public class IndexedPlayerData extends AbstractResolver.IndexedPlayerData<File> {
-        public IndexedPlayerData(String name) throws FileNotFoundException {
+    public class PlayerData extends AbstractResolver.IndexedPlayerData<File> {
+        public PlayerData(String name) throws FileNotFoundException {
             File texturesDirectory = new File(directory, "textures");
             File metadataDirectory = new File(directory, "metadata");
 

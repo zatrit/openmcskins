@@ -51,7 +51,7 @@ public abstract class AbstractResolver<D extends AbstractResolver.IndexedPlayerD
         }
     }
 
-    public abstract static class AbstractURLPlayerData extends IndexedPlayerData<MinecraftProfileTexture> {
+    public abstract static class MinecraftProfilePlayerData extends IndexedPlayerData<MinecraftProfileTexture> {
         @Override
         public Identifier downloadTexture(MinecraftProfileTexture.Type type) {
             try {

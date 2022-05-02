@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class MojangAuthlibResolver extends AbstractResolver<MojangAuthlibResolver.IndexedPlayerData> {
+public class MojangAuthlibResolver extends AbstractResolver<MojangAuthlibResolver.PlayerData> {
     private final AuthlibResolverMode mode;
 
     public MojangAuthlibResolver(AuthlibResolverMode mode) {
@@ -22,25 +22,25 @@ public class MojangAuthlibResolver extends AbstractResolver<MojangAuthlibResolve
     }
 
     @Override
-    public IndexedPlayerData resolvePlayer(@NotNull PlayerListEntry player) {
-        return new IndexedPlayerData(player.getProfile());
+    public PlayerData resolvePlayer(@NotNull PlayerListEntry player) {
+        return new PlayerData(player.getProfile());
     }
 
-    public class IndexedPlayerData extends AbstractResolver.IndexedPlayerData<MinecraftProfileTexture> {
+    public class PlayerData extends AbstractResolver.IndexedPlayerData<MinecraftProfileTexture> {
         private final static YggdrasilMinecraftSessionService SESSION_SERVICE = (YggdrasilMinecraftSessionService) MinecraftClient.getInstance().getSessionService();
         private final static YggdrasilGameProfileRepository PROFILE_REPOSITORY = (YggdrasilGameProfileRepository) SESSION_SERVICE.getAuthenticationService().createProfileRepository();
 
-        public IndexedPlayerData(@NotNull GameProfile profile) {
+        public PlayerData(@NotNull GameProfile profile) {
             if (profile.getName() != null && mode == AuthlibResolverMode.OFFLINE) {
                 final UUID id = NetworkUtils.getUUIDByName(PROFILE_REPOSITORY, profile.getName());
                 profile = ObjectUtils.setGameProfileUUID(profile, id);
             }
 
             if (profile.getProperties().isEmpty()) SESSION_SERVICE.fillProfileProperties(profile, true);
-            IndexedPlayerData.this.textures.putAll(SESSION_SERVICE.getTextures(profile, true));
-            if (IndexedPlayerData.this.textures.containsKey(MinecraftProfileTexture.Type.SKIN))
-                IndexedPlayerData.this.model = textures.get(MinecraftProfileTexture.Type.SKIN).getMetadata("model");
-            if (IndexedPlayerData.this.model == null) IndexedPlayerData.this.model = "default";
+            PlayerData.this.textures.putAll(SESSION_SERVICE.getTextures(profile, true));
+            if (PlayerData.this.textures.containsKey(MinecraftProfileTexture.Type.SKIN))
+                PlayerData.this.model = textures.get(MinecraftProfileTexture.Type.SKIN).getMetadata("model");
+            if (PlayerData.this.model == null) PlayerData.this.model = "default";
         }
 
         @Override

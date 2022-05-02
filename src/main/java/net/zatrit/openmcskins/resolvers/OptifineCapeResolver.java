@@ -7,20 +7,20 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
-public class OptifineCapeResolver extends AbstractResolver<OptifineCapeResolver.IndexedPlayerData> {
+public class OptifineCapeResolver extends AbstractResolver<OptifineCapeResolver.PlayerData> {
     public OptifineCapeResolver() {
 
     }
 
     @Override
-    public IndexedPlayerData resolvePlayer(@NotNull PlayerListEntry player) {
-        return new IndexedPlayerData(player.getProfile().getName());
+    public PlayerData resolvePlayer(@NotNull PlayerListEntry player) {
+        return new PlayerData(player.getProfile().getName());
     }
 
-    public static class IndexedPlayerData extends AbstractURLPlayerData {
+    public static class PlayerData extends MinecraftProfilePlayerData {
         private static final String URL = "http://s.optifine.net/capes/%s.png";
 
-        public IndexedPlayerData(String name) {
+        public PlayerData(String name) {
             String formattedUrl = String.format(URL, name);
 
             if (NetworkUtils.getResponseCode(formattedUrl) != 200) return;
