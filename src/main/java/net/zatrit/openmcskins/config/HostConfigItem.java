@@ -3,7 +3,7 @@ package net.zatrit.openmcskins.config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.zatrit.openmcskins.annotation.DontObfuscate;
+import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.resolvers.*;
 import net.zatrit.openmcskins.util.ObjectUtils;
 
@@ -14,9 +14,9 @@ import java.util.Objects;
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
 public class HostConfigItem {
-    @DontObfuscate
+    @KeepClassMember
     public String data;
-    @DontObfuscate
+    @KeepClassMember
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
     public HostType type;
 

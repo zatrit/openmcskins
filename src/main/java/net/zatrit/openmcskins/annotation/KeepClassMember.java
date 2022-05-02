@@ -1,4 +1,4 @@
 package net.zatrit.openmcskins.annotation;
 
-public @interface DontObfuscate {
+public @interface KeepClassMember {
 }

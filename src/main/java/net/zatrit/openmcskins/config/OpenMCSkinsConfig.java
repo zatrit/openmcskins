@@ -8,7 +8,7 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.annotation.DontObfuscate;
+import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.mixin.MinecraftClientAccessor;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,13 +17,13 @@ import java.util.List;
 
 @Config(name = OpenMCSkins.MOD_ID)
 public class OpenMCSkinsConfig implements ConfigData {
-    @DontObfuscate
+    @KeepClassMember
     public int resolvingTimeout = 5;
-    @DontObfuscate
+    @KeepClassMember
     public @NotNull List<HostConfigItem> hosts = new ArrayList<>();
-    @DontObfuscate
+    @KeepClassMember
     public boolean fullErrorMessage = false;
-    @DontObfuscate
+    @KeepClassMember
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip(count = 7)
     public HashingAlgorithm hashingAlgorithm = HashingAlgorithm.SHA384;
