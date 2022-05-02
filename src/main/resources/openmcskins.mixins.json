@@ -7,6 +7,7 @@
     "AbstractClientPlayerEntityAccessor",
     "HashingFunctionChangerMixin",
     "MinecraftClientAccessor",
+    "NativeImageAccessor",
     "PlayerListEntryAccessor",
     "PlayerListEntryMixin",
     "PlayerSkinProviderAccessor",

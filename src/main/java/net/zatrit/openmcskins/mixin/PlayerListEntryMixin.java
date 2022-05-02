@@ -36,7 +36,7 @@ public abstract class PlayerListEntryMixin {
         if (!this.texturesLoaded) {
             textures.clear();
 
-            PlayerListEntry info = (PlayerListEntry) (Object) this;
+            PlayerListEntry info = PlayerListEntry.class.cast(this);
             TextureLoader.resolve(info, (t, r, model) -> {
                 if (r == null)
                     return;

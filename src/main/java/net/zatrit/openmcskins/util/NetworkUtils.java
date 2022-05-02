@@ -9,6 +9,7 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.mixin.NativeImageAccessor;
 import net.zatrit.openmcskins.mixin.PlayerSkinProviderAccessor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -57,8 +58,11 @@ public class NetworkUtils {
         return uuid.get();
     }
 
-    public static void resizeAndSaveImage(@NotNull BufferedImage source, File output, int targetWidth, int targetHeight) throws IOException {
+    public static void resizeAndSaveImage(@NotNull BufferedImage source, File output, int targetWidth, int targetHeight) throws Exception {
         // https://stackoverflow.com/a/5194876/12245612
+        if (source.getType() == BufferedImage.TYPE_BYTE_INDEXED)
+            throw new Exception("Invalid image format: " + source.getType());
+
         BufferedImage target = new BufferedImage(targetWidth, targetHeight, source.getType());
 
         // https://stackoverflow.com/a/14424956/12245612
@@ -73,7 +77,7 @@ public class NetworkUtils {
         source.flush();
     }
 
-    public static @Nullable Identifier capeFromUrl(String url) throws IOException {
+    public static @Nullable Identifier capeFromUrl(String url) throws Exception {
         InputStream stream = new URL(url).openStream();
         String hash = OpenMCSkins.getHashFunction().hashUnencodedChars(url).toString();
         File cacheFile = Path.of(((PlayerSkinProviderAccessor) MinecraftClient.getInstance().getSkinProvider()).getSkinCacheDir().getPath(), hash.substring(0, 2), hash).toFile();
@@ -91,7 +95,8 @@ public class NetworkUtils {
         }
 
         image = NativeImage.read(new FileInputStream(cacheFile));
-        if (image == null)
+
+        if (image == null || NativeImageAccessor.class.cast(image).getPointer() == 0L)
             return null;
         NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
         return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture("skin", texture);
