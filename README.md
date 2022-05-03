@@ -1,5 +1,7 @@
 # OpenMCSkins
 
+<a href="https://www.curseforge.com/minecraft/mc-mods/openmcskins"><img src="https://cf.way2muchnoise.eu/versions/Available%20for_620015_all.svg"></a>
+
 ## What is it?
 
 This is a mod that allows skins and capes to be use in various ways.
