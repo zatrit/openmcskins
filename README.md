@@ -1,6 +1,6 @@
 # OpenMCSkins
 
-<a href="https://www.curseforge.com/minecraft/mc-mods/openmcskins"><img src="https://cf.way2muchnoise.eu/versions/Available%20for_620015_all.svg"></a>
+<a href="https://www.curseforge.com/minecraft/mc-mods/openmcskins"><img src="https://cf.way2muchnoise.eu/versions/620015_latest.svg"></a>
 
 ## What is it?
 
