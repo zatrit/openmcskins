@@ -17,6 +17,8 @@ This is a mod that allows skins and capes to be use in various ways.
 * From [SimpleHTTP server](./server/) with an API similar to ely.by
 * From local storage
 * From Optifine cape system
+* From LabyMod capes system
+* From 5Zig capes system
 
 ### How to configure this
 
@@ -42,6 +44,8 @@ This option accepts a list of sources where the mod tries to load skins from.
 * !elyby - ely.by skin system
 * !local [Directory] - directory where the mod will look for skins
 * !optifine - Optifine cape system
+* !labymod - LabyMod cape system
+* !fivezig - 5zig cape system
 
 ### resolvingTimeout
 
