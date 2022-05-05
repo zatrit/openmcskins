@@ -3,7 +3,9 @@ package net.zatrit.openmcskins.config;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.serializer.ConfigSerializer;
 import me.shedaniel.autoconfig.util.Utils;
+import net.zatrit.openmcskins.HostType;
 import net.zatrit.openmcskins.util.ObjectUtils;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.DumperOptions;
@@ -26,6 +28,20 @@ public record SnakeYamlSerializer(Config definition,
                                   Class<OpenMCSkinsConfig> configClass) implements ConfigSerializer<OpenMCSkinsConfig> {
 
     private static final Yaml YAML = new Yaml(new ConfigConstructor(), new ConfigRepresenter());
+
+    public static List<String> getHostsAsStrings(@NotNull OpenMCSkinsConfig config) {
+        return config.getHosts().stream().map(data -> YAML.dump(data).strip().replaceFirst("!", "").replace(" ''", "")).toList();
+    }
+
+    public static List<HostConfigItem> getHostsFromStrings(@NotNull List<String> strings) {
+        return strings.stream().map(x -> {
+            String[] split = x.split(" ");
+            String data = ObjectUtils.getOrDefault(split, 1, "").replace("'", "");
+            HostType type = HostType.valueOf(split[0].toUpperCase());
+
+            return new HostConfigItem(type, data);
+        }).toList();
+    }
 
     private @NotNull Path getConfigPath() {
         return Utils.getConfigFolder().resolve(this.definition.name() + ".yml");
@@ -57,20 +73,6 @@ public record SnakeYamlSerializer(Config definition,
         return new OpenMCSkinsConfig();
     }
 
-    public static List<String> getHostsAsStrings(@NotNull OpenMCSkinsConfig config) {
-        return config.getHosts().stream().map(data -> YAML.dump(data).strip().replaceFirst("!", "").replace(" ''", "")).toList();
-    }
-
-    public static List<HostConfigItem> getHostsFromStrings(@NotNull List<String> strings) {
-        return strings.stream().map(x -> {
-            String[] split = x.split(" ");
-            String data = ObjectUtils.getOrDefault(split, 1, "").replace("'", "");
-            HostType type = HostType.valueOf(split[0].toUpperCase());
-
-            return new HostConfigItem(type, data);
-        }).toList();
-    }
-
     public static class ConfigConstructor extends Constructor {
         public ConfigConstructor() {
             super(OpenMCSkinsConfig.class);
@@ -89,7 +91,7 @@ public record SnakeYamlSerializer(Config definition,
             @Override
             public @NotNull Object construct(Node node) {
                 String nodeAsString = constructScalar((ScalarNode) node);
-                return HostConfigItem.fromTypeAndString(type, nodeAsString);
+                return type.createHostConfigItem(nodeAsString);
             }
         }
     }

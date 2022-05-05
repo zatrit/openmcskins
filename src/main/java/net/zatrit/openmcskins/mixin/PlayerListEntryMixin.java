@@ -5,6 +5,7 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.TextureLoader;
 import net.zatrit.openmcskins.annotation.KeepClass;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

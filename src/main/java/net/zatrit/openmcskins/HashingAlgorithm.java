@@ -1,7 +1,8 @@
-package net.zatrit.openmcskins.config;
+package net.zatrit.openmcskins;
 
 import com.google.common.hash.HashFunction;
 import net.zatrit.openmcskins.annotation.KeepClass;
+import org.jetbrains.annotations.ApiStatus;
 
 import static com.google.common.hash.Hashing.*;
 

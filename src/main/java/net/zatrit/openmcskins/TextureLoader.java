@@ -1,24 +1,33 @@
 package net.zatrit.openmcskins;
 
+import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
+import com.mojang.authlib.minecraft.MinecraftSessionService;
+import com.mojang.authlib.yggdrasil.YggdrasilGameProfileRepository;
+import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.resolvers.AbstractResolver;
+import net.zatrit.openmcskins.util.NetworkUtils;
+import net.zatrit.openmcskins.util.ObjectUtils;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public final class TextureLoader {
-    private static final Type[] SUPPORTED_TYPES = new Type[]{Type.CAPE, Type.SKIN};
+    private static final Type[] supportedTypes = new Type[]{Type.CAPE, Type.SKIN};
+    private final static YggdrasilMinecraftSessionService sessionService = (YggdrasilMinecraftSessionService) MinecraftClient.getInstance().getSessionService();
+    private final static YggdrasilGameProfileRepository profileRepository = (YggdrasilGameProfileRepository) sessionService.getAuthenticationService().createProfileRepository();
 
-    public static void resolve(PlayerListEntry info, TextureResolveCallback callback) {
+
+    public static void resolve(PlayerListEntry player, TextureResolveCallback callback) {
         final List<? extends AbstractResolver<?>> hosts = OpenMCSkins.getResolvers();
         final AtomicReference<Map<Type, AbstractResolver.IndexedPlayerData<?>>> leading = new AtomicReference<>(new HashMap<>());
 
@@ -30,14 +39,15 @@ public final class TextureLoader {
                 return Optional.empty();
 
             try {
+
                 AbstractResolver<?> resolver = hosts.get(i);
-                return Optional.of(resolver.resolvePlayer(info).withIndex(i));
+                return Optional.of(resolver.resolvePlayer(getGameProfile(player)).withIndex(i));
             } catch (Exception ex) {
                 OpenMCSkins.handleError(ex);
                 return Optional.empty();
             }
         }).sequential().timeout(OpenMCSkins.getConfig().getResolvingTimeout(), TimeUnit.SECONDS).doOnEach(x -> {
-            if (x.getValue() != null) for (Type t : SUPPORTED_TYPES) {
+            if (x.getValue() != null) for (Type t : supportedTypes) {
                 if (!x.getValue().hasTexture(t)) continue;
                 if (!leading.get().containsKey(t) || leading.get().get(t).getIndex() > x.getValue().getIndex())
                     leading.get().put(t, x.getValue());
@@ -50,7 +60,27 @@ public final class TextureLoader {
         }).doOnError(OpenMCSkins::handleError).subscribe();
     }
 
+    public static MinecraftSessionService getSessionService() {
+        return sessionService;
+    }
+
     public interface TextureResolveCallback {
         void onTextureResolved(Type type, @Nullable Identifier location, String model);
+    }
+
+    private static GameProfile getGameProfile(@NotNull PlayerListEntry entry) {
+        GameProfile profile = entry.getProfile();
+
+        if (OpenMCSkins.getConfig().getOfflineMode()) {
+            UUID id;
+            UUID cachedId = OpenMCSkins.getUuidCache().getIfPresent(profile.getName());
+            if (cachedId == null) {
+                id = NetworkUtils.getUUIDByName(profileRepository, profile.getName());
+                OpenMCSkins.getUuidCache().put(profile.getName(), id);
+            } else id = cachedId;
+            profile = ObjectUtils.setGameProfileUUID(profile, id);
+        }
+
+        return profile;
     }
 }

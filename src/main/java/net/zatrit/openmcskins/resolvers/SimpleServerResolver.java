@@ -1,7 +1,8 @@
 package net.zatrit.openmcskins.resolvers;
 
+import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.minecraft.client.network.PlayerListEntry;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -21,9 +22,9 @@ public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.
     }
 
     @Override
-    public PlayerData resolvePlayer(@NotNull PlayerListEntry info) throws IOException {
+    public PlayerData resolvePlayer(@NotNull GameProfile profile) throws IOException {
         // Example: http://127.0.0.1:8080/textures/PlayerName
-        final String url = String.format("%s/textures/%s", host, info.getProfile().getName());
+        final String url = String.format("%s/textures/%s", host, profile.getName());
         return fetchData(url);
     }
 
@@ -34,7 +35,7 @@ public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.
         return new PlayerData(map);
     }
 
-    public static class PlayerData extends MinecraftProfilePlayerData {
+    public static class PlayerData extends MinecraftProfileTexturePlayerData {
 
         @SuppressWarnings("unchecked")
         public PlayerData(@NotNull Map<String, Map<String, ?>> data) {
@@ -43,7 +44,7 @@ public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.
                 Map<String, String> metadata = (Map<String, String>) getOfDefaultNonGeneric(v, "metadata", new HashMap<>());
                 MinecraftProfileTexture texture = new MinecraftProfileTexture((String) v.get("url"), metadata);
                 this.textures.put(type, texture);
-                if (metadata.containsKey("model")) this.model = metadata.get("model");
+                if (metadata.containsKey("model")) this.setModel(metadata.get("model"));
             });
         }
     }

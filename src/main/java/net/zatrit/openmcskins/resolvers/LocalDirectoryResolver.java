@@ -1,12 +1,12 @@
 package net.zatrit.openmcskins.resolvers;
 
+import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.io.*;
 import java.util.Map;
@@ -19,9 +19,13 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
         this.directory = directory;
     }
 
+    public LocalDirectoryResolver(String s) {
+        this(new File(s));
+    }
+
     @Override
-    public PlayerData resolvePlayer(@NotNull PlayerListEntry player) throws FileNotFoundException {
-        return new PlayerData(player.getProfile().getName());
+    public PlayerData resolvePlayer(GameProfile profile) throws FileNotFoundException {
+        return new PlayerData(profile.getName());
     }
 
     public class PlayerData extends AbstractResolver.IndexedPlayerData<File> {
@@ -45,7 +49,7 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
                     File metadataFile = new File(metadataTypeDirectory, name + ".json");
                     if (metadataFile.exists()) {
                         Map<String, String> metadata = GSON.<Map<String, String>>fromJson(new FileReader(metadataFile), Map.class);
-                        if (metadata.containsKey("model")) this.model = metadata.get("model");
+                        if (metadata.containsKey("model")) this.setModel(metadata.get("model"));
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();

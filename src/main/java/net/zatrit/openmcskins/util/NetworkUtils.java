@@ -15,11 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Path;
@@ -39,6 +37,7 @@ public class NetworkUtils {
         }
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     public static UUID getUUIDByName(@NotNull GameProfileRepository repo, String name) {
         AtomicReference<UUID> uuid = new AtomicReference<>();
         repo.findProfilesByNames(new String[]{name}, Agent.MINECRAFT, new ProfileLookupCallback() {
@@ -55,50 +54,49 @@ public class NetworkUtils {
         });
 
         while (uuid.get() == null) ;
+
         return uuid.get();
     }
 
-    public static void resizeAndSaveImage(@NotNull BufferedImage source, File output, int targetWidth, int targetHeight) throws Exception {
-        // https://stackoverflow.com/a/5194876/12245612
-        if (source.getType() == BufferedImage.TYPE_BYTE_INDEXED)
-            throw new Exception("Invalid image format: " + source.getType());
-
-        BufferedImage target = new BufferedImage(targetWidth, targetHeight, source.getType());
-
-        // https://stackoverflow.com/a/14424956/12245612
-        int width = source.getWidth();
-        int height = source.getHeight();
-        int[] sourceBuffer = source.getRaster().getPixels(0, 0, width, height, (int[]) null);
-        target.getRaster().setPixels(0, 0, width, height, sourceBuffer);
-
-        ImageIO.write(target, "png", output);
-
-        target.flush();
-        source.flush();
-    }
-
-    public static @Nullable Identifier capeFromUrl(String url) throws Exception {
-        InputStream stream = new URL(url).openStream();
-        String hash = OpenMCSkins.getHashFunction().hashUnencodedChars(url).toString();
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static @Nullable Identifier downloadAndResize(InputStream stream, String name, int width, int height) throws Exception {
+        String hash = OpenMCSkins.getHashFunction().hashUnencodedChars(name).toString();
         File cacheFile = Path.of(((PlayerSkinProviderAccessor) MinecraftClient.getInstance().getSkinProvider()).getSkinCacheDir().getPath(), hash.substring(0, 2), hash).toFile();
         cacheFile.getParentFile().mkdirs();
-        NativeImage image;
+        BufferedImage target;
+        NativeImage nativeImage;
 
         if (!cacheFile.isFile()) {
             BufferedImage source = ImageIO.read(stream);
 
-            int height = 16;
+            int newHeight = height;
 
-            while (height < source.getHeight() || height * 2 < source.getWidth()) height *= 2;
+            while (newHeight < source.getHeight() || newHeight * (width / height) < source.getWidth()) newHeight *= 2;
 
-            NetworkUtils.resizeAndSaveImage(source, cacheFile, height * 2, height);
-        }
+            target = new BufferedImage(newHeight * 2, newHeight, BufferedImage.TYPE_INT_ARGB);
 
-        image = NativeImage.read(new FileInputStream(cacheFile));
+            Graphics2D graphics2D = (Graphics2D) target.getGraphics();
+            graphics2D.drawImage(source, 0, 0, null);
 
-        if (image == null || NativeImageAccessor.class.cast(image).getPointer() == 0L)
-            return null;
-        NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+            ImageIO.write(target, "png", outputStream);
+            byte[] bytes = outputStream.toByteArray();
+
+            FileOutputStream cacheFileStream = new FileOutputStream(cacheFile);
+            cacheFileStream.write(bytes);
+
+            nativeImage = NativeImage.read(new ByteArrayInputStream(bytes));
+
+            source.flush();
+            target.flush();
+            cacheFileStream.close();
+            outputStream.close();
+            graphics2D.dispose();
+        } else nativeImage = NativeImage.read(new FileInputStream(cacheFile));
+
+        if (NativeImageAccessor.class.cast(nativeImage).getPointer() == 0L) return null;
+        NativeImageBackedTexture texture = new NativeImageBackedTexture(nativeImage);
         return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture("skin", texture);
     }
 }

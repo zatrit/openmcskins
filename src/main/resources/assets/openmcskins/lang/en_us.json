@@ -7,6 +7,7 @@
   "text.autoconfig.openmcskins.option.resolvingTimeout": "Resolve timeout",
   "text.autoconfig.openmcskins.option.fullErrorMessage": "Print full error message",
   "text.autoconfig.openmcskins.option.hashingAlgorithm": "Skin hashing algorithm",
+  "text.autoconfig.openmcskins.option.offlineMode": "Offline mode",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[0]": "Algorithm that generates a skin name",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[1]": "",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[2]": " SHA384 (RECOMMENDED) - generates a unique name",

@@ -9,6 +9,7 @@ import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.text.Text;
 import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.gui.GUIMaker;
+import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

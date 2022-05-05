@@ -2,45 +2,26 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import com.mojang.authlib.yggdrasil.YggdrasilGameProfileRepository;
-import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.config.AuthlibResolverMode;
-import net.zatrit.openmcskins.util.NetworkUtils;
-import net.zatrit.openmcskins.util.ObjectUtils;
+import net.zatrit.openmcskins.TextureLoader;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
-
 public class MojangAuthlibResolver extends AbstractResolver<MojangAuthlibResolver.PlayerData> {
-    private final AuthlibResolverMode mode;
-
-    public MojangAuthlibResolver(AuthlibResolverMode mode) {
-        this.mode = mode;
-    }
 
     @Override
-    public PlayerData resolvePlayer(@NotNull PlayerListEntry player) {
-        return new PlayerData(player.getProfile());
+    public PlayerData resolvePlayer(GameProfile profile) {
+        return new PlayerData(profile);
     }
 
-    public class PlayerData extends AbstractResolver.IndexedPlayerData<MinecraftProfileTexture> {
-        private final static YggdrasilMinecraftSessionService SESSION_SERVICE = (YggdrasilMinecraftSessionService) MinecraftClient.getInstance().getSessionService();
-        private final static YggdrasilGameProfileRepository PROFILE_REPOSITORY = (YggdrasilGameProfileRepository) SESSION_SERVICE.getAuthenticationService().createProfileRepository();
-
+    public static class PlayerData extends IndexedPlayerData<MinecraftProfileTexture> {
         public PlayerData(@NotNull GameProfile profile) {
-            if (profile.getName() != null && mode == AuthlibResolverMode.OFFLINE) {
-                final UUID id = NetworkUtils.getUUIDByName(PROFILE_REPOSITORY, profile.getName());
-                profile = ObjectUtils.setGameProfileUUID(profile, id);
-            }
-
-            if (profile.getProperties().isEmpty()) SESSION_SERVICE.fillProfileProperties(profile, true);
-            PlayerData.this.textures.putAll(SESSION_SERVICE.getTextures(profile, true));
+            if (profile.getProperties().isEmpty())
+                TextureLoader.getSessionService().fillProfileProperties(profile, true);
+            PlayerData.this.textures.putAll(TextureLoader.getSessionService().getTextures(profile, true));
             if (PlayerData.this.textures.containsKey(MinecraftProfileTexture.Type.SKIN))
-                PlayerData.this.model = textures.get(MinecraftProfileTexture.Type.SKIN).getMetadata("model");
-            if (PlayerData.this.model == null) PlayerData.this.model = "default";
+                PlayerData.this.setModel(textures.get(MinecraftProfileTexture.Type.SKIN).getMetadata("model"));
         }
 
         @Override

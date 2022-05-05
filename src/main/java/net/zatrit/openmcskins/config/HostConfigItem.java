@@ -1,15 +1,12 @@
 package net.zatrit.openmcskins.config;
 
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
-import net.zatrit.openmcskins.resolvers.*;
-import net.zatrit.openmcskins.util.ObjectUtils;
+import net.zatrit.openmcskins.resolvers.AbstractResolver;
+import net.zatrit.openmcskins.HostType;
+import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nullable;
-import java.io.File;
-import java.util.Objects;
 
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
@@ -25,35 +22,11 @@ public class HostConfigItem {
         this.data = data;
     }
 
-    public static HostConfigItem fromTypeAndString(HostType type, String data) {
-        String dataOrEmptyString = firstNonNull(data, "").replace("'", "");
-        return switch (type) {
-            case SERVER, LOCAL, MOJANG -> new HostConfigItem(type, dataOrEmptyString);
-            default -> new HostConfigItem(type, null);
-        };
-    }
-
     public String getData() {
         return firstNonNull(data, "");
     }
 
     public AbstractResolver<?> createResolver() {
-        return switch (this.type) {
-            case MOJANG ->
-                    new MojangAuthlibResolver(ObjectUtils.valueOfOrDefault(AuthlibResolverMode.class, getData(), AuthlibResolverMode.ONLINE));
-            case OPTIFINE -> new OptifineCapeResolver();
-            case LOCAL -> new LocalDirectoryResolver(new File(Objects.requireNonNull(data)));
-            case SERVER -> new SimpleServerResolver(data);
-            case ELYBY -> new ElyByServerResolver();
-        };
-    }
-
-    public Text getText() {
-        return switch (type) {
-            case MOJANG -> new TranslatableText("text.openmcskins.authlib");
-            case OPTIFINE -> new TranslatableText("text.openmcskins.optifine");
-            case LOCAL, SERVER -> Text.of(getData());
-            case ELYBY -> new TranslatableText("text.openmcskins.elyby");
-        };
+        return this.type.createResolver(data);
     }
 }

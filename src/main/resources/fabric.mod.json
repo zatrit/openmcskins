@@ -27,10 +27,10 @@
     "openmcskins.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.13.3",
+    "fabricloader": "*",
+    "fabric-resource-loader-v0": "*",
     "minecraft": ">=1.17",
     "java": ">=16",
-    "fabric-resource-loader-v0": "*",
     "cloth-config": ">=6.0.0"
   },
   "breaks": {

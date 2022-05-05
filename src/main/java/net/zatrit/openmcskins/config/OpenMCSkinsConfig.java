@@ -7,9 +7,12 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
+import net.zatrit.openmcskins.HashingAlgorithm;
+import net.zatrit.openmcskins.HostType;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.mixin.MinecraftClientAccessor;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -24,14 +27,17 @@ public class OpenMCSkinsConfig implements ConfigData {
     @KeepClassMember
     public boolean fullErrorMessage = false;
     @KeepClassMember
+    public boolean offlineMode;
+    @KeepClassMember
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip(count = 7)
     public HashingAlgorithm hashingAlgorithm = HashingAlgorithm.SHA384;
 
     public OpenMCSkinsConfig() {
+        this.offlineMode = ((MinecraftClientAccessor) MinecraftClient.getInstance()).getUserApiService() == UserApiService.OFFLINE;
+
         this.hosts.add(new HostConfigItem(HostType.OPTIFINE, null));
-        boolean offlineMode = ((MinecraftClientAccessor) MinecraftClient.getInstance()).getUserApiService() == UserApiService.OFFLINE;
-        this.hosts.add(new HostConfigItem(HostType.MOJANG, String.valueOf(offlineMode ? AuthlibResolverMode.OFFLINE : AuthlibResolverMode.ONLINE)));
+        this.hosts.add(new HostConfigItem(HostType.MOJANG, null));
     }
 
     public int getResolvingTimeout() {
@@ -54,5 +60,9 @@ public class OpenMCSkinsConfig implements ConfigData {
     public void validatePostLoad() throws ValidationException {
         if (resolvingTimeout < 1)
             throw new ValidationException(I18n.translate("text.openmcskins.validation_error"));
+    }
+
+    public boolean getOfflineMode() {
+        return offlineMode;
     }
 }
