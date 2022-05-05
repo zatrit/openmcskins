@@ -55,6 +55,8 @@ Time in seconds allocated to search for skins in the [specified sources](#hosts)
 
 ```yaml
 hosts:
+  - !labymod
+  - !fivezig
   - !optifine
   - !server 'http://127.0.0.1:8080'
   - !elyby
