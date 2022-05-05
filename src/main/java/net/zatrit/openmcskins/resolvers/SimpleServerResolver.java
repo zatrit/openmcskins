@@ -2,7 +2,6 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;

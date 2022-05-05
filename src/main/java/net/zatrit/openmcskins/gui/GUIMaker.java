@@ -11,7 +11,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.ModMenuEntry;
 import net.zatrit.openmcskins.OpenMCSkins;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,24 +19,25 @@ import java.util.List;
 
 public class GUIMaker {
     private static final Identifier REFRESH_BUTTON_LOCATION = new Identifier(OpenMCSkins.MOD_ID, "textures/gui/refresh_button.png");
-    private static final List<Text> RELOAD_CONFIG_TOOLTIP = textListFromKey("openmcskins.reloadConfig");
+    private static final List<Text> REFRESH_CONFIG_BUTTON_TOOLTIP = textListFromKey("openmcskins.reloadConfig");
     private static final Identifier CONFIGURE_BUTTON_LOCATION = new Identifier(OpenMCSkins.MOD_ID, "textures/gui/configure_button.png");
-    private static final List<Text> CONFIGURE_TOOLTIP = textListFromKey("openmcskins.configure");
+    private static final List<Text> CONFIGURE_BUTTON_TOOLTIP = textListFromKey("openmcskins.configure");
 
     @Contract(value = "_, _, _ -> new", pure = true)
-    public static @NotNull ButtonWidget refreshConfigButton(int x, int y, Screen screen) {
-        ButtonWidget.TooltipSupplier renderTooltip = (ButtonWidget b, MatrixStack ma, int mx, int my) -> screen.renderTooltip(ma, RELOAD_CONFIG_TOOLTIP, mx, my);
+    public static @NotNull ButtonWidget createRefreshConfigButton(int x, int y, Screen screen) {
         ButtonWidget.PressAction buttonClick = b -> OpenMCSkins.reloadConfig();
-
-        return new TexturedButtonWidget(x, y, 20, 20, 0, 0, 20, REFRESH_BUTTON_LOCATION, 20, 40, buttonClick, renderTooltip, null);
+        return createButton(x, y, screen, REFRESH_CONFIG_BUTTON_TOOLTIP, REFRESH_BUTTON_LOCATION, buttonClick);
     }
 
     @Contract(value = "_, _, _ -> new", pure = true)
-    public static @NotNull ButtonWidget configureButton(int x, int y, Screen screen) {
-        ButtonWidget.TooltipSupplier renderTooltip = (ButtonWidget b, MatrixStack ma, int mx, int my) -> screen.renderTooltip(ma, CONFIGURE_TOOLTIP, mx, my);
+    public static @NotNull ButtonWidget createConfigureButton(int x, int y, Screen screen) {
         ButtonWidget.PressAction buttonClick = b -> MinecraftClient.getInstance().setScreen(new ModMenuEntry().getModConfigScreenFactory().create(screen));
+        return createButton(x, y, screen, CONFIGURE_BUTTON_TOOLTIP, CONFIGURE_BUTTON_LOCATION, buttonClick);
+    }
 
-        return new TexturedButtonWidget(x, y, 20, 20, 0, 0, 20, CONFIGURE_BUTTON_LOCATION, 20, 40, buttonClick, renderTooltip, null);
+    private static @NotNull ButtonWidget createButton(int x, int y, Screen screen, List<Text> tooltip, Identifier resource, ButtonWidget.PressAction buttonClick) {
+        ButtonWidget.TooltipSupplier renderTooltip = (ButtonWidget b, MatrixStack ma, int mx, int my) -> screen.renderTooltip(ma, tooltip, mx, my);
+        return new TexturedButtonWidget(x, y, 20, 20, 0, 0, 20, resource, 20, 40, buttonClick, renderTooltip, null);
     }
 
     public static List<Text> textListFromKey(String key) {

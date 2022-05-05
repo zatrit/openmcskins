@@ -3,9 +3,9 @@ package net.zatrit.openmcskins.config;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.serializer.ConfigSerializer;
 import me.shedaniel.autoconfig.util.Utils;
-import net.zatrit.openmcskins.HostType;
+import net.zatrit.openmcskins.Hosts;
+import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.util.ObjectUtils;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.DumperOptions;
@@ -23,6 +23,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 
 public record SnakeYamlSerializer(Config definition,
                                   Class<OpenMCSkinsConfig> configClass) implements ConfigSerializer<OpenMCSkinsConfig> {
@@ -35,12 +36,17 @@ public record SnakeYamlSerializer(Config definition,
 
     public static List<HostConfigItem> getHostsFromStrings(@NotNull List<String> strings) {
         return strings.stream().map(x -> {
-            String[] split = x.split(" ");
-            String data = ObjectUtils.getOrDefault(split, 1, "").replace("'", "");
-            HostType type = HostType.valueOf(split[0].toUpperCase());
+            try {
+                String[] split = x.split(" ");
+                String data = ObjectUtils.getOrDefault(split, 1, "").replace("'", "");
+                Hosts type = Hosts.valueOf(split[0].toUpperCase());
 
-            return new HostConfigItem(type, data);
-        }).toList();
+                return new HostConfigItem(type, data);
+            } catch (Exception ex) {
+                OpenMCSkins.handleError(ex);
+                return null;
+            }
+        }).filter(Objects::nonNull).toList();
     }
 
     private @NotNull Path getConfigPath() {
@@ -77,14 +83,14 @@ public record SnakeYamlSerializer(Config definition,
         public ConfigConstructor() {
             super(OpenMCSkinsConfig.class);
 
-            for (HostType type : HostType.values())
+            for (Hosts type : Hosts.values())
                 this.yamlConstructors.put(type.getTag(), new HostConstruct(type));
         }
 
         public class HostConstruct extends AbstractConstruct {
-            private final HostType type;
+            private final Hosts type;
 
-            public HostConstruct(HostType type) {
+            public HostConstruct(Hosts type) {
                 this.type = type;
             }
 

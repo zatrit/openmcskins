@@ -1,10 +1,9 @@
 package net.zatrit.openmcskins.config;
 
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
+import net.zatrit.openmcskins.Hosts;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.resolvers.AbstractResolver;
-import net.zatrit.openmcskins.HostType;
-import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nullable;
 
@@ -15,9 +14,9 @@ public class HostConfigItem {
     public String data;
     @KeepClassMember
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
-    public HostType type;
+    public Hosts type;
 
-    public HostConfigItem(HostType type, @Nullable String data) {
+    public HostConfigItem(Hosts type, @Nullable String data) {
         this.type = type;
         this.data = data;
     }

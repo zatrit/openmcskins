@@ -1,7 +1,5 @@
 package net.zatrit.openmcskins;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.google.common.hash.HashFunction;
 import io.reactivex.rxjava3.internal.functions.Functions;
 import io.reactivex.rxjava3.plugins.RxJavaPlugins;
@@ -18,12 +16,11 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.zatrit.openmcskins.annotation.KeepClass;
-import net.zatrit.openmcskins.resolvers.AbstractResolver;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
 import net.zatrit.openmcskins.config.SnakeYamlSerializer;
 import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
-import org.jetbrains.annotations.ApiStatus;
+import net.zatrit.openmcskins.resolvers.AbstractResolver;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -31,7 +28,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @KeepClass
 @Environment(EnvType.CLIENT)
@@ -39,7 +35,6 @@ public class OpenMCSkins implements ClientModInitializer {
     public static final String MOD_ID = "openmcskins";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     private static List<? extends AbstractResolver<?>> resolvers;
-    private static final Cache<String, UUID> uuidCache = CacheBuilder.newBuilder().build();
 
     public static OpenMCSkinsConfig getConfig() {
         return AutoConfig.getConfigHolder(OpenMCSkinsConfig.class).getConfig();
@@ -74,7 +69,7 @@ public class OpenMCSkins implements ClientModInitializer {
 
     public static void invalidateAllResolvers() {
         OpenMCSkins.resolvers = null;
-        OpenMCSkins.uuidCache.cleanUp();
+        TextureLoader.getUuidCache().cleanUp();
 
         MinecraftClient client = MinecraftClient.getInstance();
 
@@ -90,11 +85,6 @@ public class OpenMCSkins implements ClientModInitializer {
     @Contract(value = "_, _ -> new", pure = true)
     private static @NotNull Text translatable(String key, String... s) {
         return new TranslatableText(key, s);
-    }
-
-    @Contract(pure = true)
-    public static @NotNull Cache<String, UUID> getUuidCache() {
-        return uuidCache;
     }
 
     @Override

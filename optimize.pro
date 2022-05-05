@@ -9,6 +9,9 @@
 -keepattributes *Annotations*
 -optimizationpasses 5
 
+-keep @org.spongepowered.asm.mixin.Mixin class ** { *; }
+-keep @org.spongepowered.asm.mixin.Mixin interface ** { *; }
+
 -keep @net.zatrit.openmcskins.annotation.KeepClass class ** { *; }
 -keepclassmembers class ** { @net.zatrit.openmcskins.annotation.KeepClassMember *; }
 

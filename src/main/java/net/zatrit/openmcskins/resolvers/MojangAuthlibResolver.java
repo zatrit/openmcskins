@@ -5,7 +5,6 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.TextureLoader;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 public class MojangAuthlibResolver extends AbstractResolver<MojangAuthlibResolver.PlayerData> {

@@ -6,7 +6,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.ApiStatus;
 
 import java.io.*;
 import java.util.Map;

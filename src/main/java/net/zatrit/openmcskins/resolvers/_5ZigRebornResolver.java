@@ -1,13 +1,11 @@
-package net.zatrit.openmcskins.resolvers.capes;
+package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.resolvers.AbstractResolver;
 import net.zatrit.openmcskins.util.NetworkUtils;
 import org.apache.commons.codec.binary.Base64;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

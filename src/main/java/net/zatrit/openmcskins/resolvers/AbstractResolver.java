@@ -22,7 +22,7 @@ import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 public abstract class AbstractResolver<D extends AbstractResolver.IndexedPlayerData<?>> {
     protected static final Gson GSON = new Gson();
 
-    public abstract D resolvePlayer(GameProfile player) throws IOException;
+    public abstract D resolvePlayer(GameProfile profile) throws IOException;
 
     public abstract static class IndexedPlayerData<TT> implements Serializable {
         protected final Map<MinecraftProfileTexture.Type, TT> textures = new HashMap<>();

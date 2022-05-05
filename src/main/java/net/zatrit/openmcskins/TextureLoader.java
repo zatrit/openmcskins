@@ -1,5 +1,7 @@
 package net.zatrit.openmcskins;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
@@ -12,8 +14,7 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.resolvers.AbstractResolver;
 import net.zatrit.openmcskins.util.NetworkUtils;
-import net.zatrit.openmcskins.util.ObjectUtils;
-import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,23 +26,25 @@ public final class TextureLoader {
     private static final Type[] supportedTypes = new Type[]{Type.CAPE, Type.SKIN};
     private final static YggdrasilMinecraftSessionService sessionService = (YggdrasilMinecraftSessionService) MinecraftClient.getInstance().getSessionService();
     private final static YggdrasilGameProfileRepository profileRepository = (YggdrasilGameProfileRepository) sessionService.getAuthenticationService().createProfileRepository();
-
+    private static final Cache<String, UUID> uuidCache = CacheBuilder.newBuilder().build();
 
     public static void resolve(PlayerListEntry player, TextureResolveCallback callback) {
         final List<? extends AbstractResolver<?>> hosts = OpenMCSkins.getResolvers();
         final AtomicReference<Map<Type, AbstractResolver.IndexedPlayerData<?>>> leading = new AtomicReference<>(new HashMap<>());
+        final AtomicReference<GameProfile> profile = new AtomicReference<>(null);
 
         Flowable.range(0, hosts.size()).parallel().runOn(Schedulers.io()).mapOptional(i -> {
             // Get PlayerData from resolver
             // If all resolved leading PlayerData's loaded, it won't try to load,
             // and it's makes texture loading process faster
+            while (profile.get() == null) ;
+
             if (leading.get().values().stream().allMatch(x -> x.getIndex() < i) && leading.get().size() == 2)
                 return Optional.empty();
 
             try {
-
                 AbstractResolver<?> resolver = hosts.get(i);
-                return Optional.of(resolver.resolvePlayer(getGameProfile(player)).withIndex(i));
+                return Optional.of(resolver.resolvePlayer(profile.get()).withIndex(i));
             } catch (Exception ex) {
                 OpenMCSkins.handleError(ex);
                 return Optional.empty();
@@ -57,15 +60,11 @@ public final class TextureLoader {
             // When all textures are loaded
             // Or time out
             leading.get().forEach((k, v) -> callback.onTextureResolved(k, v.downloadTexture(k), v.getModelOrDefault()));
-        }).doOnError(OpenMCSkins::handleError).subscribe();
+        }).doOnSubscribe(a -> profile.set(getGameProfile(player))).doOnError(OpenMCSkins::handleError).subscribe();
     }
 
     public static MinecraftSessionService getSessionService() {
         return sessionService;
-    }
-
-    public interface TextureResolveCallback {
-        void onTextureResolved(Type type, @Nullable Identifier location, String model);
     }
 
     private static GameProfile getGameProfile(@NotNull PlayerListEntry entry) {
@@ -73,14 +72,26 @@ public final class TextureLoader {
 
         if (OpenMCSkins.getConfig().getOfflineMode()) {
             UUID id;
-            UUID cachedId = OpenMCSkins.getUuidCache().getIfPresent(profile.getName());
+            UUID cachedId = getUuidCache().getIfPresent(profile.getName());
             if (cachedId == null) {
                 id = NetworkUtils.getUUIDByName(profileRepository, profile.getName());
-                OpenMCSkins.getUuidCache().put(profile.getName(), id);
+                getUuidCache().put(profile.getName(), id);
             } else id = cachedId;
-            profile = ObjectUtils.setGameProfileUUID(profile, id);
+
+            profile = new GameProfile(id, profile.getName());
+            profile.getProperties().putAll(profile.getProperties());
+            return profile;
         }
 
         return profile;
+    }
+
+    @Contract(pure = true)
+    public static @NotNull Cache<String, UUID> getUuidCache() {
+        return uuidCache;
+    }
+
+    public interface TextureResolveCallback {
+        void onTextureResolved(Type type, @Nullable Identifier location, String model);
     }
 }

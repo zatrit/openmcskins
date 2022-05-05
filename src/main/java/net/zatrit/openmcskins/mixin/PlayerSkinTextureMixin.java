@@ -3,7 +3,6 @@ package net.zatrit.openmcskins.mixin;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.PlayerSkinTexture;
 import net.zatrit.openmcskins.OpenMCSkins;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;

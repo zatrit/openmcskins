@@ -1,12 +1,10 @@
 package net.zatrit.openmcskins;
 
+import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.zatrit.openmcskins.annotation.KeepClass;
+import net.zatrit.openmcskins.config.CosmeticaMode;
 import net.zatrit.openmcskins.config.HostConfigItem;
 import net.zatrit.openmcskins.resolvers.*;
-import net.zatrit.openmcskins.resolvers.capes.LabyModResolver;
-import net.zatrit.openmcskins.resolvers.capes.OptifineCapeResolver;
-import net.zatrit.openmcskins.resolvers.capes._5ZigRebornResolver;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,18 +13,27 @@ import org.yaml.snakeyaml.nodes.Tag;
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
 @KeepClass
-public enum HostType {
-    ELYBY(d -> new ElyByServerResolver()),
+public enum Hosts {
+    COSMETICA(d -> {
+        String url = "https://api.cosmetica.cc/get/cloak?username={name}";
+        if (!d.isEmpty()) {
+            CosmeticaMode mode = CosmeticaMode.valueOf(d);
+            if (mode == CosmeticaMode.NO_THIRD_PARTY)
+                url += "&nothirdparty";
+        }
+        return new DirectResolver(url, MinecraftProfileTexture.Type.CAPE);
+    }),
+    ELYBY(d -> new SimpleServerResolver("http://skinsystem.ely.by")),
     FIVEZIG(d -> new _5ZigRebornResolver()),
-    LABYMOD(d -> new LabyModResolver()),
+    LABYMOD(d -> new DirectResolver("https://dl.labymod.net/capes/{id}", MinecraftProfileTexture.Type.CAPE)),
     LOCAL(LocalDirectoryResolver::new),
     MOJANG(d -> new MojangAuthlibResolver()),
-    OPTIFINE(d -> new OptifineCapeResolver()),
+    OPTIFINE(d -> new DirectResolver("http://s.optifine.net/capes/{name}.png", MinecraftProfileTexture.Type.CAPE)),
     SERVER(SimpleServerResolver::new);
 
     private final ResolverConstructor construct;
 
-    HostType(ResolverConstructor construct) {
+    Hosts(ResolverConstructor construct) {
         this.construct = construct;
     }
 
@@ -38,7 +45,7 @@ public enum HostType {
     public HostConfigItem createHostConfigItem(@Nullable String data) {
         String dataOrEmptyString = firstNonNull(data, "").replace("'", "");
         return switch (this) {
-            case LOCAL, SERVER -> new HostConfigItem(this, dataOrEmptyString);
+            case LOCAL, SERVER, COSMETICA -> new HostConfigItem(this, dataOrEmptyString);
             default -> new HostConfigItem(this, null);
         };
     }
