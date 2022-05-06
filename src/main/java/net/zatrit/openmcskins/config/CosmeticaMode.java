@@ -5,8 +5,6 @@ import net.zatrit.openmcskins.annotation.KeepClassMember;
 
 @KeepClass
 public enum CosmeticaMode {
-    @KeepClassMember
     NO_THIRD_PARTY,
-    @KeepClassMember
     ALLOW_THIRD_PARTY
 }
