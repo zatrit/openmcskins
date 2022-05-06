@@ -6,13 +6,10 @@ import net.zatrit.openmcskins.annotation.KeepClassMember;
 
 import static com.google.common.hash.Hashing.*;
 
+@KeepClass
 public enum HashingAlgorithm {
-
-    @KeepClassMember
     CRC32(crc32()),
-    @KeepClassMember
     SHA1(sha1()),
-    @KeepClassMember
     SHA384(sha384());
 
     private final HashFunction function;
