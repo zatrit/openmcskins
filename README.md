@@ -20,6 +20,7 @@ This is a mod that allows skins and capes to be use in various ways.
 * From [LabyMod](https://www.labymod.net/en) capes system
 * From [5Zig](https://5zigreborn.eu/) capes system
 * From [Cosmetica](https://cosmetica.cc/) capes system
+* From [MinecraftCapes](https://minecraftcapes.net/) capes system (no ears yet)
 
 ### How to configure this
 
@@ -39,32 +40,49 @@ This option accepts a list of sources where the mod tries to load skins from.
 
 ###### Types of sources:
 
-* !mojang - official Mojang skin system, accepts SECURE and INSECURE values, it is recommended to
-  use SECURE
+* !mojang - official Mojang API
 * !server [IP] - any server that implements the ely.by API
-* !elyby - ely.by skins system
 * !local [Directory] - directory where the mod will look for skins
-* !optifine - Optifine capes system
-* !labymod - LabyMod capes system
-* !fivezig - 5zig capes system
-* !cosmetica [NO_THIRD_PARTY | ALLOW_THIRD_PARTY] - Cosmetica capes system
+* !elyby - ely.by API
+* !optifine - Optifine API
+* !labymod - LabyMod API
+* !fivezig - 5zig API
+* !cosmetica [NO_THIRD_PARTY | ALLOW_THIRD_PARTY] - Cosmetica API
+* !minecraftcapes - MinecraftCapes API
 
 ### resolvingTimeout
 
 Time in seconds allocated to search for skins in the [specified sources](#hosts)
 
+### fullErrorMessage
+
+Print full error message on error of ``true``
+
+### offlineMode
+
+Download skins by names instead of UUID's if ``true``
+
+### hashingAlgorithm
+
+Algorithm, that using for generate skin file name
+
 ### Config example:
 
 ```yaml
 hosts:
+  - !minecraftcapes
+  - !cosmetica 'NO_THIRD_PARTY'
   - !labymod
   - !fivezig
   - !optifine
   - !server 'http://127.0.0.1:8080'
   - !elyby
   - !local C:\MySkins
-  - !mojang 'SECURE'
+  - !mojang
 resolvingTimeout: 5
+offlineMode: false
+fullErrorMessage: true
+hashingAlgorithm: SHA318
 ```
 
 ## Why are there errors in README.md ? (if any)
