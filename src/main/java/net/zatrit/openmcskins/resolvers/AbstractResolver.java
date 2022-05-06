@@ -62,7 +62,7 @@ public abstract class AbstractResolver<D extends AbstractResolver.IndexedPlayerD
             try {
                 MinecraftProfileTexture texture = textures.get(type);
                 if (type == MinecraftProfileTexture.Type.CAPE)
-                    return NetworkUtils.downloadAndResize(new URL(texture.getUrl()).openStream(), texture.getUrl(), 2, 1);
+                    return NetworkUtils.loadStaticCape(new URL(texture.getUrl()).openStream(), texture.getUrl());
                 else return MinecraftClient.getInstance().getSkinProvider().loadSkin(texture, type);
             } catch (Exception e) {
                 OpenMCSkins.handleError(e);

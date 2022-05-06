@@ -16,9 +16,10 @@ This is a mod that allows skins and capes to be use in various ways.
 * From [ely.by API](https://docs.ely.by/en/skins-system.html)
 * From [SimpleHTTP server](./server/) with an API similar to ely.by
 * From local storage
-* From Optifine cape system
-* From LabyMod capes system
-* From 5Zig capes system
+* From [Optifine](https://optifine.net/home) cape system
+* From [LabyMod](https://www.labymod.net/en) capes system
+* From [5Zig](https://5zigreborn.eu/) capes system
+* From [Cosmetica](https://cosmetica.cc/) capes system
 
 ### How to configure this
 
@@ -38,14 +39,15 @@ This option accepts a list of sources where the mod tries to load skins from.
 
 ###### Types of sources:
 
-* !mojang [SECURE | INSECURE] - official Mojang skin system, accepts SECURE and INSECURE values, it is recommended to
+* !mojang - official Mojang skin system, accepts SECURE and INSECURE values, it is recommended to
   use SECURE
 * !server [IP] - any server that implements the ely.by API
-* !elyby - ely.by skin system
+* !elyby - ely.by skins system
 * !local [Directory] - directory where the mod will look for skins
-* !optifine - Optifine cape system
-* !labymod - LabyMod cape system
-* !fivezig - 5zig cape system
+* !optifine - Optifine capes system
+* !labymod - LabyMod capes system
+* !fivezig - 5zig capes system
+* !cosmetica [NO_THIRD_PARTY | ALLOW_THIRD_PARTY] - Cosmetica capes system
 
 ### resolvingTimeout
 

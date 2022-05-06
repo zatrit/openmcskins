@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.mixin.NativeImageAccessor;
 import net.zatrit.openmcskins.mixin.PlayerSkinProviderAccessor;
+import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,7 +38,6 @@ public class NetworkUtils {
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     public static UUID getUUIDByName(@NotNull GameProfileRepository repo, String name) {
         AtomicReference<UUID> uuid = new AtomicReference<>();
         repo.findProfilesByNames(new String[]{name}, Agent.MINECRAFT, new ProfileLookupCallback() {
@@ -53,25 +53,31 @@ public class NetworkUtils {
             }
         });
 
-        while (uuid.get() == null) ;
+        while (uuid.get() == null) Thread.onSpinWait();
 
         return uuid.get();
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static @Nullable Identifier downloadAndResize(InputStream stream, String name, int width, int height) throws Exception {
-        String hash = OpenMCSkins.getHashFunction().hashUnencodedChars(name).toString();
-        File cacheFile = Path.of(((PlayerSkinProviderAccessor) MinecraftClient.getInstance().getSkinProvider()).getSkinCacheDir().getPath(), hash.substring(0, 2), hash).toFile();
+    private static @NotNull File generateCacheFile(String name) {
+        File cacheFile = Path.of(((PlayerSkinProviderAccessor) MinecraftClient.getInstance().getSkinProvider()).getSkinCacheDir().getPath(), name.substring(0, 2), name).toFile();
         cacheFile.getParentFile().mkdirs();
+        return cacheFile;
+    }
+
+    public static @Nullable Identifier loadAndResize(InputStream stream, String name, int width, int height) throws Exception {
         BufferedImage target;
         NativeImage nativeImage;
+        File cacheFile = generateCacheFile(OpenMCSkins.getHashFunction().hashUnencodedChars(name).toString());
 
         if (!cacheFile.isFile()) {
             BufferedImage source = ImageIO.read(stream);
 
             int newHeight = height;
 
-            while (newHeight < source.getHeight() || newHeight * (width / height) < source.getWidth()) newHeight *= 2;
+            if (width / height != source.getWidth() / source.getHeight())
+                while (newHeight < source.getHeight() || newHeight * (width / height) < source.getWidth())
+                    newHeight *= 2;
 
             target = new BufferedImage(newHeight * 2, newHeight, BufferedImage.TYPE_INT_ARGB);
 
@@ -98,5 +104,21 @@ public class NetworkUtils {
         if (NativeImageAccessor.class.cast(nativeImage).getPointer() == 0L) return null;
         NativeImageBackedTexture texture = new NativeImageBackedTexture(nativeImage);
         return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture("skin", texture);
+    }
+
+    public static @Nullable Identifier loadStaticCape(InputStream stream, String hash) throws Exception {
+        return loadAndResize(stream, hash, 2, 1);
+    }
+
+    public static @NotNull Identifier loadAnimatedCape(InputStream stream, String name) throws IOException {
+        String hash = OpenMCSkins.getHashFunction().hashUnencodedChars(name).toString();
+        File cacheFile = generateCacheFile(hash);
+
+        IOUtils.copy(stream, new FileOutputStream(cacheFile));
+        AnimatedTexture animatedTexture = new AnimatedTexture(new FileInputStream(cacheFile));
+
+        Identifier id = new Identifier("animated/" + hash);
+        MinecraftClient.getInstance().getTextureManager().registerTexture(id, animatedTexture);
+        return id;
     }
 }

@@ -28,6 +28,7 @@ public enum Hosts {
     LABYMOD(d -> new DirectResolver("https://dl.labymod.net/capes/{id}", MinecraftProfileTexture.Type.CAPE)),
     LOCAL(LocalDirectoryResolver::new),
     MOJANG(d -> new MojangAuthlibResolver()),
+    MINECRAFTCAPES(d -> new MinecraftCapesResolver()),
     OPTIFINE(d -> new DirectResolver("http://s.optifine.net/capes/{name}.png", MinecraftProfileTexture.Type.CAPE)),
     SERVER(SimpleServerResolver::new);
 

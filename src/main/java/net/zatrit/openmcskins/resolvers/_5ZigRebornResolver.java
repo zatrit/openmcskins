@@ -41,7 +41,7 @@ public class _5ZigRebornResolver extends AbstractResolver<_5ZigRebornResolver.Pl
                 String base64String = map.get("d");
                 if (base64String == null) return null;
                 byte[] bytes = Base64.decodeBase64(base64String);
-                return NetworkUtils.downloadAndResize(new ByteArrayInputStream(bytes), url, 2, 1);
+                return NetworkUtils.loadStaticCape(new ByteArrayInputStream(bytes), url);
             } catch (Exception e) {
                 OpenMCSkins.handleError(e);
                 return null;

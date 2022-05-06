@@ -11,8 +11,10 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.resolvers.AbstractResolver;
+import net.zatrit.openmcskins.util.AnimatedTexture;
 import net.zatrit.openmcskins.util.NetworkUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +29,7 @@ public final class TextureLoader {
     private final static YggdrasilMinecraftSessionService sessionService = (YggdrasilMinecraftSessionService) MinecraftClient.getInstance().getSessionService();
     private final static YggdrasilGameProfileRepository profileRepository = (YggdrasilGameProfileRepository) sessionService.getAuthenticationService().createProfileRepository();
     private static final Cache<String, UUID> uuidCache = CacheBuilder.newBuilder().build();
+    private static final ArrayList<Identifier> ID_REGISTRY = new ArrayList<>();
 
     public static void resolve(PlayerListEntry player, TextureResolveCallback callback) {
         final List<? extends AbstractResolver<?>> hosts = OpenMCSkins.getResolvers();
@@ -37,7 +40,7 @@ public final class TextureLoader {
             // Get PlayerData from resolver
             // If all resolved leading PlayerData's loaded, it won't try to load,
             // and it's makes texture loading process faster
-            while (profile.get() == null) ;
+            while (profile.get() == null) Thread.onSpinWait();
 
             if (leading.get().values().stream().allMatch(x -> x.getIndex() < i) && leading.get().size() == 2)
                 return Optional.empty();
@@ -59,7 +62,11 @@ public final class TextureLoader {
             // The following code will be executed
             // When all textures are loaded
             // Or time out
-            leading.get().forEach((k, v) -> callback.onTextureResolved(k, v.downloadTexture(k), v.getModelOrDefault()));
+            leading.get().forEach((k, v) -> {
+                Identifier identifier = v.downloadTexture(k);
+                registerId(identifier);
+                callback.onTextureResolved(k, identifier, v.getModelOrDefault());
+            });
         }).doOnSubscribe(a -> profile.set(getGameProfile(player))).doOnError(OpenMCSkins::handleError).subscribe();
     }
 
@@ -93,5 +100,15 @@ public final class TextureLoader {
 
     public interface TextureResolveCallback {
         void onTextureResolved(Type type, @Nullable Identifier location, String model);
+    }
+
+    public static void registerId(Identifier identifier) {
+        ID_REGISTRY.add(identifier);
+    }
+
+    public static void clearTextures() {
+        TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
+        ID_REGISTRY.stream().filter(x -> textureManager.getTexture(x) instanceof AnimatedTexture).forEach(x -> textureManager.getTexture(x).close());
+        ID_REGISTRY.clear();
     }
 }

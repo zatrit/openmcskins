@@ -70,6 +70,7 @@ public class OpenMCSkins implements ClientModInitializer {
     public static void invalidateAllResolvers() {
         OpenMCSkins.resolvers = null;
         TextureLoader.getUuidCache().cleanUp();
+        TextureLoader.clearTextures();
 
         MinecraftClient client = MinecraftClient.getInstance();
 
