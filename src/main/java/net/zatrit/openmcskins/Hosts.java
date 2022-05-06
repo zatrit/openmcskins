@@ -2,6 +2,7 @@ package net.zatrit.openmcskins;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.zatrit.openmcskins.annotation.KeepClass;
+import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.config.CosmeticaMode;
 import net.zatrit.openmcskins.config.HostConfigItem;
 import net.zatrit.openmcskins.resolvers.*;
@@ -12,8 +13,8 @@ import org.yaml.snakeyaml.nodes.Tag;
 
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
-@KeepClass
 public enum Hosts {
+    @KeepClassMember
     COSMETICA(d -> {
         String url = "https://api.cosmetica.cc/get/cloak?username={name}";
         if (!d.isEmpty()) {
@@ -23,13 +24,21 @@ public enum Hosts {
         }
         return new DirectResolver(url, MinecraftProfileTexture.Type.CAPE);
     }),
+    @KeepClassMember
     ELYBY(d -> new SimpleServerResolver("http://skinsystem.ely.by")),
+    @KeepClassMember
     FIVEZIG(d -> new _5ZigRebornResolver()),
+    @KeepClassMember
     LABYMOD(d -> new DirectResolver("https://dl.labymod.net/capes/{id}", MinecraftProfileTexture.Type.CAPE)),
+    @KeepClassMember
     LOCAL(LocalDirectoryResolver::new),
+    @KeepClassMember
     MOJANG(d -> new MojangAuthlibResolver()),
+    @KeepClassMember
     MINECRAFTCAPES(d -> new MinecraftCapesResolver()),
+    @KeepClassMember
     OPTIFINE(d -> new DirectResolver("http://s.optifine.net/capes/{name}.png", MinecraftProfileTexture.Type.CAPE)),
+    @KeepClassMember
     SERVER(SimpleServerResolver::new);
 
     private final ResolverConstructor construct;
