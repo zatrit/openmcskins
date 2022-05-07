@@ -78,15 +78,15 @@ Ignore animated capes from custom server and MinecraftCapes if ``true``
 ```yaml
 hosts:
   - !direct 'CAPE:http://example.com/api/{name}?uuid={id}'
-  - !minecraftcapes
+  - !server 'http://example.com/api'
   - !cosmetica 'NO_THIRD_PARTY'
+  - !local 'C:\MySkins'
+  - !minecraftcapes
+  - !optifine
   - !labymod
   - !fivezig
-  - !optifine
-  - !server 'http://example.com/api'
-  - !elyby
-  - !local 'C:\MySkins'
   - !mojang
+  - !elyby
 resolvingTimeout: 5
 offlineMode: false
 fullErrorMessage: true
