@@ -71,6 +71,10 @@ if (project.hasProperty("mod_url")) url = project.mod_url else {
 // Format fabric.mod.json
 
 processResources {
+    inputs.properties "version": project.version,
+            "mod_name": project.mod_name,
+            "mod_url": url
+
     filesMatching("fabric.mod.json") {
         expand "version": project.version,
                 "mod_name": project.mod_name,

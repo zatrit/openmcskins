@@ -25,11 +25,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public final class TextureLoader {
-    private static final Type[] supportedTypes = new Type[]{Type.CAPE, Type.SKIN};
     private final static YggdrasilMinecraftSessionService sessionService = (YggdrasilMinecraftSessionService) MinecraftClient.getInstance().getSessionService();
     private final static YggdrasilGameProfileRepository profileRepository = (YggdrasilGameProfileRepository) sessionService.getAuthenticationService().createProfileRepository();
     private static final Cache<String, UUID> uuidCache = CacheBuilder.newBuilder().build();
-    private static final ArrayList<Identifier> ID_REGISTRY = new ArrayList<>();
+    private static final ArrayList<Identifier> idRegistry = new ArrayList<>();
 
     public static void resolve(PlayerListEntry player, TextureResolveCallback callback) {
         final List<? extends AbstractResolver<?>> hosts = OpenMCSkins.getResolvers();
@@ -52,8 +51,8 @@ public final class TextureLoader {
                 OpenMCSkins.handleError(ex);
                 return Optional.empty();
             }
-        }).sequential().timeout(OpenMCSkins.getConfig().getResolvingTimeout(), TimeUnit.SECONDS).doOnEach(x -> {
-            if (x.getValue() != null) for (Type t : supportedTypes) {
+        }).sequential().timeout(OpenMCSkins.getConfig().resolvingTimeout, TimeUnit.SECONDS).doOnEach(x -> {
+            if (x.getValue() != null) for (Type t : Type.values()) {
                 if (!x.getValue().hasTexture(t)) continue;
                 if (!leading.get().containsKey(t) || leading.get().get(t).getIndex() > x.getValue().getIndex())
                     leading.get().put(t, x.getValue());
@@ -77,7 +76,7 @@ public final class TextureLoader {
     private static GameProfile getGameProfile(@NotNull PlayerListEntry entry) {
         GameProfile profile = entry.getProfile();
 
-        if (OpenMCSkins.getConfig().getOfflineMode()) {
+        if (OpenMCSkins.getConfig().offlineMode){
             UUID id;
             UUID cachedId = getUuidCache().getIfPresent(profile.getName());
             if (cachedId == null) {
@@ -98,17 +97,17 @@ public final class TextureLoader {
         return uuidCache;
     }
 
-    public interface TextureResolveCallback {
-        void onTextureResolved(Type type, @Nullable Identifier location, String model);
-    }
-
     public static void registerId(Identifier identifier) {
-        ID_REGISTRY.add(identifier);
+        idRegistry.add(identifier);
     }
 
     public static void clearTextures() {
         TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
-        ID_REGISTRY.stream().filter(x -> textureManager.getTexture(x) instanceof AnimatedTexture).forEach(x -> textureManager.getTexture(x).close());
-        ID_REGISTRY.clear();
+        idRegistry.stream().filter(Objects::nonNull).filter(x -> textureManager.getTexture(x) instanceof AnimatedTexture).forEach(x -> textureManager.getTexture(x).close());
+        idRegistry.clear();
+    }
+
+    public interface TextureResolveCallback {
+        void onTextureResolved(Type type, @Nullable Identifier location, String model);
     }
 }

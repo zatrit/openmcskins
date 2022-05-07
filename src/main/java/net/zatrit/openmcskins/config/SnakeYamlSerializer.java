@@ -5,7 +5,7 @@ import me.shedaniel.autoconfig.serializer.ConfigSerializer;
 import me.shedaniel.autoconfig.util.Utils;
 import net.zatrit.openmcskins.Hosts;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.util.ObjectUtils;
+import net.zatrit.openmcskins.util.CollectionUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.DumperOptions;
@@ -31,14 +31,14 @@ public record SnakeYamlSerializer(Config definition,
     private static final Yaml YAML = new Yaml(new ConfigConstructor(), new ConfigRepresenter());
 
     public static List<String> getHostsAsStrings(@NotNull OpenMCSkinsConfig config) {
-        return config.getHosts().stream().map(data -> YAML.dump(data).strip().replaceFirst("!", "").replace(" ''", "")).toList();
+        return config.hosts.stream().map(data -> YAML.dump(data).strip().replaceFirst("!", "").replace(" ''", "")).toList();
     }
 
     public static List<HostConfigItem> getHostsFromStrings(@NotNull List<String> strings) {
         return strings.stream().map(x -> {
             try {
                 String[] split = x.split(" ");
-                String data = ObjectUtils.getOrDefault(split, 1, "").replace("'", "");
+                String data = CollectionUtils.getOrDefault(split, 1, "").replace("'", "");
                 Hosts type = Hosts.valueOf(split[0].toUpperCase());
 
                 return new HostConfigItem(type, data);

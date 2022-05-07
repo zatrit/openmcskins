@@ -32,7 +32,7 @@ public abstract class PlayerListEntryMixin {
     @Overwrite
     public void loadTextures() {
         if (!this.texturesLoaded) {
-            textures.clear();
+            this.textures.clear();
 
             PlayerListEntry info = PlayerListEntry.class.cast(this);
             TextureLoader.resolve(info, (t, r, model) -> {

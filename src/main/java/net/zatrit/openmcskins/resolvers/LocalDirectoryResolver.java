@@ -2,12 +2,12 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.texture.NativeImage;
-import net.minecraft.client.texture.NativeImageBackedTexture;
-import net.minecraft.util.Identifier;
+import net.zatrit.openmcskins.resolvers.data.AnimatedPlayerData;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Map;
 import java.util.Objects;
 
@@ -23,12 +23,13 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
     }
 
     @Override
-    public PlayerData resolvePlayer(GameProfile profile) throws FileNotFoundException {
+    public PlayerData resolvePlayer(@NotNull GameProfile profile) throws FileNotFoundException {
         return new PlayerData(profile.getName());
     }
 
-    public class PlayerData extends AbstractResolver.IndexedPlayerData<File> {
+    public class PlayerData extends AnimatedPlayerData {
         public PlayerData(String name) throws FileNotFoundException {
+            super();
             File texturesDirectory = new File(directory, "textures");
             File metadataDirectory = new File(directory, "metadata");
 
@@ -41,14 +42,16 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
                     MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(typeName.toUpperCase());
                     File textureFile = new File(subdirectory, name + ".png");
                     if (textureFile.exists()) {
-                        this.textures.put(type, textureFile);
+                        this.textures.put(type, textureFile.toURI().toString());
                     }
 
                     File metadataTypeDirectory = new File(metadataDirectory, typeName);
                     File metadataFile = new File(metadataTypeDirectory, name + ".json");
                     if (metadataFile.exists()) {
-                        Map<String, String> metadata = GSON.<Map<String, String>>fromJson(new FileReader(metadataFile), Map.class);
-                        if (metadata.containsKey("model")) this.setModel(metadata.get("model"));
+                        Map<String, ?> metadata = GSON.<Map<String, String>>fromJson(new FileReader(metadataFile), Map.class);
+                        if (metadata.containsKey("model")) this.setModel(String.valueOf(metadata.get("model")));
+                        if (metadata.containsKey("animated"))
+                            this.setIsAnimated(type, (boolean) metadata.get("animated"));
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -56,16 +59,8 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
         }
 
         @Override
-        public Identifier downloadTexture(MinecraftProfileTexture.Type type) {
-            try {
-                FileInputStream stream = new FileInputStream(textures.get(type));
-                NativeImageBackedTexture texture = new NativeImageBackedTexture(NativeImage.read(stream));
-
-                return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture("skin", texture);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
+        protected boolean cacheEnabled() {
+            return false;
         }
     }
 }

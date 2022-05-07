@@ -1,7 +1,6 @@
 package net.zatrit.openmcskins.config;
 
 import net.zatrit.openmcskins.annotation.KeepClass;
-import net.zatrit.openmcskins.annotation.KeepClassMember;
 
 @KeepClass
 public enum CosmeticaMode {

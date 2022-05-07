@@ -21,7 +21,6 @@ import net.zatrit.openmcskins.config.SnakeYamlSerializer;
 import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.AbstractResolver;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +40,7 @@ public class OpenMCSkins implements ClientModInitializer {
     }
 
     public static List<? extends AbstractResolver<?>> getResolvers() {
-        if (resolvers == null) resolvers = getConfig().getHosts().stream().map(x -> {
+        if (resolvers == null) resolvers = getConfig().hosts.stream().map(x -> {
             try {
                 return x.createResolver();
             } catch (Exception ex) {
@@ -54,12 +53,12 @@ public class OpenMCSkins implements ClientModInitializer {
 
 
     public static void handleError(@NotNull Throwable error) {
-        if (OpenMCSkins.getConfig().getFullErrorMessage()) error.printStackTrace();
+        if (OpenMCSkins.getConfig().fullErrorMessage) error.printStackTrace();
         else OpenMCSkins.LOGGER.error(error.getMessage());
     }
 
     public static HashFunction getHashFunction() {
-        return getConfig().getHashingAlgorithm().getFunction();
+        return getConfig().hashingAlgorithm.getFunction();
     }
 
     public static void reloadConfig() {
@@ -78,14 +77,10 @@ public class OpenMCSkins implements ClientModInitializer {
             AbstractClientPlayerEntity[] players = client.world.getPlayers().toArray(new AbstractClientPlayerEntity[0]);
             for (AbstractClientPlayerEntity player : players) {
                 PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) player).invokeGetPlayerListEntry();
-                ((PlayerListEntryAccessor) entry).setTexturesLoaded(false);
+                if (entry != null)
+                    ((PlayerListEntryAccessor) entry).setTexturesLoaded(false);
             }
         }
-    }
-
-    @Contract(value = "_, _ -> new", pure = true)
-    private static @NotNull Text translatable(String key, String... s) {
-        return new TranslatableText(key, s);
     }
 
     @Override
@@ -99,7 +94,7 @@ public class OpenMCSkins implements ClientModInitializer {
 
         registry.registerTypeProvider((s, field, o, o1, guiRegistryAccess) -> {
             List<String> hosts = SnakeYamlSerializer.getHostsAsStrings((OpenMCSkinsConfig) o);
-            Text text = translatable("text.autoconfig.openmcskins.option.hosts", String.valueOf(hosts.size()));
+            Text text = new TranslatableText("text.autoconfig.openmcskins.option.hosts", hosts.size());
 
             StringListBuilder hostList = builder.startStrList(text, hosts).setInsertInFront(true).setSaveConsumer(x -> {
                 try {

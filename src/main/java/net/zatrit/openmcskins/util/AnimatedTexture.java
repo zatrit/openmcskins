@@ -6,25 +6,21 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.resource.ResourceManager;
+import net.zatrit.openmcskins.annotation.KeepClass;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+@KeepClass
 public class AnimatedTexture extends AbstractTexture {
     private final NativeImage[] frames;
     private final int[] ids;
     private long lastFrameTime;
     private int frameIndex = 0;
 
-    @Override
-    public void load(ResourceManager manager) {
-    }
-
-    public AnimatedTexture(InputStream source) throws IOException {
+    public AnimatedTexture(InputStream source, int minWidth, int minHeight) throws IOException {
         BufferedImage sourceImage = ImageIO.read(source);
         int frameHeight = sourceImage.getWidth() / 2;
         int frameWidth = sourceImage.getWidth();
@@ -36,14 +32,9 @@ public class AnimatedTexture extends AbstractTexture {
 
             int[] pixels = sourceImage.getRaster().getPixels(0, frameHeight * i, frameWidth, frameHeight, (int[]) null);
             frame.getRaster().setPixels(0, 0, frameWidth, frameHeight, pixels);
+            frame = ImageUtils.resizeToAspects(frame, minWidth, minHeight, true);
 
-            ByteArrayOutputStream frameOutputStream = new ByteArrayOutputStream();
-            ImageIO.write(frame, "png", frameOutputStream);
-
-            ByteArrayInputStream frameInputStream = new ByteArrayInputStream(frameOutputStream.toByteArray());
-
-            frames[i] = NativeImage.read(frameInputStream);
-            frame.flush();
+            frames[i] = ImageUtils.bufferedToNative(frame);
         }
 
         ids = new int[framesCount];
@@ -58,6 +49,10 @@ public class AnimatedTexture extends AbstractTexture {
 
         lastFrameTime = System.currentTimeMillis();
         sourceImage.flush();
+    }
+
+    @Override
+    public void load(ResourceManager manager) {
     }
 
     @Override

@@ -12,8 +12,5 @@
     "PlayerListEntryMixin",
     "PlayerSkinProviderAccessor",
     "SkinOptionsScreenMixin"
-  ],
-  "mixins": [
-    "PlayerSkinTextureMixin"
   ]
 }

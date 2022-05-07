@@ -7,7 +7,7 @@ import java.util.Map;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
-public class ObjectUtils {
+public final class CollectionUtils {
 
     @Contract(pure = true)
     public static <T> @NotNull T getOrDefault(T @NotNull [] array, int index, T d) {
@@ -18,5 +18,8 @@ public class ObjectUtils {
 
     public static <T> @NotNull Object getOfDefaultNonGeneric(@NotNull Map<T, ?> map, T key, Object d) {
         return firstNonNull(map.get(key), d);
+    }
+
+    private CollectionUtils() {
     }
 }

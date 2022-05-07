@@ -2,7 +2,6 @@ package net.zatrit.openmcskins.config;
 
 import com.google.common.hash.HashFunction;
 import net.zatrit.openmcskins.annotation.KeepClass;
-import net.zatrit.openmcskins.annotation.KeepClassMember;
 
 import static com.google.common.hash.Hashing.*;
 

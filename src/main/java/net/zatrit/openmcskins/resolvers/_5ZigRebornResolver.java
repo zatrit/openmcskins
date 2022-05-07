@@ -5,6 +5,7 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.util.NetworkUtils;
+import net.zatrit.openmcskins.util.TextureUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +42,7 @@ public class _5ZigRebornResolver extends AbstractResolver<_5ZigRebornResolver.Pl
                 String base64String = map.get("d");
                 if (base64String == null) return null;
                 byte[] bytes = Base64.decodeBase64(base64String);
-                return NetworkUtils.loadStaticCape(new ByteArrayInputStream(bytes), url);
+                return TextureUtils.loadStaticTexture(new ByteArrayInputStream(bytes), url, TextureUtils.getAspects(type), true);
             } catch (Exception e) {
                 OpenMCSkins.handleError(e);
                 return null;

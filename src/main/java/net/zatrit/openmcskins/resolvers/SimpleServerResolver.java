@@ -2,6 +2,7 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import net.zatrit.openmcskins.resolvers.data.AnimatedPlayerData;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -11,7 +12,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.zatrit.openmcskins.util.ObjectUtils.getOfDefaultNonGeneric;
+import static net.zatrit.openmcskins.util.CollectionUtils.getOfDefaultNonGeneric;
 
 public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.PlayerData> {
     protected final String host;
@@ -34,16 +35,19 @@ public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.
         return new PlayerData(map);
     }
 
-    public static class PlayerData extends MinecraftProfileTexturePlayerData {
-
+    public static class PlayerData extends AnimatedPlayerData {
         @SuppressWarnings("unchecked")
-        public PlayerData(@NotNull Map<String, Map<String, ?>> data) {
-            data.forEach((k, v) -> {
+        public PlayerData(Map<String, Map<String, ?>> data) {
+            if (data != null) data.forEach((k, v) -> {
                 MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(k);
-                Map<String, String> metadata = (Map<String, String>) getOfDefaultNonGeneric(v, "metadata", new HashMap<>());
-                MinecraftProfileTexture texture = new MinecraftProfileTexture((String) v.get("url"), metadata);
-                this.textures.put(type, texture);
-                if (metadata.containsKey("model")) this.setModel(metadata.get("model"));
+                Map<String, ?> metadata = (Map<String, ?>) getOfDefaultNonGeneric(v, "metadata", new HashMap<>());
+
+                this.textures.put(type, (String) v.get("url"));
+
+                if (metadata.containsKey("model")) this.setModel((String) metadata.get("model"));
+                if (metadata.containsKey("animated")) this.setIsAnimated(type, (boolean) metadata.get("animated"));
+
+                metadata.clear();
             });
         }
     }

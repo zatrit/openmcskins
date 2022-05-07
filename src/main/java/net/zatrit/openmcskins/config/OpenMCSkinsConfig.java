@@ -27,6 +27,8 @@ public class OpenMCSkinsConfig implements ConfigData {
     @KeepClassMember
     public boolean offlineMode;
     @KeepClassMember
+    public boolean skipAnimatedCapes = false;
+    @KeepClassMember
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip(count = 7)
     public HashingAlgorithm hashingAlgorithm = HashingAlgorithm.SHA384;
@@ -39,28 +41,8 @@ public class OpenMCSkinsConfig implements ConfigData {
         this.hosts.add(new HostConfigItem(Hosts.MOJANG, null));
     }
 
-    public int getResolvingTimeout() {
-        return resolvingTimeout;
-    }
-
-    public boolean getFullErrorMessage() {
-        return this.fullErrorMessage;
-    }
-
-    public HashingAlgorithm getHashingAlgorithm() {
-        return this.hashingAlgorithm;
-    }
-
-    public @NotNull List<HostConfigItem> getHosts() {
-        return hosts;
-    }
-
     @Override
     public void validatePostLoad() throws ValidationException {
         if (resolvingTimeout < 1) throw new ValidationException(I18n.translate("text.openmcskins.validation_error"));
-    }
-
-    public boolean getOfflineMode() {
-        return offlineMode;
     }
 }

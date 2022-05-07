@@ -14,6 +14,8 @@ running it because it has the same filesystem structure as the local skins store
 * metadata (OPTIONAL)
     * skin
         * [PLAYER NAME].json
+    * cape
+        * [PLAYER NAME].json
 
 Skin metadata is a JSON file, that contains skin model name
 
