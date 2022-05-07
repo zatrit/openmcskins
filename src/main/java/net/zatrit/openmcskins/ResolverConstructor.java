@@ -1,7 +1,7 @@
 package net.zatrit.openmcskins;
 
-import net.zatrit.openmcskins.resolvers.AbstractResolver;
+import net.zatrit.openmcskins.resolvers.Resolver;
 
 public interface ResolverConstructor {
-    AbstractResolver<?> construct(String data);
+    Resolver<?> construct(String data);
 }

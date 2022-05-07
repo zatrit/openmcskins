@@ -3,7 +3,7 @@ package net.zatrit.openmcskins.config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
 import net.zatrit.openmcskins.Hosts;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
-import net.zatrit.openmcskins.resolvers.AbstractResolver;
+import net.zatrit.openmcskins.resolvers.Resolver;
 
 import javax.annotation.Nullable;
 
@@ -25,7 +25,7 @@ public class HostConfigItem {
         return firstNonNull(data, "");
     }
 
-    public AbstractResolver<?> createResolver() {
+    public Resolver<?> createResolver() {
         return this.type.createResolver(data);
     }
 }

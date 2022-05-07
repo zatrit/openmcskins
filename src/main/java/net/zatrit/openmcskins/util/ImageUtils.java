@@ -16,6 +16,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public final class ImageUtils {
+    private ImageUtils() {
+    }
+
     public static @NotNull NativeImage bufferedToNative(BufferedImage source) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ImageIO.write(source, "png", outputStream);
@@ -46,8 +49,5 @@ public final class ImageUtils {
         if (NativeImageAccessor.class.cast(image).getPointer() == 0L) return null;
         NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
         return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture(prefix, texture);
-    }
-
-    private ImageUtils() {
     }
 }

@@ -14,13 +14,7 @@ import java.util.Map;
 
 import static net.zatrit.openmcskins.util.CollectionUtils.getOfDefaultNonGeneric;
 
-public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.PlayerData> {
-    protected final String host;
-
-    public SimpleServerResolver(String host) {
-        this.host = host;
-    }
-
+public record SimpleServerResolver(String host) implements Resolver<SimpleServerResolver.PlayerData> {
     @Override
     public PlayerData resolvePlayer(@NotNull GameProfile profile) throws IOException {
         // Example: http://127.0.0.1:8080/textures/PlayerName
@@ -45,7 +39,7 @@ public class SimpleServerResolver extends AbstractResolver<SimpleServerResolver.
                 this.textures.put(type, (String) v.get("url"));
 
                 if (metadata.containsKey("model")) this.setModel((String) metadata.get("model"));
-                if (metadata.containsKey("animated")) this.setIsAnimated(type, (boolean) metadata.get("animated"));
+                if (metadata.containsKey("animated")) this.setAnimated(type, (boolean) metadata.get("animated"));
 
                 metadata.clear();
             });

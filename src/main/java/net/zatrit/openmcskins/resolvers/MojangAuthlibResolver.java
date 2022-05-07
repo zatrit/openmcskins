@@ -5,10 +5,10 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.TextureLoader;
+import net.zatrit.openmcskins.resolvers.data.IndexedPlayerData;
 import org.jetbrains.annotations.NotNull;
 
-public class MojangAuthlibResolver extends AbstractResolver<MojangAuthlibResolver.PlayerData> {
-
+public class MojangAuthlibResolver implements Resolver<MojangAuthlibResolver.PlayerData> {
     @Override
     public PlayerData resolvePlayer(GameProfile profile) {
         return new PlayerData(profile);

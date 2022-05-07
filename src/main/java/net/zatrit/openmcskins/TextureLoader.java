@@ -13,7 +13,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.resolvers.AbstractResolver;
+import net.zatrit.openmcskins.resolvers.Resolver;
+import net.zatrit.openmcskins.resolvers.data.IndexedPlayerData;
 import net.zatrit.openmcskins.util.AnimatedTexture;
 import net.zatrit.openmcskins.util.NetworkUtils;
 import org.jetbrains.annotations.Contract;
@@ -31,8 +32,8 @@ public final class TextureLoader {
     private static final ArrayList<Identifier> idRegistry = new ArrayList<>();
 
     public static void resolve(PlayerListEntry player, TextureResolveCallback callback) {
-        final List<? extends AbstractResolver<?>> hosts = OpenMCSkins.getResolvers();
-        final AtomicReference<Map<Type, AbstractResolver.IndexedPlayerData<?>>> leading = new AtomicReference<>(new HashMap<>());
+        final List<? extends Resolver<?>> hosts = OpenMCSkins.getResolvers();
+        final AtomicReference<Map<Type, IndexedPlayerData<?>>> leading = new AtomicReference<>(new HashMap<>());
         final AtomicReference<GameProfile> profile = new AtomicReference<>(null);
 
         Flowable.range(0, hosts.size()).parallel().runOn(Schedulers.io()).mapOptional(i -> {
@@ -45,7 +46,7 @@ public final class TextureLoader {
                 return Optional.empty();
 
             try {
-                AbstractResolver<?> resolver = hosts.get(i);
+                Resolver<?> resolver = hosts.get(i);
                 return Optional.of(resolver.resolvePlayer(profile.get()).withIndex(i));
             } catch (Exception ex) {
                 OpenMCSkins.handleError(ex);
@@ -76,7 +77,7 @@ public final class TextureLoader {
     private static GameProfile getGameProfile(@NotNull PlayerListEntry entry) {
         GameProfile profile = entry.getProfile();
 
-        if (OpenMCSkins.getConfig().offlineMode){
+        if (OpenMCSkins.getConfig().offlineMode) {
             UUID id;
             UUID cachedId = getUuidCache().getIfPresent(profile.getName());
             if (cachedId == null) {

@@ -8,6 +8,7 @@
 -dontskipnonpubliclibraryclassmembers
 -keepattributes *Annotations*
 -optimizationpasses 5
+-overloadaggressively
 
 -keep @org.spongepowered.asm.mixin.Mixin class ** { *; }
 -keep @org.spongepowered.asm.mixin.Mixin interface ** { *; }

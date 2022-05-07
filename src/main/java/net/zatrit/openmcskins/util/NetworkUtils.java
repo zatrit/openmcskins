@@ -13,6 +13,9 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 public final class NetworkUtils {
+    private NetworkUtils() {
+    }
+
     public static int getResponseCode(String url) {
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -43,8 +46,5 @@ public final class NetworkUtils {
         while (uuid.get() == null) Thread.onSpinWait();
 
         return uuid.get();
-    }
-
-    private NetworkUtils() {
     }
 }

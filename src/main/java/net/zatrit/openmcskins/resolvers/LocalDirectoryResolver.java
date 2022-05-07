@@ -11,7 +11,7 @@ import java.io.FileReader;
 import java.util.Map;
 import java.util.Objects;
 
-public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResolver.PlayerData> {
+public class LocalDirectoryResolver implements Resolver<LocalDirectoryResolver.PlayerData> {
     private final File directory;
 
     public LocalDirectoryResolver(File directory) {
@@ -51,7 +51,7 @@ public class LocalDirectoryResolver extends AbstractResolver<LocalDirectoryResol
                         Map<String, ?> metadata = GSON.<Map<String, String>>fromJson(new FileReader(metadataFile), Map.class);
                         if (metadata.containsKey("model")) this.setModel(String.valueOf(metadata.get("model")));
                         if (metadata.containsKey("animated"))
-                            this.setIsAnimated(type, (boolean) metadata.get("animated"));
+                            this.setAnimated(type, (boolean) metadata.get("animated"));
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();

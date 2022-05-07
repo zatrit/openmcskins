@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.resolvers.data.IndexedPlayerData;
 import net.zatrit.openmcskins.util.NetworkUtils;
 import net.zatrit.openmcskins.util.TextureUtils;
 import org.apache.commons.codec.binary.Base64;
@@ -16,7 +17,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class _5ZigRebornResolver extends AbstractResolver<_5ZigRebornResolver.PlayerData> {
+public class _5ZigRebornResolver implements Resolver<_5ZigRebornResolver.PlayerData> {
     @Override
     public PlayerData resolvePlayer(GameProfile profile) {
         return new PlayerData(profile);

@@ -9,6 +9,9 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 
 public final class CollectionUtils {
 
+    private CollectionUtils() {
+    }
+
     @Contract(pure = true)
     public static <T> @NotNull T getOrDefault(T @NotNull [] array, int index, T d) {
         if (index >= array.length)
@@ -18,8 +21,5 @@ public final class CollectionUtils {
 
     public static <T> @NotNull Object getOfDefaultNonGeneric(@NotNull Map<T, ?> map, T key, Object d) {
         return firstNonNull(map.get(key), d);
-    }
-
-    private CollectionUtils() {
     }
 }

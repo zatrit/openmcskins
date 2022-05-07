@@ -14,6 +14,11 @@ import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
 @KeepClass
 public enum Hosts {
+    DIRECT(d -> {
+        String[] values = d.split(":");
+        MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(values[0]);
+        return new DirectResolver(values[0], type);
+    }),
     COSMETICA(d -> {
         String url = "https://api.cosmetica.cc/get/cloak?username={name}";
         if (!d.isEmpty()) {
@@ -51,7 +56,7 @@ public enum Hosts {
         };
     }
 
-    public AbstractResolver<?> createResolver(String data) {
+    public Resolver<?> createResolver(String data) {
         return construct.construct(data);
     }
 }

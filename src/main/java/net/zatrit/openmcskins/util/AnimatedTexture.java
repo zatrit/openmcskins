@@ -20,7 +20,7 @@ public class AnimatedTexture extends AbstractTexture {
     private long lastFrameTime;
     private int frameIndex = 0;
 
-    public AnimatedTexture(InputStream source, int minWidth, int minHeight) throws IOException {
+    public AnimatedTexture(InputStream source) throws IOException {
         BufferedImage sourceImage = ImageIO.read(source);
         int frameHeight = sourceImage.getWidth() / 2;
         int frameWidth = sourceImage.getWidth();
@@ -32,8 +32,6 @@ public class AnimatedTexture extends AbstractTexture {
 
             int[] pixels = sourceImage.getRaster().getPixels(0, frameHeight * i, frameWidth, frameHeight, (int[]) null);
             frame.getRaster().setPixels(0, 0, frameWidth, frameHeight, pixels);
-            frame = ImageUtils.resizeToAspects(frame, minWidth, minHeight, true);
-
             frames[i] = ImageUtils.bufferedToNative(frame);
         }
 

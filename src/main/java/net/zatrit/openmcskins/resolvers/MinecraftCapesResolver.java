@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
 
-public class MinecraftCapesResolver extends AbstractResolver<MinecraftCapesResolver.PlayerData> {
+public class MinecraftCapesResolver implements Resolver<MinecraftCapesResolver.PlayerData> {
     @Override
     public PlayerData resolvePlayer(GameProfile profile) throws IOException {
         return new PlayerData(profile);
@@ -37,6 +37,7 @@ public class MinecraftCapesResolver extends AbstractResolver<MinecraftCapesResol
             });
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         protected InputStream openStream(String path, MinecraftProfileTexture.@NotNull Type type) {
             Map<String, String> textures = (Map<String, String>) data.get("textures");

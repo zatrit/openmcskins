@@ -5,9 +5,11 @@ import net.zatrit.openmcskins.annotation.KeepClass;
 
 import static com.google.common.hash.Hashing.*;
 
+@SuppressWarnings({"UnstableApiUsage", "unused"})
 @KeepClass
 public enum HashingAlgorithm {
     CRC32(crc32()),
+    @SuppressWarnings("deprecation")
     SHA1(sha1()),
     SHA384(sha384());
 

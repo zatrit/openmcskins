@@ -18,6 +18,9 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 public final class TextureUtils {
+    private TextureUtils() {
+    }
+
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static @NotNull File getCacheFile(String name) {
         String hash = OpenMCSkins.getHashFunction().hashUnencodedChars(name).toString();
@@ -29,25 +32,30 @@ public final class TextureUtils {
     public static @Nullable Identifier loadStaticTexture(InputStream stream, String name, int @NotNull [] aspects, boolean cache) throws Exception {
         int width = aspects[0];
         int height = aspects[1];
-
-        BufferedImage resized = ImageUtils.resizeToAspects(ImageIO.read(stream), width, height, true);
         File cacheFile = getCacheFile(name);
+        BufferedImage sourceImage;
+
+        if (cache) {
+            if (!cacheFile.isFile()) IOUtils.copy(stream, new FileOutputStream(cacheFile));
+            sourceImage = ImageIO.read(new FileInputStream(cacheFile));
+        } else sourceImage = ImageIO.read(stream);
+        stream.close();
+
+        BufferedImage resized = ImageUtils.resizeToAspects(sourceImage, width, height, true);
         if (cache) ImageIO.write(resized, "png", cacheFile);
         NativeImage nativeImage = ImageUtils.bufferedToNative(resized);
         return ImageUtils.registerNativeImage(nativeImage, cacheFile.getName());
     }
 
-    public static @NotNull Identifier loadAnimatedTexture(InputStream stream, String name, int @NotNull [] aspects, boolean cache) throws IOException {
+    public static @NotNull Identifier loadAnimatedTexture(InputStream stream, String name, boolean cache) throws IOException {
         File cacheFile = getCacheFile(name);
-        int width = aspects[0];
-        int height = aspects[1];
         AnimatedTexture animatedTexture;
 
         if (cache) {
             if (!cacheFile.isFile()) IOUtils.copy(stream, new FileOutputStream(cacheFile));
-            stream.close();
-            animatedTexture = new AnimatedTexture(new FileInputStream(cacheFile), width, height);
-        } else animatedTexture = new AnimatedTexture(stream, width, height);
+            animatedTexture = new AnimatedTexture(new FileInputStream(cacheFile));
+        } else animatedTexture = new AnimatedTexture(stream);
+        stream.close();
 
         Identifier id = new Identifier("animated/" + cacheFile.getName());
         MinecraftClient.getInstance().getTextureManager().registerTexture(id, animatedTexture);
@@ -99,8 +107,7 @@ public final class TextureUtils {
                 }
             }
 
-            if (cacheEnabled)
-                nativeImage.writeTo(cacheFile);
+            if (cacheEnabled) nativeImage.writeTo(cacheFile);
         } else nativeImage = NativeImage.read(new FileInputStream(cacheFile));
 
         return ImageUtils.registerNativeImage(nativeImage, cacheFile.getName());
@@ -112,8 +119,5 @@ public final class TextureUtils {
 
     private static void fixedFillRect(@NotNull NativeImage image, int n) {
         image.fillRect(0, 32 * n, 64 * n, 32 * n, 0);
-    }
-
-    private TextureUtils() {
     }
 }

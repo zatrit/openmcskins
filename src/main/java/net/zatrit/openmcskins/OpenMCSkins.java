@@ -20,7 +20,7 @@ import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
 import net.zatrit.openmcskins.config.SnakeYamlSerializer;
 import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
-import net.zatrit.openmcskins.resolvers.AbstractResolver;
+import net.zatrit.openmcskins.resolvers.Resolver;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,13 +33,13 @@ import java.util.Objects;
 public class OpenMCSkins implements ClientModInitializer {
     public static final String MOD_ID = "openmcskins";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    private static List<? extends AbstractResolver<?>> resolvers;
+    private static List<? extends Resolver<?>> resolvers;
 
     public static OpenMCSkinsConfig getConfig() {
         return AutoConfig.getConfigHolder(OpenMCSkinsConfig.class).getConfig();
     }
 
-    public static List<? extends AbstractResolver<?>> getResolvers() {
+    public static List<? extends Resolver<?>> getResolvers() {
         if (resolvers == null) resolvers = getConfig().hosts.stream().map(x -> {
             try {
                 return x.createResolver();

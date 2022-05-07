@@ -96,12 +96,16 @@ shadowJar {
     configurations = [project.configurations.shadow]
     archiveClassifier.set("dev-shadow")
 
-    minimize()
-
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
-    from("NOTICE") {}
+    from "NOTICE"
+
+    dependencies {
+        exclude '**/META-INF/maven/**'
+        exclude '**/META-INF/proguard/**'
+    }
+    minimize()
 }
 
 remapJar {
