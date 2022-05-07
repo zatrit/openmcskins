@@ -36,7 +36,7 @@ public abstract class AnimatedPlayerData extends IndexedPlayerData<String> {
         try {
             String textureUrl = textures.get(type);
 
-            if (isAnimated(type) && OpenMCSkins.getConfig().skipAnimatedCapes)
+            if (isAnimated(type) && OpenMCSkins.getConfig().ignoreAnimatedCapes)
                 return null;
 
             if (type == MinecraftProfileTexture.Type.SKIN)

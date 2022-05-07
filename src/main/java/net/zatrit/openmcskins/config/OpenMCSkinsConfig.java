@@ -27,7 +27,7 @@ public class OpenMCSkinsConfig implements ConfigData {
     @KeepClassMember
     public boolean offlineMode;
     @KeepClassMember
-    public boolean skipAnimatedCapes = false;
+    public boolean ignoreAnimatedCapes = false;
     @KeepClassMember
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip(count = 7)

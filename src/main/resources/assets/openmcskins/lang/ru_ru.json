@@ -8,6 +8,7 @@
   "text.autoconfig.openmcskins.option.fullErrorMessage": "Печатать полное сообщение об ошибке",
   "text.autoconfig.openmcskins.option.hashingAlgorithm": "Алгоритм хэширования скинов",
   "text.autoconfig.openmcskins.option.offlineMode": "Оффлайн (пиратский) режим",
+  "text.autoconfig.openmcskins.option.ignoreAnimatedCapes": "Игнорировать анимированные плащи",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[0]": "Алгоритм, генерирующий имя для скина",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[1]": "",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[2]": " SHA384 (РЕКОМЕНДУЕТСЯ) - генерирует уникальное имя для",

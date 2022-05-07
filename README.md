@@ -21,6 +21,7 @@ This is a mod that allows skins and capes to be use in various ways.
 * From [5Zig](https://5zigreborn.eu/) capes system
 * From [Cosmetica](https://cosmetica.cc/) capes system
 * From [MinecraftCapes](https://minecraftcapes.net/) capes system (no ears yet)
+* Directly from *anywhere*
 
 ### How to configure this
 
@@ -49,6 +50,8 @@ This option accepts a list of sources where the mod tries to load skins from.
 * !fivezig - 5zig API
 * !cosmetica [NO_THIRD_PARTY | ALLOW_THIRD_PARTY] - Cosmetica API
 * !minecraftcapes - MinecraftCapes API
+* !direct [CAPE | SKIN]:[URL] - download skin or cape from url directly, by replacing ``{name}`` by player name
+  and ``{id}`` by player UUID
 
 ### resolvingTimeout
 
@@ -66,22 +69,28 @@ Download skins by names instead of UUID's if ``true``
 
 Algorithm, that using for generate skin file name
 
+### ignoreAnimatedCapes
+
+Ignore animated capes from custom server and MinecraftCapes if ``true``
+
 ### Config example:
 
 ```yaml
 hosts:
+  - !direct 'CAPE:http://example.com/api/{name}?uuid={id}'
   - !minecraftcapes
   - !cosmetica 'NO_THIRD_PARTY'
   - !labymod
   - !fivezig
   - !optifine
-  - !server 'http://127.0.0.1:8080'
+  - !server 'http://example.com/api'
   - !elyby
-  - !local C:\MySkins
+  - !local 'C:\MySkins'
   - !mojang
 resolvingTimeout: 5
 offlineMode: false
 fullErrorMessage: true
+ignoreAnimatedCapes: false
 hashingAlgorithm: SHA318
 ```
 
