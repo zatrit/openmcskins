@@ -6,6 +6,7 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.mixin.PlayerSkinProviderAccessor;
+import net.zatrit.openmcskins.util.textures.AnimatedTexture;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -81,6 +82,11 @@ public final class TextureUtils {
 
             int scale = image.getWidth() / 64;
             boolean isLegacy = image.getWidth() == image.getHeight() * 2;
+            boolean isValid = isLegacy || image.getWidth() == image.getHeight();
+            if (!isValid) {
+                OpenMCSkins.LOGGER.warn("Invalid image resolution");
+                return null;
+            }
             image.flush();
 
             if (isLegacy) {

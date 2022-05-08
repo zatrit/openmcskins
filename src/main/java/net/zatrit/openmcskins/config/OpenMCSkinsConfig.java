@@ -9,7 +9,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.zatrit.openmcskins.Hosts;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.mixin.MinecraftClientAccessor;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+@Config.Gui.Background(value = Config.Gui.Background.TRANSPARENT)
 @Config(name = OpenMCSkins.MOD_ID)
 public class OpenMCSkinsConfig implements ConfigData {
     @KeepClassMember

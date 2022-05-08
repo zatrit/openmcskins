@@ -85,7 +85,7 @@ public class OpenMCSkins implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        RxJavaPlugins.setErrorHandler(Functions.emptyConsumer());
+        RxJavaPlugins.setErrorHandler(OpenMCSkins::handleError);
         AutoConfig.register(OpenMCSkinsConfig.class, SnakeYamlSerializer::new);
 
         GuiRegistry registry = AutoConfig.getGuiRegistry(OpenMCSkinsConfig.class);

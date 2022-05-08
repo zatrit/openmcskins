@@ -15,7 +15,7 @@ import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.resolvers.Resolver;
 import net.zatrit.openmcskins.resolvers.data.IndexedPlayerData;
-import net.zatrit.openmcskins.util.AnimatedTexture;
+import net.zatrit.openmcskins.util.textures.AnimatedTexture;
 import net.zatrit.openmcskins.util.NetworkUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

@@ -12,11 +12,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
 public enum Hosts {
-    DIRECT(d -> {
-        String[] values = d.split(":");
-        MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(values[0]);
-        return new DirectResolver(values[0], type);
-    }),
+    CLOAKSPLUS(d -> new DirectResolver("http://161.35.130.99/capes/{name}.png", MinecraftProfileTexture.Type.CAPE)),
     COSMETICA(d -> {
         String url = "https://api.cosmetica.cc/get/cloak?username={name}";
         if (!d.isEmpty()) {
@@ -26,14 +22,20 @@ public enum Hosts {
         }
         return new DirectResolver(url, MinecraftProfileTexture.Type.CAPE);
     }),
+    DIRECT(d -> {
+        String[] values = d.split(":");
+        MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(values[0]);
+        return new DirectResolver(values[0], type);
+    }),
     ELYBY(d -> new SimpleServerResolver("http://skinsystem.ely.by")),
     FIVEZIG(d -> new _5ZigRebornResolver()),
     LABYMOD(d -> new DirectResolver("https://dl.labymod.net/capes/{id}", MinecraftProfileTexture.Type.CAPE)),
     LOCAL(LocalDirectoryResolver::new),
-    MOJANG(d -> new MojangAuthlibResolver()),
     MINECRAFTCAPES(d -> new MinecraftCapesResolver()),
+    MOJANG(d -> new MojangAuthlibResolver()),
     OPTIFINE(d -> new DirectResolver("http://s.optifine.net/capes/{name}.png", MinecraftProfileTexture.Type.CAPE)),
-    SERVER(SimpleServerResolver::new);
+    SERVER(SimpleServerResolver::new),
+    TLAUNCHER(d -> new SimpleServerResolver("https://auth.tlauncher.org/skin/profile/texture/login"));
 
     private final ResolverConstructor construct;
 

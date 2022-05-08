@@ -1,5 +1,6 @@
 package net.zatrit.openmcskins.mixin;
 
+import com.moandjiezana.toml.Toml;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;

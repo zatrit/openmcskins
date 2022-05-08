@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.util;
+package net.zatrit.openmcskins.util.textures;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.TextureUtil;
@@ -74,6 +74,7 @@ public class AnimatedTexture extends AbstractTexture {
     @Override
     public void clearGlId() {
         RenderCall clearId = () -> {
+            GlStateManager._deleteTextures(ids);
             for (int i = 0; i < ids.length; i++)
                 if (ids[i] != -1) {
                     TextureUtil.releaseTextureId(ids[i]);
