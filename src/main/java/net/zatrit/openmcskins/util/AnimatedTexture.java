@@ -6,14 +6,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.resource.ResourceManager;
-import net.zatrit.openmcskins.annotation.KeepClass;
+import net.zatrit.openmcskins.annotation.KeepClassMember;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-@KeepClass
 public class AnimatedTexture extends AbstractTexture {
     private final NativeImage[] frames;
     private final int[] ids;
@@ -49,10 +48,13 @@ public class AnimatedTexture extends AbstractTexture {
         sourceImage.flush();
     }
 
+
+    @KeepClassMember
     @Override
     public void load(ResourceManager manager) {
     }
 
+    @KeepClassMember
     @Override
     public void bindTexture() {
         long time = System.currentTimeMillis();
@@ -65,6 +67,7 @@ public class AnimatedTexture extends AbstractTexture {
         super.bindTexture();
     }
 
+    @KeepClassMember
     @Override
     public void close() {
         this.clearGlId();
@@ -73,12 +76,14 @@ public class AnimatedTexture extends AbstractTexture {
             frame.close();
     }
 
+    @KeepClassMember
     @Override
     public int getGlId() {
         RenderSystem.assertOnRenderThreadOrInit();
         return ids[frameIndex];
     }
 
+    @KeepClassMember
     @Override
     public void clearGlId() {
         RenderCall clearId = () -> {

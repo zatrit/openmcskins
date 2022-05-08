@@ -1,7 +1,6 @@
 package net.zatrit.openmcskins;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.config.CosmeticaMode;
 import net.zatrit.openmcskins.config.HostConfigItem;
 import net.zatrit.openmcskins.resolvers.*;
@@ -12,7 +11,6 @@ import org.yaml.snakeyaml.nodes.Tag;
 
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
-@KeepClass
 public enum Hosts {
     DIRECT(d -> {
         String[] values = d.split(":");

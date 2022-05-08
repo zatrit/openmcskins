@@ -1,12 +1,10 @@
 package net.zatrit.openmcskins.config;
 
 import com.google.common.hash.HashFunction;
-import net.zatrit.openmcskins.annotation.KeepClass;
 
 import static com.google.common.hash.Hashing.*;
 
 @SuppressWarnings({"UnstableApiUsage", "unused"})
-@KeepClass
 public enum HashingAlgorithm {
     CRC32(crc32()),
     @SuppressWarnings("deprecation")
