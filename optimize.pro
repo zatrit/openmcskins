@@ -18,7 +18,7 @@
 -keepclassmembers class ** { @net.zatrit.openmcskins.annotation.KeepClassMember *; }
 
 -keepclassmembers enum net.zatrit.openmcskins.** { public *; }
--keep enum org.yaml.snakeyaml.nodes.NodeId { *; }
+-keepclassmembers enum org.yaml.snakeyaml.nodes.NodeId { public *; }
 
 -libraryjars <java.home>/jmods/java.base.jmod
 

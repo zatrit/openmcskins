@@ -1,5 +1,6 @@
 package net.zatrit.openmcskins.util;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.TextureUtil;
 import com.mojang.blaze3d.systems.RenderCall;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -8,44 +9,33 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.resource.ResourceManager;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class AnimatedTexture extends AbstractTexture {
-    private final NativeImage[] frames;
     private final int[] ids;
     private long lastFrameTime;
     private int frameIndex = 0;
+    private final int framesCount;
 
     public AnimatedTexture(InputStream source) throws IOException {
-        BufferedImage sourceImage = ImageIO.read(source);
+        NativeImage sourceImage = NativeImage.read(source);
         int frameHeight = sourceImage.getWidth() / 2;
-        int frameWidth = sourceImage.getWidth();
-        int framesCount = sourceImage.getHeight() / frameHeight;
-        frames = new NativeImage[framesCount];
-
-        for (int i = 0; i < framesCount; i++) {
-            BufferedImage frame = new BufferedImage(frameWidth, frameHeight, sourceImage.getType());
-
-            int[] pixels = sourceImage.getRaster().getPixels(0, frameHeight * i, frameWidth, frameHeight, (int[]) null);
-            frame.getRaster().setPixels(0, 0, frameWidth, frameHeight, pixels);
-            frames[i] = ImageUtils.bufferedToNative(frame);
-        }
+        framesCount = sourceImage.getHeight() / frameHeight;
 
         ids = new int[framesCount];
         RenderSystem.recordRenderCall(() -> {
+            GlStateManager._genTextures(ids);
+
             for (int i = 0; i < framesCount; i++) {
-                NativeImage frame = frames[i];
-                ids[i] = TextureUtil.generateTextureId();
-                TextureUtil.prepareImage(ids[i], frame.getWidth(), frame.getHeight());
-                frame.upload(0, 0, 0, false);
+                TextureUtil.prepareImage(ids[i], sourceImage.getWidth(), frameHeight);
+                sourceImage.upload(0, 0, 0, 0, frameHeight * i, sourceImage.getWidth(), frameHeight, false, false);
             }
+
+            sourceImage.close();
         });
 
         lastFrameTime = System.currentTimeMillis();
-        sourceImage.flush();
     }
 
 
@@ -61,7 +51,7 @@ public class AnimatedTexture extends AbstractTexture {
 
         if (time - lastFrameTime > 100L) {
             lastFrameTime = time;
-            frameIndex = (frameIndex + 1) % frames.length;
+            frameIndex = (frameIndex + 1) % framesCount;
         }
 
         super.bindTexture();
@@ -71,9 +61,6 @@ public class AnimatedTexture extends AbstractTexture {
     @Override
     public void close() {
         this.clearGlId();
-
-        for (NativeImage frame : frames)
-            frame.close();
     }
 
     @KeepClassMember
