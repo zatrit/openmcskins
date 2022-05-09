@@ -3,7 +3,7 @@
   "openmcskins.reloadConfig": "Reload OpenMCSkins config and \nall players skins from available hosts",
   "openmcskins.configure": "OpenMCSkins options",
   "text.autoconfig.openmcskins.title": "OpenMCSkins configuration",
-  "text.autoconfig.openmcskins.option.hosts": "Hosts (%s)",
+  "text.autoconfig.openmcskins.option.hosts": "Hosts",
   "text.autoconfig.openmcskins.option.resolvingTimeout": "Resolving timeout",
   "text.autoconfig.openmcskins.option.fullErrorMessage": "Print full error message",
   "text.autoconfig.openmcskins.option.hashingAlgorithm": "Skin hashing algorithm",

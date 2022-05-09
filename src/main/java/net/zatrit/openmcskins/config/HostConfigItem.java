@@ -11,21 +11,21 @@ import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
 public class HostConfigItem {
     @KeepClassMember
-    public String data;
-    @KeepClassMember
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
     public Hosts type;
+    @KeepClassMember
+    public String value;
 
-    public HostConfigItem(Hosts type, @Nullable String data) {
+    public HostConfigItem(Hosts type, @Nullable String value) {
         this.type = type;
-        this.data = data;
+        this.value = value;
     }
 
-    public String getData() {
-        return firstNonNull(data, "");
+    public String getValue() {
+        return firstNonNull(value, "");
     }
 
     public Resolver<?> createResolver() {
-        return this.type.createResolver(data);
+        return this.type.createResolver(getValue());
     }
 }

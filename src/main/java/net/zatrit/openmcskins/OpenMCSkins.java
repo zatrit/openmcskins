@@ -1,10 +1,10 @@
 package net.zatrit.openmcskins;
 
 import com.google.common.hash.HashFunction;
-import io.reactivex.rxjava3.internal.functions.Functions;
 import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.gui.registry.GuiRegistry;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.StringListBuilder;
 import net.fabricmc.api.ClientModInitializer;
@@ -17,10 +17,10 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
-import net.zatrit.openmcskins.config.SnakeYamlSerializer;
 import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.Resolver;
+import net.zatrit.openmcskins.util.ConfigUtil;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,8 +77,7 @@ public class OpenMCSkins implements ClientModInitializer {
             AbstractClientPlayerEntity[] players = client.world.getPlayers().toArray(new AbstractClientPlayerEntity[0]);
             for (AbstractClientPlayerEntity player : players) {
                 PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) player).invokeGetPlayerListEntry();
-                if (entry != null)
-                    ((PlayerListEntryAccessor) entry).setTexturesLoaded(false);
+                if (entry != null) ((PlayerListEntryAccessor) entry).setTexturesLoaded(false);
             }
         }
     }
@@ -86,19 +85,19 @@ public class OpenMCSkins implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         RxJavaPlugins.setErrorHandler(OpenMCSkins::handleError);
-        AutoConfig.register(OpenMCSkinsConfig.class, SnakeYamlSerializer::new);
+        AutoConfig.register(OpenMCSkinsConfig.class, Toml4jConfigSerializer::new);
 
         GuiRegistry registry = AutoConfig.getGuiRegistry(OpenMCSkinsConfig.class);
 
         ConfigEntryBuilder builder = ConfigEntryBuilder.create();
 
         registry.registerTypeProvider((s, field, o, o1, guiRegistryAccess) -> {
-            List<String> hosts = SnakeYamlSerializer.getHostsAsStrings((OpenMCSkinsConfig) o);
-            Text text = new TranslatableText("text.autoconfig.openmcskins.option.hosts", hosts.size());
+            List<String> hosts = ConfigUtil.getHostsAsStrings((OpenMCSkinsConfig) o);
+            Text text = new TranslatableText("text.autoconfig.openmcskins.option.hosts");
 
             StringListBuilder hostList = builder.startStrList(text, hosts).setInsertInFront(true).setSaveConsumer(x -> {
                 try {
-                    field.set(o, SnakeYamlSerializer.getHostsFromStrings(x));
+                    field.set(o, ConfigUtil.getHostsFromStrings(x));
                 } catch (IllegalAccessException e) {
                     OpenMCSkins.handleError(e);
                 }

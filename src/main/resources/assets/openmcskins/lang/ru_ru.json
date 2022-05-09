@@ -3,7 +3,7 @@
   "openmcskins.reloadConfig": "Перезагрузить конфиг OpenMCSkins \nи скины всех игроков из доступных хостов",
   "openmcskins.configure": "Настройки OpenMCSkins",
   "text.autoconfig.openmcskins.title": "Настройки OpenMCSkins",
-  "text.autoconfig.openmcskins.option.hosts": "Хосты (%s)",
+  "text.autoconfig.openmcskins.option.hosts": "Хосты",
   "text.autoconfig.openmcskins.option.resolvingTimeout": "Время на загрузку",
   "text.autoconfig.openmcskins.option.fullErrorMessage": "Печатать полное сообщение об ошибке",
   "text.autoconfig.openmcskins.option.hashingAlgorithm": "Алгоритм хэширования скинов",

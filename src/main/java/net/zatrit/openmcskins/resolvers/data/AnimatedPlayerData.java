@@ -3,6 +3,7 @@ package net.zatrit.openmcskins.resolvers.data;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.util.NetworkUtils;
 import net.zatrit.openmcskins.util.TextureUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,7 +35,7 @@ public abstract class AnimatedPlayerData extends IndexedPlayerData<String> {
     @Override
     public @Nullable Identifier downloadTexture(MinecraftProfileTexture.Type type) {
         try {
-            String textureUrl = textures.get(type);
+            String textureUrl = NetworkUtils.fixUrl(textures.get(type));
 
             if (isAnimated(type) && OpenMCSkins.getConfig().ignoreAnimatedCapes)
                 return null;
