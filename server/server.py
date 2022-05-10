@@ -11,6 +11,7 @@ import re
 PORT = 8080
 REDIRECTS = {}
 
+
 def findPath(type, hash, extension):
     keys = list(REDIRECTS[type].keys())
     values = list(REDIRECTS[type].values())
@@ -19,13 +20,15 @@ def findPath(type, hash, extension):
         extension = ".png"
     return f"textures/{type}/{redirect}{extension}"
 
+
 # https://stackoverflow.com/a/1761615/12245612
 # https://stackoverflow.com/a/68883969/12245612
 def crc32(fileName):
     prev = 0
-    for eachLine in open(fileName,"rb"):
+    for eachLine in open(fileName, "rb"):
         prev = zlib.crc32(eachLine, prev)
-    return "%X"%(prev & 0xFFFFFFFF)
+    return "%X" % (prev & 0xFFFFFFFF)
+
 
 def generateRedirect(type, name, extension):
     file = f'textures/{type}/{name}{extension}'
@@ -47,8 +50,10 @@ def generateRedirect(type, name, extension):
     REDIRECTS[type][name] = hash
     return f"/redirect/{type}/{hash}{extension}"
 
+
 class PlayerData(dict):
     def __init__(self, name, host):
+        super().__init__()
         for i in os.listdir("textures/"):
             for j in os.listdir(f"textures/{i}"):
                 found = re.findall("([^\"]*)(\.\w*)", j)[0]
@@ -60,6 +65,7 @@ class PlayerData(dict):
                     metadataFile = f'{os.getcwd()}/metadata/{i}/{name}.json'
                     if exists(metadataFile):
                         self[i.upper()]["metadata"] = json.load(open(metadataFile, 'rb'))
+
 
 # https://stackoverflow.com/a/52531444/12245612
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -78,6 +84,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-type", "image/png")
             self.end_headers()
             self.wfile.write(open(findPath(*found[0]), 'rb').read())
+
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print("Serving at port", PORT)
