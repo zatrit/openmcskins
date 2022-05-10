@@ -31,7 +31,7 @@ public class MinecraftCapesResolver implements Resolver<MinecraftCapesResolver.P
             data = GSON.<Map<String, ?>>fromJson(new InputStreamReader(new URL(url).openStream()), Map.class);
 
             Map<String, String> textures = (Map<String, String>) data.get("textures");
-            Arrays.stream(MinecraftProfileTexture.Type.values()).forEach(t -> {
+            Arrays.stream(MinecraftProfileTexture.Type.values()).parallel().forEach(t -> {
                 String k = t.toString().toLowerCase();
                 if (textures.containsKey(k) && textures.get(k) != null) this.textures.put(t, url);
             });

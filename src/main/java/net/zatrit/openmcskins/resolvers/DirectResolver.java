@@ -7,8 +7,6 @@ import net.zatrit.openmcskins.util.NetworkUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 public record DirectResolver(String baseUrl,
                              MinecraftProfileTexture.Type type) implements Resolver<DirectResolver.PlayerData> {
     @Contract("_ -> new")

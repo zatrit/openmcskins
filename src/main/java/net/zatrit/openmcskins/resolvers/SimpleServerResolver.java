@@ -17,40 +17,21 @@ import java.util.Objects;
 import static net.zatrit.openmcskins.util.CollectionUtils.getOfDefaultNonGeneric;
 
 public record SimpleServerResolver(String host, String format) implements Resolver<SimpleServerResolver.PlayerData> {
+    public SimpleServerResolver(String host) {
+        this(host, "%s/textures/%s");
+    }
 
     @Override
     public @NotNull PlayerData resolvePlayer(@NotNull GameProfile profile) throws IOException {
         // Example: http://127.0.0.1:8080/textures/PlayerName
         final String url = String.format(format, host(), profile.getName());
-        return fetchData(url);
-    }
 
-    private @NotNull SimpleServerResolver.PlayerData fetchData(String url) throws IOException {
         URL realUrl = new URL(Objects.requireNonNull(NetworkUtils.fixUrl(url)));
         BufferedReader in = new BufferedReader(new InputStreamReader(realUrl.openStream()));
         Map<String, Map<String, ?>> map = GSON.<Map<String, Map<String, ?>>>fromJson(in, Map.class);
+
         return new PlayerData(map);
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (SimpleServerResolver) obj;
-        return Objects.equals(this.host, that.host);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(host);
-    }
-
-    @Override
-    public String toString() {
-        return "SimpleServerResolver[" +
-                "host=" + host + ']';
-    }
-
 
     public static class PlayerData extends AnimatedPlayerData {
         @SuppressWarnings("unchecked")

@@ -41,6 +41,6 @@ public class GUIMaker {
     }
 
     public static List<Text> textListFromKey(String key) {
-        return Arrays.stream(I18n.translate(key).split("\n")).map(x -> (Text) new LiteralText(x)).toList();
+        return Arrays.stream(I18n.translate(key).split("\n")).parallel().map(x -> (Text) new LiteralText(x)).toList();
     }
 }

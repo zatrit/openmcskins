@@ -7,7 +7,7 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
-import net.zatrit.openmcskins.Hosts;
+import net.zatrit.openmcskins.HostType;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.mixin.MinecraftClientAccessor;
@@ -37,9 +37,9 @@ public class OpenMCSkinsConfig implements ConfigData {
     public OpenMCSkinsConfig() {
         this.offlineMode = ((MinecraftClientAccessor) MinecraftClient.getInstance()).getUserApiService() == UserApiService.OFFLINE;
 
-        this.hosts.add(new HostConfigItem(Hosts.OPTIFINE, null));
-        this.hosts.add(new HostConfigItem(Hosts.ELYBY, null));
-        this.hosts.add(new HostConfigItem(Hosts.MOJANG, null));
+        this.hosts.add(new HostConfigItem(HostType.OPTIFINE, null));
+        this.hosts.add(new HostConfigItem(HostType.ELYBY, null));
+        this.hosts.add(new HostConfigItem(HostType.MOJANG, null));
     }
 
     @Override

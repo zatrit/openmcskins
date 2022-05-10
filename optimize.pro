@@ -1,13 +1,12 @@
 -ignorewarnings
--renamesourcefileattribute
 -adaptclassstrings
 -repackageclasses
 -allowaccessmodification
 -mergeinterfacesaggressively
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
--keepattributes *Annotations*
--optimizationpasses 5
+-keepattributes *Annotation*
+-optimizationpasses 3
 -overloadaggressively
 -dontusemixedcaseclassnames
 
@@ -18,7 +17,6 @@
 -keepclassmembers class ** { @net.zatrit.openmcskins.annotation.KeepClassMember *; }
 
 -keepclassmembers enum net.zatrit.openmcskins.** { public *; }
--keepclassmembers enum org.yaml.snakeyaml.nodes.NodeId { public *; }
 
 -libraryjars <java.home>/jmods/java.base.jmod
 

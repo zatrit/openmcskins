@@ -40,7 +40,7 @@ public class OpenMCSkins implements ClientModInitializer {
     }
 
     public static List<? extends Resolver<?>> getResolvers() {
-        if (resolvers == null) resolvers = getConfig().hosts.stream().map(x -> {
+        if (resolvers == null) resolvers = getConfig().hosts.stream().parallel().map(x -> {
             try {
                 return x.createResolver();
             } catch (Exception ex) {

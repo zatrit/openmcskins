@@ -14,9 +14,9 @@ import java.io.InputStream;
 
 public class AnimatedTexture extends AbstractTexture {
     private final int[] ids;
+    private final int framesCount;
     private long lastFrameTime;
     private int frameIndex = 0;
-    private final int framesCount;
 
     public AnimatedTexture(InputStream source) throws IOException {
         NativeImage sourceImage = NativeImage.read(source);

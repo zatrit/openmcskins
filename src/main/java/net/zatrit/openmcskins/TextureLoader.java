@@ -15,8 +15,8 @@ import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.resolvers.Resolver;
 import net.zatrit.openmcskins.resolvers.data.IndexedPlayerData;
-import net.zatrit.openmcskins.util.textures.AnimatedTexture;
 import net.zatrit.openmcskins.util.NetworkUtils;
+import net.zatrit.openmcskins.util.textures.AnimatedTexture;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,9 +41,6 @@ public final class TextureLoader {
             // If all resolved leading PlayerData's loaded, it won't try to load,
             // and it's makes texture loading process faster
             while (profile.get() == null) Thread.onSpinWait();
-
-            if (leading.get().values().stream().allMatch(x -> x.getIndex() < i) && leading.get().size() == 2)
-                return Optional.empty();
 
             try {
                 Resolver<?> resolver = hosts.get(i);
@@ -104,7 +101,7 @@ public final class TextureLoader {
 
     public static void clearTextures() {
         TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
-        idRegistry.stream().filter(Objects::nonNull).filter(x -> textureManager.getTexture(x) instanceof AnimatedTexture).forEach(x -> textureManager.getTexture(x).close());
+        idRegistry.stream().parallel().filter(Objects::nonNull).filter(x -> textureManager.getTexture(x) instanceof AnimatedTexture).forEach(x -> textureManager.getTexture(x).close());
         idRegistry.clear();
     }
 
