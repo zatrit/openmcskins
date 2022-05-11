@@ -23,6 +23,8 @@ import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.Resolver;
 import net.zatrit.openmcskins.util.ConfigUtil;
+import net.zatrit.openmcskins.util.yaml.ConfigConstructor;
+import net.zatrit.openmcskins.util.yaml.ConfigRepresenter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,7 +92,7 @@ public class OpenMCSkins implements ClientModInitializer {
         AutoConfig.register(OpenMCSkinsConfig.class, (d, c) -> {
             DumperOptions dumperOptions = new DumperOptions();
             dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-            Yaml yaml =  new Yaml(new ConfigUtil.ConfigConstructor(), new ConfigUtil.ConfigRepresenter(), dumperOptions);
+            Yaml yaml =  new Yaml(new ConfigConstructor(), new ConfigRepresenter(), dumperOptions);
             return new YamlConfigSerializer<>(d, c, yaml);
         });
 
