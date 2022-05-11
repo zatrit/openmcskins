@@ -6,9 +6,11 @@ import net.zatrit.openmcskins.resolvers.Resolver;
 
 import javax.annotation.Nullable;
 
+import java.io.Serializable;
+
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
-public class HostConfigItem {
+public class HostConfigItem implements Serializable {
     @KeepClassMember
     public HostType type;
     @KeepClassMember

@@ -1,5 +1,6 @@
 package net.zatrit.openmcskins.gui;
 
+import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -11,6 +12,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.ModMenuEntry;
 import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,7 +33,7 @@ public class GUIMaker {
 
     @Contract(value = "_, _, _ -> new", pure = true)
     public static @NotNull ButtonWidget createConfigureButton(int x, int y, Screen screen) {
-        ButtonWidget.PressAction buttonClick = b -> MinecraftClient.getInstance().setScreen(new ModMenuEntry().getModConfigScreenFactory().create(screen));
+        ButtonWidget.PressAction buttonClick = b -> MinecraftClient.getInstance().setScreen(AutoConfig.getConfigScreen(OpenMCSkinsConfig.class, screen).get());
         return createButton(x, y, screen, CONFIGURE_BUTTON_TOOLTIP, CONFIGURE_BUTTON_LOCATION, buttonClick);
     }
 

@@ -1,8 +1,13 @@
 package net.zatrit.openmcskins;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
+import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.Tag;
 import net.zatrit.openmcskins.config.CosmeticaMode;
+import net.zatrit.openmcskins.config.HostConfigItem;
 import net.zatrit.openmcskins.resolvers.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unused")
 public enum HostType {
@@ -34,6 +39,16 @@ public enum HostType {
 
     HostType(ResolverConstructor construct) {
         this.construct = construct;
+    }
+
+    @Contract(" -> new")
+    public me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.@NotNull Tag getTag() {
+        return new Tag("!" + this.toString().toLowerCase());
+    }
+
+    @Contract(value = "_ -> new", pure = true)
+    public @NotNull HostConfigItem createHostConfigItem(@Nullable String data) {
+        return new HostConfigItem(this, data);
     }
 
     public Resolver<?> createResolver(String data) {

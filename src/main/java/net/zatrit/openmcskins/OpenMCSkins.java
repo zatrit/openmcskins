@@ -4,7 +4,9 @@ import com.google.common.hash.HashFunction;
 import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.gui.registry.GuiRegistry;
-import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
+import me.shedaniel.autoconfig.serializer.YamlConfigSerializer;
+import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.DumperOptions;
+import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.Yaml;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.StringListBuilder;
 import net.fabricmc.api.ClientModInitializer;
@@ -85,7 +87,12 @@ public class OpenMCSkins implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         RxJavaPlugins.setErrorHandler(OpenMCSkins::handleError);
-        AutoConfig.register(OpenMCSkinsConfig.class, Toml4jConfigSerializer::new);
+        AutoConfig.register(OpenMCSkinsConfig.class, (d, c) -> {
+            DumperOptions dumperOptions = new DumperOptions();
+            dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+            Yaml yaml =  new Yaml(new ConfigUtil.ConfigConstructor(), new ConfigUtil.ConfigRepresenter(), dumperOptions);
+            return new YamlConfigSerializer<>(d, c, yaml);
+        });
 
         GuiRegistry registry = AutoConfig.getGuiRegistry(OpenMCSkinsConfig.class);
 

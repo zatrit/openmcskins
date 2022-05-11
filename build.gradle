@@ -11,7 +11,7 @@ buildscript {
 }
 
 plugins {
-    id 'dev.architectury.loom' version '0.11.0-SNAPSHOT'
+    id 'fabric-loom' version '0.12-SNAPSHOT'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
@@ -25,7 +25,6 @@ group = project.maven_group
 repositories {
     mavenCentral()
     maven { url 'https://maven.parchmentmc.org' }
-    maven { url 'https://jitpack.io' }
     maven { url 'https://maven.shedaniel.me/' }
     maven { url 'https://maven.terraformersmc.com/' }
 }
@@ -39,12 +38,14 @@ dependencies {
     }
 
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}+${project.minecraft_version}"
 
     implementation "io.reactivex.rxjava3:rxjava:${project.rxjava_version}"
     shadow "io.reactivex.rxjava3:rxjava:${project.rxjava_version}"
 
-    modApi "me.shedaniel.cloth:cloth-config:${project.cloth_config_version}"
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"){
+        exclude group: "net.fabricmc"
+        exclude group: "net.fabricmc.fabric-api"
+    }
     modApi("com.terraformersmc:modmenu:${project.modmenu_version}") {
         exclude group: "net.fabricmc"
         exclude group: "net.fabricmc.fabric-api"
@@ -95,7 +96,6 @@ shadowJar {
     from "NOTICE"
 
     dependencies {
-        exclude '**/META-INF/maven/**'
         exclude '**/META-INF/proguard/**'
     }
     minimize()
