@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static net.zatrit.openmcskins.util.CollectionUtils.getOfDefaultNonGeneric;
+import static net.zatrit.openmcskins.util.CollectionUtils.getOrDefaultNonGeneric;
 
 public record SimpleServerResolver(String host, String format) implements Resolver<SimpleServerResolver.PlayerData> {
     public SimpleServerResolver(String host) {
@@ -38,7 +38,7 @@ public record SimpleServerResolver(String host, String format) implements Resolv
         public PlayerData(Map<String, Map<String, ?>> data) {
             if (data != null) data.forEach((k, v) -> {
                 MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(k);
-                Map<String, ?> metadata = (Map<String, ?>) getOfDefaultNonGeneric(v, "metadata", new HashMap<>());
+                Map<String, ?> metadata = (Map<String, ?>) getOrDefaultNonGeneric(v, "metadata", new HashMap<>());
 
                 this.textures.put(type, (String) v.get("url"));
 

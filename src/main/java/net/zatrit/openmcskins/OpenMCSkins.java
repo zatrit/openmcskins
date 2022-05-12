@@ -23,6 +23,7 @@ import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.Resolver;
 import net.zatrit.openmcskins.util.ConfigUtil;
+import net.zatrit.openmcskins.util.PlayerSessionsUtil;
 import net.zatrit.openmcskins.util.yaml.ConfigConstructor;
 import net.zatrit.openmcskins.util.yaml.ConfigRepresenter;
 import org.jetbrains.annotations.NotNull;
@@ -72,8 +73,8 @@ public class OpenMCSkins implements ClientModInitializer {
 
     public static void invalidateAllResolvers() {
         OpenMCSkins.resolvers = null;
-        TextureLoader.getUuidCache().cleanUp();
-        TextureLoader.clearTextures();
+        PlayerSessionsUtil.getUuidCache().cleanUp();
+        PlayerSessionsUtil.clearTextures();
 
         MinecraftClient client = MinecraftClient.getInstance();
 

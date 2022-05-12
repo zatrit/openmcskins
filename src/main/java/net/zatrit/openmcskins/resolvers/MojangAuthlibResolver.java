@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.TextureLoader;
 import net.zatrit.openmcskins.resolvers.data.IndexedPlayerData;
+import net.zatrit.openmcskins.util.PlayerSessionsUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class MojangAuthlibResolver implements Resolver<MojangAuthlibResolver.PlayerData> {
@@ -17,8 +18,8 @@ public class MojangAuthlibResolver implements Resolver<MojangAuthlibResolver.Pla
     public static class PlayerData extends IndexedPlayerData<MinecraftProfileTexture> {
         public PlayerData(@NotNull GameProfile profile) {
             if (profile.getProperties().isEmpty())
-                TextureLoader.getSessionService().fillProfileProperties(profile, true);
-            PlayerData.this.textures.putAll(TextureLoader.getSessionService().getTextures(profile, true));
+                PlayerSessionsUtil.getSessionService().fillProfileProperties(profile, true);
+            PlayerData.this.textures.putAll(PlayerSessionsUtil.getSessionService().getTextures(profile, true));
             if (PlayerData.this.textures.containsKey(MinecraftProfileTexture.Type.SKIN))
                 PlayerData.this.setModel(textures.get(MinecraftProfileTexture.Type.SKIN).getMetadata("model"));
         }
