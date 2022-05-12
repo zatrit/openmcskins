@@ -29,6 +29,8 @@ This is a mod that allows skins and capes to be use in various ways.
 This mod using a [Cloth config](https://www.curseforge.com/minecraft/mc-mods/cloth-config) for configuration, and you
 can access OpenMCSkins options from **"Skin customization..."** options
 
+The host list contains all hosts as strings, like ``{type}`` or ``{type}: {value}``
+
 ### How to edit config manually
 
 The mod's configuration is located at **[minecraft game location]/config/openmcskins.yml**. You can edit it with any

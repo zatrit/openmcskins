@@ -50,6 +50,7 @@ dependencies {
         exclude group: "net.fabricmc"
         exclude group: "net.fabricmc.fabric-api"
     }
+    modApi "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}+${project.minecraft_version}"
 }
 
 // Using remote repo as mod site if project.mod_url is missing

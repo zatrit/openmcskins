@@ -14,13 +14,13 @@ public class ConfigConstructor extends Constructor {
         super(OpenMCSkinsConfig.class);
 
         for (HostType type : HostType.values())
-            this.yamlConstructors.put(type.getTag(), new HostConstruct(type));
+            this.yamlConstructors.put(type.getTag(), new HostConstructRepresent(type));
     }
 
-    public class HostConstruct extends AbstractConstruct {
+    public class HostConstructRepresent extends AbstractConstruct {
         private final HostType type;
 
-        public HostConstruct(HostType type) {
+        public HostConstructRepresent(HostType type) {
             this.type = type;
         }
 

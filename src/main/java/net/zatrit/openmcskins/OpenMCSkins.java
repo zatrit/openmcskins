@@ -92,7 +92,7 @@ public class OpenMCSkins implements ClientModInitializer {
         AutoConfig.register(OpenMCSkinsConfig.class, (d, c) -> {
             DumperOptions dumperOptions = new DumperOptions();
             dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-            Yaml yaml =  new Yaml(new ConfigConstructor(), new ConfigRepresenter(), dumperOptions);
+            Yaml yaml = new Yaml(new ConfigConstructor(), new ConfigRepresenter(), dumperOptions);
             return new YamlConfigSerializer<>(d, c, yaml);
         });
 
