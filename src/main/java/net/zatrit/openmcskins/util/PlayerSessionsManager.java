@@ -19,11 +19,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
-public class PlayerSessionsUtil {
+public final class PlayerSessionsManager {
     private final static YggdrasilMinecraftSessionService sessionService = (YggdrasilMinecraftSessionService) MinecraftClient.getInstance().getSessionService();
     private final static YggdrasilGameProfileRepository profileRepository = (YggdrasilGameProfileRepository) sessionService.getAuthenticationService().createProfileRepository();
     private static final Cache<String, UUID> uuidCache = CacheBuilder.newBuilder().build();
     private static final ArrayList<Identifier> idRegistry = new ArrayList<>();
+
+    private PlayerSessionsManager() {
+    }
 
     public static MinecraftSessionService getSessionService() {
         return sessionService;

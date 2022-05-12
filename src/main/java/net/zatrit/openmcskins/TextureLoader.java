@@ -1,28 +1,20 @@
 package net.zatrit.openmcskins;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
-import com.mojang.authlib.minecraft.MinecraftSessionService;
-import com.mojang.authlib.yggdrasil.YggdrasilGameProfileRepository;
-import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.resolvers.Resolver;
 import net.zatrit.openmcskins.resolvers.data.IndexedPlayerData;
-import net.zatrit.openmcskins.util.NetworkUtils;
-import net.zatrit.openmcskins.util.PlayerSessionsUtil;
-import net.zatrit.openmcskins.util.textures.AnimatedTexture;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
+import net.zatrit.openmcskins.util.PlayerSessionsManager;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -57,10 +49,10 @@ public final class TextureLoader {
             // Or time out
             leading.get().forEach((k, v) -> {
                 Identifier identifier = v.downloadTexture(k);
-                PlayerSessionsUtil.registerId(identifier);
+                PlayerSessionsManager.registerId(identifier);
                 callback.onTextureResolved(k, identifier, v.getModelOrDefault());
             });
-        }).doOnSubscribe(a -> profile.set(PlayerSessionsUtil.getGameProfile(player))).doOnError(OpenMCSkins::handleError).subscribe();
+        }).doOnSubscribe(a -> profile.set(PlayerSessionsManager.getGameProfile(player))).doOnError(OpenMCSkins::handleError).subscribe();
     }
 
     public interface TextureResolveCallback {

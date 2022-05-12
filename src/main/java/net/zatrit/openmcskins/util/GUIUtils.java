@@ -13,7 +13,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
-public class GUIUtils {
+public final class GUIUtils {
+    private GUIUtils() {
+    }
 
     public static @NotNull ButtonWidget createButton(int x, int y, Screen screen, List<Text> tooltip, Identifier resource, ButtonWidget.PressAction buttonClick) {
         ButtonWidget.TooltipSupplier renderTooltip = (ButtonWidget b, MatrixStack ma, int mx, int my) -> screen.renderTooltip(ma, tooltip, mx, my);
