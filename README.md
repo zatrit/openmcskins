@@ -2,7 +2,7 @@
 
 <a href="https://www.curseforge.com/minecraft/mc-mods/openmcskins"><img src="https://cf.way2muchnoise.eu/versions/620015_latest.svg"></a>
 
-This mod is not affiliated with Mojang, Optifine, LabyMod, MinecraftCapes mod, Cloaks+, TLauncher, ely.by, 5ZigReborn or Cosmetica mod
+*This mod is not affiliated with Mojang, Optifine, LabyMod, MinecraftCapes mod, Cloaks+, TLauncher, ely.by, 5ZigReborn or Cosmetica mod*
 
 ## What is it?
 
