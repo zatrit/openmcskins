@@ -2,6 +2,8 @@
 
 <a href="https://www.curseforge.com/minecraft/mc-mods/openmcskins"><img src="https://cf.way2muchnoise.eu/versions/620015_latest.svg"></a>
 
+This mod is not affiliated with Mojang, Optifine, LabyMod, MinecraftCapes mod, Cloaks+, TLauncher, ely.by, 5ZigReborn or Cosmetica mod
+
 ## What is it?
 
 This is a mod that allows skins and capes to be use in various ways.
@@ -20,7 +22,7 @@ This is a mod that allows skins and capes to be use in various ways.
 * From [ely.by API](https://docs.ely.by/en/skins-system.html)
 * From [Optifine](https://optifine.net/home) cape system
 * From [LabyMod](https://www.labymod.net/en) capes system
-* From [5Zig](https://5zigreborn.eu/) capes system
+* From [5ZigReborn](https://5zigreborn.eu/) capes system
 * From [Cosmetica](https://cosmetica.cc/) capes system
 * From [MinecraftCapes](https://minecraftcapes.net/) capes system (no ears yet)
 
