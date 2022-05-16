@@ -3,7 +3,7 @@ package net.zatrit.openmcskins.mixin;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.resolvers.loader.TextureLoader;
+import net.zatrit.openmcskins.loader.TextureLoader;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

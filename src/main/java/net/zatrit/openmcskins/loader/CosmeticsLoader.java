@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.resolvers.loader;
+package net.zatrit.openmcskins.loader;
 
 import com.google.gson.internal.LinkedTreeMap;
 import net.dorianpb.cem.internal.file.JemFile;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.IntStream;
 
-public class CosmeticsManager {
+public class CosmeticsLoader {
     public static Map<String, List<CosmeticsItem>> COSMETICS = new HashMap<>();
 
     @SuppressWarnings("unchecked")
@@ -40,7 +40,7 @@ public class CosmeticsManager {
         else
             modelParts = IntStream.range(0, models.size()).boxed().map(i -> getPartByIndex(registry, models, i)).filter(Objects::nonNull).toList();
 
-        return new CosmeticsManager.CosmeticsItem(textureId, modelParts, attaches);
+        return new CosmeticsLoader.CosmeticsItem(textureId, modelParts, attaches);
     }
 
     private static ModelPart getPartByIndex(@NotNull CemModelRegistry registry, @NotNull List<LinkedTreeMap<String, Object>> models, int index) {
@@ -48,8 +48,5 @@ public class CosmeticsManager {
     }
 
     public record CosmeticsItem(Identifier texture, List<ModelPart> parts, List<String> attaches) {
-        public CosmeticsItem(Identifier texture, List<ModelPart> parts) {
-            this(texture, parts, null);
-        }
     }
 }

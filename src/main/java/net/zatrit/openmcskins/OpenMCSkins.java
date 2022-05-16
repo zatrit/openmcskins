@@ -23,7 +23,7 @@ import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.OptifineResolver;
 import net.zatrit.openmcskins.resolvers.Resolver;
-import net.zatrit.openmcskins.resolvers.loader.CosmeticsManager;
+import net.zatrit.openmcskins.loader.CosmeticsLoader;
 import net.zatrit.openmcskins.util.ConfigUtil;
 import net.zatrit.openmcskins.util.PlayerSessionsManager;
 import net.zatrit.openmcskins.util.io.LocalAssetsCache;
@@ -80,7 +80,7 @@ public class OpenMCSkins implements ClientModInitializer {
         OpenMCSkins.resolvers = null;
         PlayerSessionsManager.getUuidCache().cleanUp();
         PlayerSessionsManager.clearTextures();
-        CosmeticsManager.COSMETICS.clear();
+        CosmeticsLoader.COSMETICS.clear();
         OptifineResolver.PlayerSkinHandler.alreadyLoaded.clear();
 
         MinecraftClient client = MinecraftClient.getInstance();

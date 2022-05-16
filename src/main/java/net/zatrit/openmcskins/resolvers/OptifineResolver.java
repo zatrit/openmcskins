@@ -9,7 +9,7 @@ import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.resolvers.handler.PlayerCosmeticsHandler;
-import net.zatrit.openmcskins.resolvers.loader.CosmeticsManager;
+import net.zatrit.openmcskins.loader.CosmeticsLoader;
 import net.zatrit.openmcskins.util.io.NetworkUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +20,8 @@ import java.io.Reader;
 import java.net.URL;
 import java.util.*;
 
-public record OptifineResolver(String baseUrl) implements Resolver<OptifineResolver.PlayerSkinHandler> {
+public record OptifineResolver(
+        String baseUrl) implements Resolver<OptifineResolver.PlayerSkinHandler>, PlayerCosmeticsResolver<OptifineResolver.PlayerSkinHandler> {
     public OptifineResolver(String baseUrl) {
         this.baseUrl = NetworkUtils.fixUrl(baseUrl);
     }
@@ -45,8 +46,7 @@ public record OptifineResolver(String baseUrl) implements Resolver<OptifineResol
         }
 
         private static void loadTextureFromUrl(String url, Identifier id) throws Exception {
-            if (alreadyLoaded.contains(id))
-                return;
+            if (alreadyLoaded.contains(id)) return;
 
             NativeImage image = NativeImage.read(OpenMCSkins.getSkinsCache().getOrDownload(url, () -> new URL(url).openStream()));
             MinecraftClient.getInstance().getTextureManager().registerTexture(id, new NativeImageBackedTexture(image));
@@ -60,7 +60,7 @@ public record OptifineResolver(String baseUrl) implements Resolver<OptifineResol
 
         @SuppressWarnings("unchecked")
         @Override
-        public List<CosmeticsManager.CosmeticsItem> downloadCosmetics() {
+        public List<CosmeticsLoader.CosmeticsItem> downloadCosmetics() {
             try {
                 String urlString = formatUrl("%s/users/%s.cfg", profile.getName());
                 URL realUrl = new URL(urlString);
@@ -70,7 +70,7 @@ public record OptifineResolver(String baseUrl) implements Resolver<OptifineResol
                     LinkedTreeMap<String, Object> map = mapFromReader(in);
                     List<Map<String, Object>> items = (List<Map<String, Object>>) map.get("items");
 
-                    List<CosmeticsManager.CosmeticsItem> cosmeticsItems = new ArrayList<>();
+                    List<CosmeticsLoader.CosmeticsItem> cosmeticsItems = new ArrayList<>();
 
                     items.forEach(item -> {
                         if (Objects.equals(item.get("active"), "true")) {
@@ -84,7 +84,7 @@ public record OptifineResolver(String baseUrl) implements Resolver<OptifineResol
                                 Reader reader = new InputStreamReader(OpenMCSkins.getModelsCache().getOrDownload(modelUrl.toString(), modelUrl::openStream));
 
                                 LinkedTreeMap<String, Object> model = mapFromReader(reader);
-                                cosmeticsItems.add(CosmeticsManager.getCosmetics(textureId, modelId, model, modelType));
+                                cosmeticsItems.add(CosmeticsLoader.getCosmetics(textureId, modelId, model, modelType));
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
