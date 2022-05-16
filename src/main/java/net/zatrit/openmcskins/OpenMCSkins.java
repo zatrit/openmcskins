@@ -41,8 +41,6 @@ import java.util.Objects;
 public class OpenMCSkins implements ClientModInitializer {
     public static final String MOD_ID = "openmcskins";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    private static final LocalAssetsCache modelsCache = new LocalAssetsCache("models");
-    private static final LocalAssetsCache skinsCache = new LocalAssetsCache("skins");
     private static List<? extends Resolver<?>> resolvers;
 
     public static OpenMCSkinsConfig getConfig() {
@@ -92,14 +90,6 @@ public class OpenMCSkins implements ClientModInitializer {
                 if (entry != null) ((PlayerListEntryAccessor) entry).setTexturesLoaded(false);
             }
         }
-    }
-
-    public static LocalAssetsCache getModelsCache() {
-        return modelsCache;
-    }
-
-    public static LocalAssetsCache getSkinsCache() {
-        return skinsCache;
     }
 
     @Override

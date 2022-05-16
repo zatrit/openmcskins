@@ -8,8 +8,9 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.resolvers.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.loader.CosmeticsLoader;
+import net.zatrit.openmcskins.resolvers.handler.PlayerCosmeticsHandler;
+import net.zatrit.openmcskins.Cache;
 import net.zatrit.openmcskins.util.io.NetworkUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +49,7 @@ public record OptifineResolver(
         private static void loadTextureFromUrl(String url, Identifier id) throws Exception {
             if (alreadyLoaded.contains(id)) return;
 
-            NativeImage image = NativeImage.read(OpenMCSkins.getSkinsCache().getOrDownload(url, () -> new URL(url).openStream()));
+            NativeImage image = NativeImage.read(Cache.SKINS.getCache().getOrDownload(url, () -> new URL(url).openStream()));
             MinecraftClient.getInstance().getTextureManager().registerTexture(id, new NativeImageBackedTexture(image));
 
             alreadyLoaded.add(id);
@@ -81,7 +82,7 @@ public record OptifineResolver(
                             try {
                                 loadTextureFromUrl(formatUrl("%s/%s", (String) item.get("texture")), textureId);
                                 URL modelUrl = new URL(formatUrl("%s/%s", (String) item.get("model")));
-                                Reader reader = new InputStreamReader(OpenMCSkins.getModelsCache().getOrDownload(modelUrl.toString(), modelUrl::openStream));
+                                Reader reader = new InputStreamReader(Cache.MODELS.getCache().getOrDownload(modelType, modelUrl::openStream));
 
                                 LinkedTreeMap<String, Object> model = mapFromReader(reader);
                                 cosmeticsItems.add(CosmeticsLoader.getCosmetics(textureId, modelId, model, modelType));

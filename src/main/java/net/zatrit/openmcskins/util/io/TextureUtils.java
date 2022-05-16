@@ -4,6 +4,7 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.util.Identifier;
+import net.zatrit.openmcskins.Cache;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.render.textures.AnimatedTexture;
 import org.jetbrains.annotations.Contract;
@@ -26,7 +27,7 @@ public final class TextureUtils {
     public static @Nullable Identifier loadStaticTexture(StreamOpener sourceStream, String name, int @NotNull [] aspects, boolean cache) throws Exception {
         int width = aspects[0];
         int height = aspects[1];
-        File cacheFile = OpenMCSkins.getSkinsCache().getCacheFile(name);
+        File cacheFile = Cache.SKINS.getCache().getCacheFile(name);
         BufferedImage image;
 
         if (cacheFile.isFile() && cache) image = ImageIO.read(new FileInputStream(cacheFile));
@@ -45,7 +46,7 @@ public final class TextureUtils {
     }
 
     public static @NotNull Identifier loadAnimatedTexture(StreamOpener sourceStream, String name, boolean cache) throws Exception {
-        InputStream stream = cache ? OpenMCSkins.getSkinsCache().getOrDownload(name, sourceStream) : sourceStream.openStream();
+        InputStream stream = cache ? Cache.SKINS.getCache().getOrDownload(name, sourceStream) : sourceStream.openStream();
         AnimatedTexture animatedTexture = new AnimatedTexture(stream);
 
         Identifier id = new Identifier("animated/" + OpenMCSkins.getHashFunction().hashUnencodedChars(name));
@@ -62,7 +63,7 @@ public final class TextureUtils {
 
     @Contract(pure = true)
     public static @Nullable Identifier loadPlayerSkin(Supplier<InputStream> sourceStream, String model, String textureUrl, boolean cache) throws IOException {
-        File cacheFile = OpenMCSkins.getSkinsCache().getCacheFile(textureUrl);
+        File cacheFile = Cache.SKINS.getCache().getCacheFile(textureUrl);
         NativeImage nativeImage;
 
         if (cacheFile.isFile()) {
