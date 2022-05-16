@@ -37,5 +37,9 @@
     "offlineskins": "*",
     "capes": "*",
     "optifabric": "*"
+  },
+  "recommends": {
+    "modmenu": "*",
+    "cem": "*"
   }
 }
