@@ -1,9 +1,10 @@
-package net.zatrit.openmcskins.util;
+package net.zatrit.openmcskins.util.io;
 
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.GameProfileRepository;
 import com.mojang.authlib.ProfileLookupCallback;
+import net.zatrit.openmcskins.annotation.KeepClassMember;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -35,12 +36,14 @@ public final class NetworkUtils {
         AtomicReference<UUID> uuid = new AtomicReference<>();
 
         repo.findProfilesByNames(new String[]{name}, Agent.MINECRAFT, new ProfileLookupCallback() {
+            @KeepClassMember
             @Override
             public void onProfileLookupSucceeded(GameProfile profile) {
                 uuid.set(profile.getId());
                 if (uuid.get() == null) uuid.set(UUID.randomUUID());
             }
 
+            @KeepClassMember
             @Override
             public void onProfileLookupFailed(GameProfile profile, Exception exception) {
                 uuid.set(UUID.randomUUID());

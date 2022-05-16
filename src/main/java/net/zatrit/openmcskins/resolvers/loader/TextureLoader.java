@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins;
+package net.zatrit.openmcskins.resolvers.loader;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
@@ -6,23 +6,24 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
+import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.resolvers.Resolver;
-import net.zatrit.openmcskins.resolvers.data.IndexedPlayerData;
+import net.zatrit.openmcskins.resolvers.handler.IndexedPlayerHandler;
+import net.zatrit.openmcskins.resolvers.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.util.PlayerSessionsManager;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public final class TextureLoader {
-    public static void resolve(PlayerListEntry player, TextureResolveCallback callback) {
+    public static void resolveSkin(PlayerListEntry player, SkinResolveCallback callback) {
         final List<? extends Resolver<?>> hosts = OpenMCSkins.getResolvers();
-        final AtomicReference<Map<Type, IndexedPlayerData<?>>> leading = new AtomicReference<>(new HashMap<>());
+        final AtomicReference<Map<Type, IndexedPlayerHandler<?>>> leading = new AtomicReference<>(new HashMap<>());
         final AtomicReference<GameProfile> profile = new AtomicReference<>(null);
+
+        OpenMCSkins.LOGGER.info("BBBB");
 
         Flowable.range(0, hosts.size()).parallel().runOn(Schedulers.io()).mapOptional(i -> {
             // Get PlayerData from resolver
@@ -50,12 +51,41 @@ public final class TextureLoader {
             leading.get().forEach((k, v) -> {
                 Identifier identifier = v.downloadTexture(k);
                 PlayerSessionsManager.registerId(identifier);
-                callback.onTextureResolved(k, identifier, v.getModelOrDefault());
+                callback.onSkinResolved(k, identifier, v.getModelOrDefault());
             });
         }).doOnSubscribe(a -> profile.set(PlayerSessionsManager.getGameProfile(player))).doOnError(OpenMCSkins::handleError).subscribe();
     }
 
-    public interface TextureResolveCallback {
-        void onTextureResolved(Type type, @Nullable Identifier location, String model);
+    public static void resolveCosmetics(PlayerListEntry player) {
+        final List<? extends Resolver<?>> hosts = OpenMCSkins.getResolvers();
+        final AtomicReference<GameProfile> profile = new AtomicReference<>(player.getProfile());
+        final List<CosmeticsManager.CosmeticsItem> cosmetics = new ArrayList<>();
+        CosmeticsManager.COSMETICS.put(profile.get().getName(), cosmetics);
+
+        OpenMCSkins.LOGGER.info("AAAA");
+
+        Flowable.range(0, hosts.size()).parallel().runOn(Schedulers.io()).doOnNext(i -> {
+            while (profile.get() == null) Thread.onSpinWait();
+
+            try {
+                IndexedPlayerHandler<?> data = hosts.get(i).resolvePlayer(profile.get());
+                if (data instanceof PlayerCosmeticsHandler)
+                    cosmetics.addAll(Objects.requireNonNull(((PlayerCosmeticsHandler) data).downloadCosmetics()));
+            } catch (NullPointerException ex) {
+                OpenMCSkins.handleError(ex);
+            }
+        }).sequential().timeout(OpenMCSkins.getConfig().resolvingTimeout, TimeUnit.SECONDS).doFinally(() -> {
+            if (cosmetics.size() > 0) CosmeticsManager.COSMETICS.put(profile.get().getName(), cosmetics);
+        }).doOnError(OpenMCSkins::handleError).subscribe();
+    }
+
+    @FunctionalInterface
+    public interface SkinResolveCallback {
+        void onSkinResolved(Type type, @Nullable Identifier location, String model);
+    }
+
+    @FunctionalInterface
+    public interface CosmeticsResolveCallback {
+        void onCosmeticsResolved(Type type, @Nullable Identifier location, String model);
     }
 }

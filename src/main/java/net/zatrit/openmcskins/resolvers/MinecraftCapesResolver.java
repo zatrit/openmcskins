@@ -2,7 +2,7 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.zatrit.openmcskins.resolvers.data.AnimatedPlayerData;
+import net.zatrit.openmcskins.resolvers.handler.AnimatedTexturePlayerHandler;
 import org.apache.commons.codec.binary.Base64;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,18 +14,18 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
 
-public class MinecraftCapesResolver implements Resolver<MinecraftCapesResolver.PlayerData> {
+public class MinecraftCapesResolver implements Resolver<MinecraftCapesResolver.PlayerHandler> {
     @Override
-    public PlayerData resolvePlayer(GameProfile profile) throws IOException {
-        return new PlayerData(profile);
+    public PlayerHandler resolvePlayer(GameProfile profile) throws IOException {
+        return new PlayerHandler(profile);
     }
 
-    public static class PlayerData extends AnimatedPlayerData {
+    public static class PlayerHandler extends AnimatedTexturePlayerHandler {
         private static final String BASE_URL = "https://minecraftcapes.net/profile/";
         private final Map<String, ?> data;
 
         @SuppressWarnings("unchecked")
-        public PlayerData(@NotNull GameProfile profile) throws IOException {
+        public PlayerHandler(@NotNull GameProfile profile) throws IOException {
             String url = BASE_URL + profile.getId().toString().replace("-", "");
 
             data = GSON.<Map<String, ?>>fromJson(new InputStreamReader(new URL(url).openStream()), Map.class);

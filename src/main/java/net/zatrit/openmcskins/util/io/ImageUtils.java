@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.util;
+package net.zatrit.openmcskins.util.io;
 
 import com.google.common.math.IntMath;
 import net.minecraft.client.MinecraftClient;

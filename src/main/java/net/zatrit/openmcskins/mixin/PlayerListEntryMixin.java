@@ -3,7 +3,7 @@ package net.zatrit.openmcskins.mixin;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.TextureLoader;
+import net.zatrit.openmcskins.resolvers.loader.TextureLoader;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,7 +35,7 @@ public abstract class PlayerListEntryMixin {
             this.textures.clear();
 
             PlayerListEntry info = PlayerListEntry.class.cast(this);
-            TextureLoader.resolve(info, (t, r, model) -> {
+            TextureLoader.resolveSkin(info, (t, r, model) -> {
                 if (r == null)
                     return;
 

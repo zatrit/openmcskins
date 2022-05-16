@@ -20,7 +20,7 @@
       "net.zatrit.openmcskins.OpenMCSkins"
     ],
     "modmenu": [
-      "net.zatrit.openmcskins.ModMenuEntry"
+      "net.zatrit.openmcskins.OpenMCSkinsModMenu"
     ]
   },
   "mixins": [

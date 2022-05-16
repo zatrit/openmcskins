@@ -9,13 +9,14 @@
   "text.autoconfig.openmcskins.option.hashingAlgorithm": "Алгоритм хэширования скинов",
   "text.autoconfig.openmcskins.option.offlineMode": "Оффлайн (пиратский) режим",
   "text.autoconfig.openmcskins.option.ignoreAnimatedCapes": "Игнорировать анимированные плащи",
+  "text.autoconfig.openmcskins.option.cosmetics": "Косметика",
+  "text.autoconfig.openmcskins.option.cosmetics.@Tooltip": "Для работы необходим мод CEM",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[0]": "Алгоритм, генерирующий имя для скина",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[1]": "",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[2]": " SHA384 (РЕКОМЕНДУЕТСЯ) - генерирует уникальное имя для",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[3]": "  каждого файла скина, но они имеют большую длину",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[4]": " SHA1 - устарел, но используется в ванильном Minecraft",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[5]": " CRC32 (не алгоритм хэширования) - генерирует",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[6]": "  короткие имена файлов, но возможны повторения",
-  "text.openmcskins.validation_error": "Неверная конфигурация!",
-  "text.openmcskins.optifine": "Плащи Optifine"
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[1]": " SHA384 (РЕКОМЕНДУЕТСЯ) - генерирует уникальное имя для",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[2]": "  каждого файла скина, но они имеют большую длину",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[3]": " SHA1 - устарел, но используется в ванильном Minecraft",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[4]": " CRC32 - генерирует короткие имена файлов, но",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[5]": "  имеет высокий шанс коллизий",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[6]": " MURMUR3 - очень быстрый алгоритм хэширования",
+  "text.openmcskins.validation_error": "Неверная конфигурация!"
 }

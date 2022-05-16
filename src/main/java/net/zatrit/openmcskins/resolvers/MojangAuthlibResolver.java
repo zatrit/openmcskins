@@ -4,23 +4,23 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.resolvers.data.IndexedPlayerData;
+import net.zatrit.openmcskins.resolvers.handler.IndexedPlayerHandler;
 import net.zatrit.openmcskins.util.PlayerSessionsManager;
 import org.jetbrains.annotations.NotNull;
 
-public class MojangAuthlibResolver implements Resolver<MojangAuthlibResolver.PlayerData> {
+public class MojangAuthlibResolver implements Resolver<MojangAuthlibResolver.PlayerHandler> {
     @Override
-    public PlayerData resolvePlayer(GameProfile profile) {
-        return new PlayerData(profile);
+    public PlayerHandler resolvePlayer(GameProfile profile) {
+        return new PlayerHandler(profile);
     }
 
-    public static class PlayerData extends IndexedPlayerData<MinecraftProfileTexture> {
-        public PlayerData(@NotNull GameProfile profile) {
+    public static class PlayerHandler extends IndexedPlayerHandler<MinecraftProfileTexture> {
+        public PlayerHandler(@NotNull GameProfile profile) {
             if (profile.getProperties().isEmpty())
                 PlayerSessionsManager.getSessionService().fillProfileProperties(profile, true);
-            PlayerData.this.textures.putAll(PlayerSessionsManager.getSessionService().getTextures(profile, true));
-            if (PlayerData.this.textures.containsKey(MinecraftProfileTexture.Type.SKIN))
-                PlayerData.this.setModel(textures.get(MinecraftProfileTexture.Type.SKIN).getMetadata("model"));
+            PlayerHandler.this.textures.putAll(PlayerSessionsManager.getSessionService().getTextures(profile, true));
+            if (PlayerHandler.this.textures.containsKey(MinecraftProfileTexture.Type.SKIN))
+                PlayerHandler.this.setModel(textures.get(MinecraftProfileTexture.Type.SKIN).getMetadata("model"));
         }
 
         @Override

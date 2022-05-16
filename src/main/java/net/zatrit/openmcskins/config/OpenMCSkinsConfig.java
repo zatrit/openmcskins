@@ -5,6 +5,7 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.zatrit.openmcskins.HostType;
@@ -34,9 +35,13 @@ public class OpenMCSkinsConfig implements ConfigData, Serializable {
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip(count = 7)
     public HashingAlgorithm hashingAlgorithm = HashingAlgorithm.SHA384;
+    @KeepClassMember
+    @ConfigEntry.Gui.Tooltip()
+    public boolean cosmetics;
 
     public OpenMCSkinsConfig() {
         this.offlineMode = ((MinecraftClientAccessor) MinecraftClient.getInstance()).getUserApiService() == UserApiService.OFFLINE;
+        this.cosmetics = FabricLoader.getInstance().isModLoaded("cem");
 
         this.hosts.add(new HostConfigItem(HostType.OPTIFINE, null));
         this.hosts.add(new HostConfigItem(HostType.ELYBY, null));

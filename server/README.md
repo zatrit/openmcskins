@@ -28,3 +28,11 @@ Skin metadata is a JSON file, that contains skin model name
   "model": "slim"
 }
 ```
+
+### Example animated cape metadata
+
+```json
+{
+  "animated": true
+}
+```

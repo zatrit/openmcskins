@@ -3,10 +3,9 @@ package net.zatrit.openmcskins.resolvers;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.resolvers.data.IndexedPlayerData;
-import net.zatrit.openmcskins.util.NetworkUtils;
-import net.zatrit.openmcskins.util.TextureUtils;
+import net.zatrit.openmcskins.resolvers.handler.IndexedPlayerHandler;
+import net.zatrit.openmcskins.util.io.NetworkUtils;
+import net.zatrit.openmcskins.util.io.TextureUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,16 +16,16 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class _5ZigRebornResolver implements Resolver<_5ZigRebornResolver.PlayerData> {
+public class _5ZigRebornResolver implements Resolver<_5ZigRebornResolver.PlayerHandler> {
     @Override
-    public PlayerData resolvePlayer(GameProfile profile) {
-        return new PlayerData(profile);
+    public PlayerHandler resolvePlayer(GameProfile profile) {
+        return new PlayerHandler(profile);
     }
 
-    public static class PlayerData extends IndexedPlayerData<String> {
+    public static class PlayerHandler extends IndexedPlayerHandler<String> {
         private static final String BASE_URL = "https://textures.5zigreborn.eu/profile/";
 
-        public PlayerData(@NotNull GameProfile profile) {
+        public PlayerHandler(@NotNull GameProfile profile) {
             String url = BASE_URL + profile.getId();
             if (NetworkUtils.getResponseCode(url) != 200) return;
 
@@ -43,10 +42,9 @@ public class _5ZigRebornResolver implements Resolver<_5ZigRebornResolver.PlayerD
                 String base64String = map.get("d");
                 if (base64String == null) return null;
                 byte[] bytes = Base64.decodeBase64(base64String);
-                return TextureUtils.loadStaticTexture(new ByteArrayInputStream(bytes), url, TextureUtils.getAspects(type), true);
+                return TextureUtils.loadStaticTexture(() -> new ByteArrayInputStream(bytes), url, TextureUtils.getAspects(type), true);
             } catch (Exception e) {
-                OpenMCSkins.handleError(e);
-                return null;
+                throw new RuntimeException(e);
             }
         }
     }

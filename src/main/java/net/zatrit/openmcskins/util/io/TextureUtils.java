@@ -1,64 +1,54 @@
-package net.zatrit.openmcskins.util;
+package net.zatrit.openmcskins.util.io;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.mixin.PlayerSkinProviderAccessor;
-import net.zatrit.openmcskins.util.textures.AnimatedTexture;
-import org.apache.commons.io.IOUtils;
+import net.zatrit.openmcskins.render.textures.AnimatedTexture;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.nio.file.Path;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 public final class TextureUtils {
     private TextureUtils() {
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private static @NotNull File getCacheFile(String name) {
-        String hash = OpenMCSkins.getHashFunction().hashUnencodedChars(name).toString();
-        File cacheFile = Path.of(((PlayerSkinProviderAccessor) MinecraftClient.getInstance().getSkinProvider()).getSkinCacheDir().getPath(), hash.substring(0, 2), hash).toFile();
-        cacheFile.getParentFile().mkdirs();
-        return cacheFile;
-    }
-
-    public static @Nullable Identifier loadStaticTexture(InputStream stream, String name, int @NotNull [] aspects, boolean cache) throws Exception {
+    public static @Nullable Identifier loadStaticTexture(StreamOpener sourceStream, String name, int @NotNull [] aspects, boolean cache) throws Exception {
         int width = aspects[0];
         int height = aspects[1];
-        File cacheFile = getCacheFile(name);
-        BufferedImage sourceImage;
+        File cacheFile = OpenMCSkins.getSkinsCache().getCacheFile(name);
+        BufferedImage image;
 
-        if (cache) {
-            if (!cacheFile.isFile()) IOUtils.copy(stream, new FileOutputStream(cacheFile));
-            sourceImage = ImageIO.read(new FileInputStream(cacheFile));
-        } else sourceImage = ImageIO.read(stream);
-        stream.close();
+        if (cacheFile.isFile() && cache) image = ImageIO.read(new FileInputStream(cacheFile));
+        else {
+            BufferedImage sourceImage;
 
-        BufferedImage resized = ImageUtils.resizeToAspects(sourceImage, width, height, true);
-        if (cache) ImageIO.write(resized, "png", cacheFile);
-        NativeImage nativeImage = ImageUtils.bufferedToNative(resized);
+            sourceImage = ImageIO.read(sourceStream.openStream());
+            sourceStream.openStream().close();
+
+            image = ImageUtils.resizeToAspects(sourceImage, width, height, true);
+            if (cache) ImageIO.write(image, "png", cacheFile);
+        }
+
+        NativeImage nativeImage = ImageUtils.bufferedToNative(image);
         return ImageUtils.registerNativeImage(nativeImage, cacheFile.getName());
     }
 
-    public static @NotNull Identifier loadAnimatedTexture(InputStream stream, String name, boolean cache) throws IOException {
-        File cacheFile = getCacheFile(name);
-        AnimatedTexture animatedTexture;
+    public static @NotNull Identifier loadAnimatedTexture(StreamOpener sourceStream, String name, boolean cache) throws Exception {
+        InputStream stream = cache ? OpenMCSkins.getSkinsCache().getOrDownload(name, sourceStream) : sourceStream.openStream();
+        AnimatedTexture animatedTexture = new AnimatedTexture(stream);
 
-        if (cache) {
-            if (!cacheFile.isFile()) IOUtils.copy(stream, new FileOutputStream(cacheFile));
-            animatedTexture = new AnimatedTexture(new FileInputStream(cacheFile));
-        } else animatedTexture = new AnimatedTexture(stream);
-        stream.close();
-
-        Identifier id = new Identifier("animated/" + cacheFile.getName());
+        Identifier id = new Identifier("animated/" + OpenMCSkins.getHashFunction().hashUnencodedChars(name));
         MinecraftClient.getInstance().getTextureManager().registerTexture(id, animatedTexture);
         return id;
     }
@@ -71,12 +61,14 @@ public final class TextureUtils {
     }
 
     @Contract(pure = true)
-    public static @Nullable Identifier loadPlayerSkin(InputStream stream, String model, String textureUrl, boolean cacheEnabled) throws IOException {
-        File cacheFile = getCacheFile(textureUrl);
+    public static @Nullable Identifier loadPlayerSkin(Supplier<InputStream> sourceStream, String model, String textureUrl, boolean cache) throws IOException {
+        File cacheFile = OpenMCSkins.getSkinsCache().getCacheFile(textureUrl);
         NativeImage nativeImage;
 
-        if (!cacheFile.isFile()) {
-            BufferedImage image = ImageIO.read(stream);
+        if (cacheFile.isFile()) {
+            nativeImage = NativeImage.read(new FileInputStream(cacheFile));
+        } else {
+            BufferedImage image = ImageIO.read(sourceStream.get());
             BufferedImage target = ImageUtils.resizeToAspects(image, 1, 1, false);
             nativeImage = ImageUtils.bufferedToNative(target);
 
@@ -113,8 +105,8 @@ public final class TextureUtils {
                 }
             }
 
-            if (cacheEnabled) nativeImage.writeTo(cacheFile);
-        } else nativeImage = NativeImage.read(new FileInputStream(cacheFile));
+            if (cache) nativeImage.writeTo(cacheFile);
+        }
 
         return ImageUtils.registerNativeImage(nativeImage, cacheFile.getName());
     }

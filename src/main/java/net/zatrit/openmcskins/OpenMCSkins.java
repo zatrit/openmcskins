@@ -21,9 +21,12 @@ import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
 import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
+import net.zatrit.openmcskins.resolvers.OptifineResolver;
 import net.zatrit.openmcskins.resolvers.Resolver;
+import net.zatrit.openmcskins.resolvers.loader.CosmeticsManager;
 import net.zatrit.openmcskins.util.ConfigUtil;
 import net.zatrit.openmcskins.util.PlayerSessionsManager;
+import net.zatrit.openmcskins.util.io.LocalAssetsCache;
 import net.zatrit.openmcskins.util.yaml.ConfigConstructor;
 import net.zatrit.openmcskins.util.yaml.ConfigRepresenter;
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +41,8 @@ import java.util.Objects;
 public class OpenMCSkins implements ClientModInitializer {
     public static final String MOD_ID = "openmcskins";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    private static final LocalAssetsCache modelsCache = new LocalAssetsCache("models");
+    private static final LocalAssetsCache skinsCache = new LocalAssetsCache("skins");
     private static List<? extends Resolver<?>> resolvers;
 
     public static OpenMCSkinsConfig getConfig() {
@@ -75,6 +80,8 @@ public class OpenMCSkins implements ClientModInitializer {
         OpenMCSkins.resolvers = null;
         PlayerSessionsManager.getUuidCache().cleanUp();
         PlayerSessionsManager.clearTextures();
+        CosmeticsManager.COSMETICS.clear();
+        OptifineResolver.PlayerSkinHandler.alreadyLoaded.clear();
 
         MinecraftClient client = MinecraftClient.getInstance();
 
@@ -87,23 +94,31 @@ public class OpenMCSkins implements ClientModInitializer {
         }
     }
 
+    public static LocalAssetsCache getModelsCache() {
+        return modelsCache;
+    }
+
+    public static LocalAssetsCache getSkinsCache() {
+        return skinsCache;
+    }
+
     @Override
     public void onInitializeClient() {
         RxJavaPlugins.setErrorHandler(OpenMCSkins::handleError);
         AutoConfig.register(OpenMCSkinsConfig.class, (d, c) -> {
-            DumperOptions dumperOptions = new DumperOptions();
+            final DumperOptions dumperOptions = new DumperOptions();
             dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-            Yaml yaml = new Yaml(new ConfigConstructor(), new ConfigRepresenter(), dumperOptions);
+            final Yaml yaml = new Yaml(new ConfigConstructor(), new ConfigRepresenter(), dumperOptions);
             return new YamlConfigSerializer<>(d, c, yaml);
         });
 
-        GuiRegistry registry = AutoConfig.getGuiRegistry(OpenMCSkinsConfig.class);
+        final GuiRegistry registry = AutoConfig.getGuiRegistry(OpenMCSkinsConfig.class);
 
-        ConfigEntryBuilder builder = ConfigEntryBuilder.create();
+        final ConfigEntryBuilder builder = ConfigEntryBuilder.create();
 
         registry.registerTypeProvider((s, field, o, o1, guiRegistryAccess) -> {
-            List<String> hosts = ConfigUtil.getHostsAsStrings((OpenMCSkinsConfig) o);
-            Text text = new TranslatableText("text.autoconfig.openmcskins.option.hosts");
+            final List<String> hosts = ConfigUtil.getHostsAsStrings((OpenMCSkinsConfig) o);
+            final Text text = new TranslatableText("text.autoconfig.openmcskins.option.hosts");
 
             StringListBuilder hostList = builder.startStrList(text, hosts).setInsertInFront(true).setSaveConsumer(x -> {
                 try {

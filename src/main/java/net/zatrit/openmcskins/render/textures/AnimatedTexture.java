@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.util.textures;
+package net.zatrit.openmcskins.render.textures;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.TextureUtil;

@@ -2,7 +2,7 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.zatrit.openmcskins.resolvers.data.AnimatedPlayerData;
+import net.zatrit.openmcskins.resolvers.handler.AnimatedTexturePlayerHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -11,7 +11,7 @@ import java.io.FileReader;
 import java.util.Map;
 import java.util.Objects;
 
-public class LocalDirectoryResolver implements Resolver<LocalDirectoryResolver.PlayerData> {
+public class LocalDirectoryResolver implements Resolver<LocalDirectoryResolver.PlayerHandler> {
     private final File directory;
 
     public LocalDirectoryResolver(File directory) {
@@ -23,12 +23,12 @@ public class LocalDirectoryResolver implements Resolver<LocalDirectoryResolver.P
     }
 
     @Override
-    public PlayerData resolvePlayer(@NotNull GameProfile profile) throws FileNotFoundException {
-        return new PlayerData(profile.getName());
+    public PlayerHandler resolvePlayer(@NotNull GameProfile profile) throws FileNotFoundException {
+        return new PlayerHandler(profile.getName());
     }
 
-    public class PlayerData extends AnimatedPlayerData {
-        public PlayerData(String name) throws FileNotFoundException {
+    public class PlayerHandler extends AnimatedTexturePlayerHandler {
+        public PlayerHandler(String name) throws FileNotFoundException {
             super();
             File texturesDirectory = new File(directory, "textures");
             File metadataDirectory = new File(directory, "metadata");

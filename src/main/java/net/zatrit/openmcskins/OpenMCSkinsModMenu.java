@@ -7,7 +7,7 @@ import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
 
 @KeepClass
-public class ModMenuEntry implements ModMenuApi {
+public class OpenMCSkinsModMenu implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parent -> AutoConfig.getConfigScreen(OpenMCSkinsConfig.class, parent).get();
