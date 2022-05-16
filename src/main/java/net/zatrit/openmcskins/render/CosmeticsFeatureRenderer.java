@@ -12,9 +12,9 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.loader.CosmeticsLoader;
 import net.zatrit.openmcskins.loader.TextureLoader;
+import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,7 +29,6 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
     private static ModelPart getPartByName(@NotNull PlayerEntityModel<AbstractClientPlayerEntity> model, String name) {
         return switch (name) {
             case "head" -> model.head;
-            case "body" -> model.body;
             case "leftArm" -> model.leftArm;
             case "leftLeg" -> model.leftLeg;
             case "rightArm" -> model.rightArm;
@@ -57,7 +56,7 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
                     ModelPart part = item.parts().get(i);
                     ModelPart attachPart = getPartByName(getContextModel(), item.attaches().get(i));
                     if (attachPart != null)
-                        attachPart.rotate(matrices);
+                        part.copyTransform(attachPart);
                     part.render(matrices, buffer, light, OverlayTexture.DEFAULT_UV);
                 }
             }

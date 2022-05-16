@@ -57,22 +57,19 @@ public final class TextureLoader {
 
     public static void resolveCosmetics(PlayerListEntry player) {
         final List<? extends Resolver<?>> hosts = OpenMCSkins.getResolvers();
-        final AtomicReference<GameProfile> profile = new AtomicReference<>(player.getProfile());
+        final GameProfile profile = player.getProfile();
         final List<CosmeticsLoader.CosmeticsItem> cosmetics = new ArrayList<>();
-        CosmeticsLoader.COSMETICS.put(profile.get().getName(), cosmetics);
+        CosmeticsLoader.COSMETICS.put(profile.getName(), cosmetics);
 
         Flowable.range(0, hosts.size()).parallel().runOn(Schedulers.io()).doOnNext(i -> {
-            while (profile.get() == null) Thread.onSpinWait();
-
-            if (hosts.get(i) instanceof PlayerCosmeticsResolver)
-                try {
-                    IndexedPlayerHandler<?> data = hosts.get(i).resolvePlayer(profile.get());
-                    cosmetics.addAll(Objects.requireNonNull(((PlayerCosmeticsHandler) data).downloadCosmetics()));
-                } catch (NullPointerException ex) {
-                    OpenMCSkins.handleError(ex);
-                }
+            if (hosts.get(i) instanceof PlayerCosmeticsResolver) try {
+                IndexedPlayerHandler<?> data = hosts.get(i).resolvePlayer(profile);
+                cosmetics.addAll(Objects.requireNonNull(((PlayerCosmeticsHandler) data).downloadCosmetics()));
+            } catch (NullPointerException ex) {
+                OpenMCSkins.handleError(ex);
+            }
         }).sequential().timeout(OpenMCSkins.getConfig().resolvingTimeout, TimeUnit.SECONDS).doFinally(() -> {
-            if (cosmetics.size() > 0) CosmeticsLoader.COSMETICS.put(profile.get().getName(), cosmetics);
+            if (cosmetics.size() > 0) CosmeticsLoader.COSMETICS.put(profile.getName(), cosmetics);
         }).doOnError(OpenMCSkins::handleError).subscribe();
     }
 

@@ -36,7 +36,7 @@ public class OpenMCSkinsConfig implements ConfigData, Serializable {
     @ConfigEntry.Gui.Tooltip(count = 7)
     public HashingAlgorithm hashingAlgorithm = HashingAlgorithm.SHA384;
     @KeepClassMember
-    @ConfigEntry.Gui.Tooltip()
+    @ConfigEntry.Gui.Tooltip(count = 4)
     public boolean cosmetics;
 
     public OpenMCSkinsConfig() {
