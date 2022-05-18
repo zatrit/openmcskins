@@ -39,7 +39,7 @@ public record OptifineResolver(
     }
 
     public class PlayerSkinHandler extends DirectResolver.PlayerHandler implements PlayerCosmeticsHandler {
-        public static List<Identifier> alreadyLoaded = new LinkedList<>();
+        public static List<Identifier> texturesLoaded = new LinkedList<>();
         private final GameProfile profile;
 
         public PlayerSkinHandler(@NotNull GameProfile profile) {
@@ -52,12 +52,12 @@ public record OptifineResolver(
         }
 
         private static void loadTextureFromUrl(String url, Identifier id) throws Exception {
-            if (alreadyLoaded.contains(id)) return;
+            if (texturesLoaded.contains(id)) return;
 
             NativeImage image = NativeImage.read(Cache.SKINS.getCache().getOrDownload(url, () -> new URL(url).openStream()));
             MinecraftClient.getInstance().getTextureManager().registerTexture(id, new NativeImageBackedTexture(image));
 
-            alreadyLoaded.add(id);
+            texturesLoaded.add(id);
         }
 
         private String formatUrl(String pattern, String content) {
@@ -66,7 +66,7 @@ public record OptifineResolver(
 
         @SuppressWarnings("unchecked")
         @Override
-        public List<CosmeticsLoader.CosmeticsItem> downloadCosmetics() {
+        public List<String> downloadCosmetics() {
             try {
                 String urlString = formatUrl("%s/users/%s.cfg", profile.getName());
                 URL realUrl = new URL(urlString);
@@ -76,7 +76,7 @@ public record OptifineResolver(
                     LinkedTreeMap<String, Object> map = mapFromReader(in);
                     List<Map<String, Object>> items = (List<Map<String, Object>>) map.get("items");
 
-                    List<CosmeticsLoader.CosmeticsItem> cosmeticsItems = new ArrayList<>();
+                    List<String> cosmetics = new ArrayList<>();
 
                     items.forEach(item -> {
                         if (Objects.equals(item.get("active"), "true")) {
@@ -90,14 +90,15 @@ public record OptifineResolver(
                                 Reader reader = new InputStreamReader(Cache.MODELS.getCache().getOrDownload(modelType, modelUrl::openStream));
 
                                 LinkedTreeMap<String, Object> model = mapFromReader(reader);
-                                cosmeticsItems.add(CosmeticsLoader.getCosmetics(textureId, modelId, model, modelType));
+                                CosmeticsLoader.loadCosmeticItem(textureId, modelId, model, modelType);
+                                cosmetics.add(modelType);
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
                         }
                     });
 
-                    return cosmeticsItems;
+                    return cosmetics;
                 }
             } catch (Exception ex) {
                 OpenMCSkins.handleError(ex);

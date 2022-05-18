@@ -6,15 +6,15 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.resolvers.PlayerCosmeticsResolver;
 import net.zatrit.openmcskins.resolvers.Resolver;
 import net.zatrit.openmcskins.resolvers.handler.IndexedPlayerHandler;
-import net.zatrit.openmcskins.resolvers.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.util.PlayerSessionsManager;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -52,22 +52,6 @@ public final class TextureLoader {
                 callback.onSkinResolved(k, identifier, v.getModelOrDefault());
             });
         }).doOnError(OpenMCSkins::handleError).subscribe();
-    }
-
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static void resolveCosmetics(@NotNull GameProfile profile) {
-        final List<? extends Resolver<?>> hosts = OpenMCSkins.getResolvers();
-        final List<CosmeticsLoader.CosmeticsItem> cosmetics = new ArrayList<>();
-        CosmeticsLoader.COSMETICS.put(profile.getName(), cosmetics);
-
-        Flowable.range(0, hosts.size()).parallel().runOn(Schedulers.io()).sequential().timeout(OpenMCSkins.getConfig().resolvingTimeout, TimeUnit.SECONDS).subscribe(i -> {
-            if (hosts.get(i) instanceof PlayerCosmeticsResolver) try {
-                IndexedPlayerHandler<?> data = hosts.get(i).resolvePlayer(profile);
-                cosmetics.addAll(Objects.requireNonNull(((PlayerCosmeticsHandler) data).downloadCosmetics()));
-            } catch (NullPointerException ex) {
-                OpenMCSkins.handleError(ex);
-            }
-        }, OpenMCSkins::handleError);
     }
 
     @FunctionalInterface

@@ -46,8 +46,7 @@ public abstract class AnimatedTexturePlayerHandler extends IndexedPlayerHandler<
                 return TextureUtils.loadPlayerSkin(() -> openStream(textureUrl, type), getModelOrDefault(), textureUrl, this.cacheEnabled());
             else if (isAnimated(type))
                 return TextureUtils.loadAnimatedTexture(() -> openStream(textureUrl, type), textureUrl, this.cacheEnabled());
-            else
-                return TextureUtils.loadStaticTexture(() -> openStream(textureUrl, type), textureUrl, TextureUtils.getAspects(type), this.cacheEnabled());
+            return TextureUtils.loadStaticTexture(() -> openStream(textureUrl, type), textureUrl, TextureUtils.getAspects(type), this.cacheEnabled());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -34,7 +34,6 @@ public class LocalDirectoryResolver implements Resolver<LocalDirectoryResolver.P
 
     public class PlayerHandler extends AnimatedTexturePlayerHandler {
         public PlayerHandler(String name) throws FileNotFoundException {
-            super();
             File texturesDirectory = new File(directory, "textures");
             File metadataDirectory = new File(directory, "metadata");
 

@@ -1,7 +1,6 @@
 package net.zatrit.openmcskins.config;
 
 import net.zatrit.openmcskins.HostType;
-import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.resolvers.Resolver;
 
 import javax.annotation.Nullable;
