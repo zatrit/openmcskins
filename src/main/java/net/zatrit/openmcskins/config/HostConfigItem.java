@@ -10,9 +10,7 @@ import java.io.Serializable;
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
 public class HostConfigItem implements Serializable {
-    @KeepClassMember
     public HostType type;
-    @KeepClassMember
     public String value;
 
     public HostConfigItem(HostType type, @Nullable String value) {

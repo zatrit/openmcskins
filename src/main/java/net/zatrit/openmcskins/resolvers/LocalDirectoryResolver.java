@@ -27,6 +27,11 @@ public class LocalDirectoryResolver implements Resolver<LocalDirectoryResolver.P
         return new PlayerHandler(profile.getName());
     }
 
+    @Override
+    public boolean requiresUUID() {
+        return false;
+    }
+
     public class PlayerHandler extends AnimatedTexturePlayerHandler {
         public PlayerHandler(String name) throws FileNotFoundException {
             super();

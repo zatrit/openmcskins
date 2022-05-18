@@ -10,5 +10,5 @@ Hello, this is a guide to contributions
   you can use [DirectResolver](./src/main/java/net/zatrit/openmcskins/resolvers/DirectResolver.java), like so:
 
 ```java
-    EXAMPLE(d->new DirectResolver("https://example.com/api/capes/{name}.png",MinecraftProfileTexture.Type.CAPE))
+    EXAMPLE(d -> new DirectResolver("https://example.com/api/capes/{name}.png", MinecraftProfileTexture.Type.CAPE))
 ```

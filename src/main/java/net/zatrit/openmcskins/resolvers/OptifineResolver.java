@@ -7,10 +7,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
+import net.zatrit.openmcskins.Cache;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.loader.CosmeticsLoader;
 import net.zatrit.openmcskins.resolvers.handler.PlayerCosmeticsHandler;
-import net.zatrit.openmcskins.Cache;
 import net.zatrit.openmcskins.util.io.NetworkUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +31,11 @@ public record OptifineResolver(
     @Override
     public @NotNull OptifineResolver.PlayerSkinHandler resolvePlayer(GameProfile profile) {
         return new PlayerSkinHandler(profile);
+    }
+
+    @Override
+    public boolean requiresUUID() {
+        return false;
     }
 
     public class PlayerSkinHandler extends DirectResolver.PlayerHandler implements PlayerCosmeticsHandler {

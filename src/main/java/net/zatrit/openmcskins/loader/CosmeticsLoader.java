@@ -20,11 +20,9 @@ public class CosmeticsLoader {
         ResourceManager resourceManager = MinecraftClient.getInstance().getResourceManager();
         jemData.put("texture", textureId.toString());
         List<LinkedTreeMap<String, Object>> models = ((List<LinkedTreeMap<String, Object>>) jemData.get("models"));
-        List<String> attaches = new ArrayList<>();
+        List<String> attaches = models.stream().map(model -> (String) model.get("attachTo")).toList();
 
         models.forEach(model -> model.put("part", modelType + models.indexOf(model)));
-        models.forEach(model -> attaches.add(String.valueOf(model.get("attachTo"))));
-
         models.forEach(model -> {
             List<LinkedTreeMap<String, Object>> submodels = (List<LinkedTreeMap<String, Object>>) model.get("submodels");
             if (submodels != null && submodels.size() > 1) for (int i = 0; i < submodels.size(); i++)

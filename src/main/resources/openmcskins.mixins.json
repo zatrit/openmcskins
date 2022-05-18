@@ -7,14 +7,13 @@
     "AbstractClientPlayerEntityAccessor",
     "HashingFunctionChangerMixin",
     "MinecraftClientAccessor",
+    "MinecraftClientMixin",
     "NativeImageAccessor",
     "PlayerEntityRendererMixin",
     "PlayerListEntryAccessor",
     "PlayerListEntryMixin",
+    "PlayerListHudMixin",
     "PlayerSkinProviderAccessor",
     "SkinOptionsScreenMixin"
-  ],
-  "mixins": [
-    "MinecraftClientMixin"
   ]
 }

@@ -1,14 +1,15 @@
--ignorewarnings
 -adaptclassstrings
--repackageclasses
 -allowaccessmodification
--mergeinterfacesaggressively
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
+-dontusemixedcaseclassnames
+-ignorewarnings
 -keepattributes *Annotation*
+-mergeinterfacesaggressively
 -optimizationpasses 3
 -overloadaggressively
--dontusemixedcaseclassnames
+-renamesourcefileattribute
+-repackageclasses
 
 -keep @org.spongepowered.asm.mixin.Mixin class ** { *; }
 -keep @org.spongepowered.asm.mixin.Mixin interface ** { *; }

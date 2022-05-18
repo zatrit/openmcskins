@@ -1,5 +1,6 @@
 package net.zatrit.openmcskins.mixin;
 
+import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
@@ -25,17 +26,22 @@ public abstract class PlayerListEntryMixin {
     @Nullable
     private String model;
 
+    @Shadow
+    public abstract GameProfile getProfile();
+
     /**
      * @author zatrit
-     * @reason I overwrote this because it might conflict with OpenMCSkins.
+     * @reason I overwrote this because I have my own solution
      */
     @Overwrite
     public void loadTextures() {
+        if (this.getProfile() == null)
+            return;
+
         if (!this.texturesLoaded) {
             this.textures.clear();
 
-            PlayerListEntry info = PlayerListEntry.class.cast(this);
-            TextureLoader.resolveSkin(info, (t, r, model) -> {
+            TextureLoader.resolveSkin(getProfile(), (t, r, model) -> {
                 if (r == null)
                     return;
 

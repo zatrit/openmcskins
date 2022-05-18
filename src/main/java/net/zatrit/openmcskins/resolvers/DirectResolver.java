@@ -9,10 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 public record DirectResolver(String baseUrl,
                              MinecraftProfileTexture.Type type) implements Resolver<DirectResolver.PlayerHandler> {
-    public DirectResolver(String baseUrl,
-                          MinecraftProfileTexture.Type type) {
+    public DirectResolver(String baseUrl, MinecraftProfileTexture.Type type) {
         this.baseUrl = NetworkUtils.fixUrl(baseUrl);
         this.type = type;
+    }
+
+    @Override
+    public boolean requiresUUID() {
+        return baseUrl.contains("{id}");
     }
 
     @Contract("_ -> new")

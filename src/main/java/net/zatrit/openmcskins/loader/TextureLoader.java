@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.resolvers.PlayerCosmeticsResolver;
@@ -12,6 +11,7 @@ import net.zatrit.openmcskins.resolvers.Resolver;
 import net.zatrit.openmcskins.resolvers.handler.IndexedPlayerHandler;
 import net.zatrit.openmcskins.resolvers.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.util.PlayerSessionsManager;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -19,20 +19,19 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public final class TextureLoader {
-    public static void resolveSkin(PlayerListEntry player, SkinResolveCallback callback) {
+    public static void resolveSkin(GameProfile sourceProfile, SkinResolveCallback callback) {
         final List<? extends Resolver<?>> hosts = OpenMCSkins.getResolvers();
         final AtomicReference<Map<Type, IndexedPlayerHandler<?>>> leading = new AtomicReference<>(new HashMap<>());
-        final AtomicReference<GameProfile> profile = new AtomicReference<>(null);
 
         Flowable.range(0, hosts.size()).parallel().runOn(Schedulers.io()).mapOptional(i -> {
-            // Get PlayerData from resolver
-            // If all resolved leading PlayerData's loaded, it won't try to load,
-            // and it's makes texture loading process faster
-            while (profile.get() == null) Thread.onSpinWait();
+            GameProfile profile;
+
+            if (hosts.get(i).requiresUUID()) profile = PlayerSessionsManager.patchProfile(sourceProfile);
+            else profile = sourceProfile;
 
             try {
                 Resolver<?> resolver = hosts.get(i);
-                return Optional.of(resolver.resolvePlayer(profile.get()).withIndex(i));
+                return Optional.of(resolver.resolvePlayer(profile).withIndex(i));
             } catch (Exception ex) {
                 OpenMCSkins.handleError(ex);
                 return Optional.empty();
@@ -52,25 +51,23 @@ public final class TextureLoader {
                 PlayerSessionsManager.registerId(identifier);
                 callback.onSkinResolved(k, identifier, v.getModelOrDefault());
             });
-        }).doOnSubscribe(a -> profile.set(PlayerSessionsManager.getGameProfile(player))).doOnError(OpenMCSkins::handleError).subscribe();
+        }).doOnError(OpenMCSkins::handleError).subscribe();
     }
 
-    public static void resolveCosmetics(PlayerListEntry player) {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static void resolveCosmetics(@NotNull GameProfile profile) {
         final List<? extends Resolver<?>> hosts = OpenMCSkins.getResolvers();
-        final GameProfile profile = player.getProfile();
         final List<CosmeticsLoader.CosmeticsItem> cosmetics = new ArrayList<>();
         CosmeticsLoader.COSMETICS.put(profile.getName(), cosmetics);
 
-        Flowable.range(0, hosts.size()).parallel().runOn(Schedulers.io()).doOnNext(i -> {
+        Flowable.range(0, hosts.size()).parallel().runOn(Schedulers.io()).sequential().timeout(OpenMCSkins.getConfig().resolvingTimeout, TimeUnit.SECONDS).subscribe(i -> {
             if (hosts.get(i) instanceof PlayerCosmeticsResolver) try {
                 IndexedPlayerHandler<?> data = hosts.get(i).resolvePlayer(profile);
                 cosmetics.addAll(Objects.requireNonNull(((PlayerCosmeticsHandler) data).downloadCosmetics()));
             } catch (NullPointerException ex) {
                 OpenMCSkins.handleError(ex);
             }
-        }).sequential().timeout(OpenMCSkins.getConfig().resolvingTimeout, TimeUnit.SECONDS).doFinally(() -> {
-            if (cosmetics.size() > 0) CosmeticsLoader.COSMETICS.put(profile.getName(), cosmetics);
-        }).doOnError(OpenMCSkins::handleError).subscribe();
+        }, OpenMCSkins::handleError);
     }
 
     @FunctionalInterface

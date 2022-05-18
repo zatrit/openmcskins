@@ -26,6 +26,11 @@ public record SimpleServerResolver(String host, String format) implements Resolv
     }
 
     @Override
+    public boolean requiresUUID() {
+        return false;
+    }
+
+    @Override
     public @NotNull SimpleServerResolver.PlayerHandler resolvePlayer(@NotNull GameProfile profile) throws IOException {
         // Example: http://127.0.0.1:8080/textures/PlayerName
         final String url = String.format(format, host(), profile.getName());

@@ -12,6 +12,7 @@ import me.shedaniel.clothconfig2.impl.builders.StringListBuilder;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
@@ -19,14 +20,13 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
+import net.zatrit.openmcskins.loader.CosmeticsLoader;
 import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.OptifineResolver;
 import net.zatrit.openmcskins.resolvers.Resolver;
-import net.zatrit.openmcskins.loader.CosmeticsLoader;
 import net.zatrit.openmcskins.util.ConfigUtil;
 import net.zatrit.openmcskins.util.PlayerSessionsManager;
-import net.zatrit.openmcskins.util.io.LocalAssetsCache;
 import net.zatrit.openmcskins.util.yaml.ConfigConstructor;
 import net.zatrit.openmcskins.util.yaml.ConfigRepresenter;
 import org.jetbrains.annotations.NotNull;
@@ -41,6 +41,7 @@ import java.util.Objects;
 public class OpenMCSkins implements ClientModInitializer {
     public static final String MOD_ID = "openmcskins";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final boolean HAS_CEM_MOD = FabricLoader.getInstance().isModLoaded("cem");
     private static List<? extends Resolver<?>> resolvers;
 
     public static OpenMCSkinsConfig getConfig() {
@@ -76,7 +77,7 @@ public class OpenMCSkins implements ClientModInitializer {
 
     public static void invalidateAllResolvers() {
         OpenMCSkins.resolvers = null;
-        PlayerSessionsManager.getUuidCache().cleanUp();
+        PlayerSessionsManager.getProfileCache().cleanUp();
         PlayerSessionsManager.clearTextures();
         CosmeticsLoader.COSMETICS.clear();
         OptifineResolver.PlayerSkinHandler.alreadyLoaded.clear();

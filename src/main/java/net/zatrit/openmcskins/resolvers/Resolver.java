@@ -11,4 +11,8 @@ public interface Resolver<D extends IndexedPlayerHandler<?>> {
     Gson GSON = new Gson();
 
     D resolvePlayer(GameProfile profile) throws IOException;
+
+    default boolean requiresUUID() {
+        return true;
+    }
 }

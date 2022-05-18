@@ -10,6 +10,9 @@
   "text.autoconfig.openmcskins.option.offlineMode": "Оффлайн (пиратский) режим",
   "text.autoconfig.openmcskins.option.ignoreAnimatedCapes": "Игнорировать анимированные плащи",
   "text.autoconfig.openmcskins.option.cosmetics": "Косметика",
+  "text.autoconfig.openmcskins.option.forceIcons": "Принудительные иконки в списке игроков",
+  "text.autoconfig.openmcskins.option.forceIcons.@Tooltip[0]": "Рисовать иконку возле ника игрока",
+  "text.autoconfig.openmcskins.option.forceIcons.@Tooltip[1]": "даже на оффлайн-серверах",
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[0]": "(в разработке) Дополнительная косметика",
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[1]": "Для работы необходим мод CEM",
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[2]": "Об ошибках сообщайте на ",
@@ -20,5 +23,8 @@
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[4]": " CRC32 - генерирует короткие имена файлов, но",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[5]": "  имеет высокий шанс коллизий",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[6]": " MURMUR3 - очень быстрый алгоритм хэширования",
-  "text.openmcskins.validation_error": "Неверная конфигурация!"
+  "text.openmcskins.validation_error": "Неверная конфигурация!",
+  "text.autoconfig.openmcskins.category.debug": "Отладка",
+  "text.autoconfig.openmcskins.category.rendering": "Рендеринг",
+  "text.autoconfig.openmcskins.category.loader": "Загрузчик"
 }
