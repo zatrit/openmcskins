@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-public class CosmeticsLoader {
+public final class CosmeticsLoader {
     public static final Map<String, List<CosmeticsItem>> PLAYER_COSMETICS = new TreeMap<>();
     public static final Map<String, CosmeticsItem> COSMETICS = new HashMap<>(16);
 
@@ -79,5 +79,8 @@ public class CosmeticsLoader {
     }
 
     public record CosmeticsItem(Identifier texture, List<ModelPart> parts, List<String> attaches) {
+    }
+
+    private CosmeticsLoader() {
     }
 }

@@ -22,12 +22,12 @@ import java.util.UUID;
 
 import static net.zatrit.openmcskins.resolvers.Resolver.GSON;
 
-public final class PlayerSessionsManager {
+public final class PlayerManager {
     private final static YggdrasilMinecraftSessionService sessionService = (YggdrasilMinecraftSessionService) MinecraftClient.getInstance().getSessionService();
     private static final Cache<String, GameProfile> profileCache = CacheBuilder.newBuilder().build();
     private static final ArrayList<Identifier> idRegistry = new ArrayList<>();
 
-    private PlayerSessionsManager() {
+    private PlayerManager() {
     }
 
     public static MinecraftSessionService getSessionService() {
@@ -60,7 +60,7 @@ public final class PlayerSessionsManager {
         return profileCache;
     }
 
-    public static void registerId(Identifier identifier) {
+    public static void registerTextureId(Identifier identifier) {
         idRegistry.add(identifier);
     }
 

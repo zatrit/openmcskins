@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.resolvers.Resolver;
 import net.zatrit.openmcskins.resolvers.handler.IndexedPlayerHandler;
-import net.zatrit.openmcskins.util.PlayerSessionsManager;
+import net.zatrit.openmcskins.util.PlayerManager;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public final class TextureLoader {
         Flowable.range(0, hosts.size()).parallel().runOn(Schedulers.io()).mapOptional(i -> {
             GameProfile profile;
 
-            if (hosts.get(i).requiresUUID()) profile = PlayerSessionsManager.patchProfile(sourceProfile);
+            if (hosts.get(i).requiresUUID()) profile = PlayerManager.patchProfile(sourceProfile);
             else profile = sourceProfile;
 
             try {
@@ -48,7 +48,7 @@ public final class TextureLoader {
             // Or time out
             leading.get().forEach((k, v) -> {
                 Identifier identifier = v.downloadTexture(k);
-                PlayerSessionsManager.registerId(identifier);
+                PlayerManager.registerTextureId(identifier);
                 callback.onSkinResolved(k, identifier, v.getModelOrDefault());
             });
         }).doOnError(OpenMCSkins::handleError).subscribe();

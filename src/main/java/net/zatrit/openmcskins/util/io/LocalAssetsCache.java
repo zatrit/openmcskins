@@ -9,7 +9,7 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.util.function.Supplier;
 
-public class LocalAssetsCache {
+public final class LocalAssetsCache {
     private static File cacheRoot;
     private final Supplier<File> cacheDir;
 
