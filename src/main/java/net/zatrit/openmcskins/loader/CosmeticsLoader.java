@@ -24,6 +24,9 @@ public final class CosmeticsLoader {
     public static final Map<String, List<CosmeticsItem>> PLAYER_COSMETICS = new TreeMap<>();
     public static final Map<String, CosmeticsItem> COSMETICS = new HashMap<>(16);
 
+    private CosmeticsLoader() {
+    }
+
     @SuppressWarnings("unchecked")
     public static void loadSingleCosmeticItem(@NotNull Identifier textureId, Identifier modelId, @NotNull LinkedTreeMap<String, Object> jemData, String modelType) throws Exception {
         if (COSMETICS.containsKey(modelType))
@@ -79,8 +82,5 @@ public final class CosmeticsLoader {
     }
 
     public record CosmeticsItem(Identifier texture, List<ModelPart> parts, List<String> attaches) {
-    }
-
-    private CosmeticsLoader() {
     }
 }

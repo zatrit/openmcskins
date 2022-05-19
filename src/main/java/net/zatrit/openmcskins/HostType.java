@@ -27,7 +27,7 @@ public enum HostType {
     FIVEZIG(d -> new _5ZigRebornResolver()),
     LABYMOD(d -> new DirectResolver("https://dl.labymod.net/capes/{id}", MinecraftProfileTexture.Type.CAPE)),
     LOCAL(LocalDirectoryResolver::new),
-    MANTLE(d -> new OptifineResolver("35.190.10.249")),
+    MANTLE(d -> new OptifineResolver("http://35.190.10.249")),
     MINECRAFTCAPES(d -> new MinecraftCapesResolver()),
     MOJANG(d -> new MojangAuthlibResolver()),
     OPTIFINE(d -> new OptifineResolver("http://s.optifine.net")),
