@@ -3,11 +3,11 @@ package net.zatrit.openmcskins.loader;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import net.minecraft.util.Identifier;
+import net.zatrit.openmcskins.PlayerManager;
 import net.zatrit.openmcskins.resolvers.PlayerCosmeticsResolver;
 import net.zatrit.openmcskins.resolvers.Resolver;
 import net.zatrit.openmcskins.resolvers.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.resolvers.handler.PlayerHandler;
-import net.zatrit.openmcskins.PlayerManager;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -53,7 +53,8 @@ public enum Loaders {
                 Identifier identifier = v.downloadTexture(k);
                 PlayerManager.registerTextureId(identifier);
                 callback.onSkinResolved(k, identifier, v.getModelOrDefault());
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            }
         });
     });
     private final AsyncLoader loader;
