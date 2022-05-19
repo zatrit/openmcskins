@@ -54,7 +54,7 @@ public record OptifineResolver(
         private static void loadTextureFromUrl(String url, Identifier id) throws Exception {
             if (texturesLoaded.contains(id)) return;
 
-            NativeImage image = NativeImage.read(Cache.SKINS.getCache().getOrDownload(url, () -> new URL(url).openStream()));
+            NativeImage image = NativeImage.read(Cache.SKINS.getCache().getOrDownload(url, new URL(url)::openStream));
             MinecraftClient.getInstance().getTextureManager().registerTexture(id, new NativeImageBackedTexture(image));
 
             texturesLoaded.add(id);

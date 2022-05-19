@@ -3,8 +3,8 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![CurseForge](https://cf.way2muchnoise.eu/versions/620015_latest.svg)](https://www.curseforge.com/minecraft/mc-mods/openmcskins)
 
-*This mod is not affiliated with Mojang, Optifine, LabyMod, MinecraftCapes mod, Cloaks+, TLauncher, ely.by, 5ZigReborn
-or Cosmetica mod*
+*This mod is not affiliated with Mojang, Optifine, LabyMod, MinecraftCapes mod, Cloaks+, TLauncher, ely.by, 5ZigReborn,
+Mantle or Cosmetica mod*
 
 ## What is it?
 
@@ -28,6 +28,7 @@ This is a mod that allows skins and capes to be use in various ways.
 * From [5ZigReborn](https://5zigreborn.eu/) capes system
 * From [Cosmetica](https://cosmetica.cc/) capes system
 * From [MinecraftCapes](https://minecraftcapes.net/) capes system (no ears yet)
+* From [Mantle](https://mantle.gg) capes system
 
 ### Screenshots
 

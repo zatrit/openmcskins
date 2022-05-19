@@ -18,6 +18,7 @@ This option accepts a list of sources from which the mod tries to load skins.
 * !direct [CAPE | SKIN]:[URL] - download skin or cape from url directly, by replacing ``{name}`` by player name
   and ``{id}`` by player UUID
 * !tlauncher - TLauncher API
+* !mantle - Mantle API
 
 ### resolvingTimeout
 
@@ -57,6 +58,7 @@ resolvingTimeout: 5
 offlineMode: false
 forceIcons: true
 cosmetics: true
+# DON'T USE TOO MANY HOSTS
 hosts:
   - !direct 'CAPE:http://example.com/api/{name}?uuid={id}'
   - !server 'http://example.com/api'
@@ -67,6 +69,7 @@ hosts:
   - !optifine
   - !labymod
   - !fivezig
+  - !mantle
   - !mojang
   - !elyby
 ```
