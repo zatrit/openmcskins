@@ -51,7 +51,7 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
         List<CosmeticsLoader.CosmeticsItem> items = CosmeticsLoader.PLAYER_COSMETICS.get(name);
 
         for (CosmeticsLoader.CosmeticsItem item : items) {
-            VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(item.texture()));
+            VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentCull(item.texture()));
             for (int i = 0; i < item.parts().size(); i++) {
                 ModelPart part = item.parts().get(i);
                 if (!part.visible) continue;

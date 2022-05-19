@@ -5,10 +5,7 @@ import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.function.Supplier;
 
@@ -33,12 +30,25 @@ public class LocalAssetsCache {
     }
 
     @Contract("_, _ -> new")
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public @NotNull InputStream getOrDownload(String name, StreamOpener download) throws Exception {
-        File cacheFile = getCacheFile(name);
-        cacheFile.getParentFile().mkdirs();
+        return this.getOrDownload(name, stream -> {
+            try (InputStream inputStream = download.openStream()) {
+                IOUtils.copy(inputStream, stream);
+            }
+        });
+    }
 
-        if (!cacheFile.isFile()) IOUtils.copy(download.openStream(), new FileOutputStream(cacheFile));
+    @Contract("_, _ -> new")
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public @NotNull InputStream getOrDownload(String name, StreamAction download) throws Exception {
+        File cacheFile = getCacheFile(name);
+
+        if (!cacheFile.isFile()) {
+            cacheFile.getParentFile().mkdirs();
+            try (OutputStream stream = new FileOutputStream(cacheFile)) {
+                download.apply(stream);
+            }
+        }
 
         return new FileInputStream(cacheFile);
     }

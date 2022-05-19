@@ -25,7 +25,7 @@ public class CosmeticsLoader {
     public static final Map<String, CosmeticsItem> COSMETICS = new HashMap<>(16);
 
     @SuppressWarnings("unchecked")
-    public static void loadCosmeticItem(@NotNull Identifier textureId, Identifier modelId, @NotNull LinkedTreeMap<String, Object> jemData, String modelType) throws Exception {
+    public static void loadSingleCosmeticItem(@NotNull Identifier textureId, Identifier modelId, @NotNull LinkedTreeMap<String, Object> jemData, String modelType) throws Exception {
         if (COSMETICS.containsKey(modelType))
             return;
 
@@ -68,8 +68,7 @@ public class CosmeticsLoader {
                 PlayerCosmeticsHandler handler = (PlayerCosmeticsHandler) hosts.get(i).resolvePlayer(profile);
                 List<String> cosmetics = handler.downloadCosmetics();
                 cosmetics.forEach(item -> PLAYER_COSMETICS.get(profile.getName()).add(COSMETICS.get(item)));
-            } catch (NullPointerException ex) {
-                OpenMCSkins.handleError(ex);
+            } catch (NullPointerException ignored) {
             }
         }, OpenMCSkins::handleError);
     }

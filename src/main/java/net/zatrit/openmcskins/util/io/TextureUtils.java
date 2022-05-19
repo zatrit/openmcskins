@@ -27,22 +27,19 @@ public final class TextureUtils {
     public static @Nullable Identifier loadStaticTexture(StreamOpener sourceStream, String name, int @NotNull [] aspects, boolean cache) throws Exception {
         int width = aspects[0];
         int height = aspects[1];
-        File cacheFile = Cache.SKINS.getCache().getCacheFile(name);
-        BufferedImage image;
 
-        if (cacheFile.isFile() && cache) image = ImageIO.read(new FileInputStream(cacheFile));
-        else {
+        NativeImage image = NativeImage.read(Cache.SKINS.getCache().getOrDownload(name, stream -> {
             BufferedImage sourceImage;
 
-            sourceImage = ImageIO.read(sourceStream.openStream());
-            sourceStream.openStream().close();
+            try (InputStream inputStream = sourceStream.openStream()) {
+                sourceImage = ImageIO.read(inputStream);
+            }
 
-            image = ImageUtils.resizeToAspects(sourceImage, width, height, true);
-            if (cache) ImageIO.write(image, "png", cacheFile);
-        }
+            sourceImage = ImageUtils.resizeToAspects(sourceImage, width, height, true);
+            if (cache) ImageIO.write(sourceImage, "png", stream);
+        }));
 
-        NativeImage nativeImage = ImageUtils.bufferedToNative(image);
-        return ImageUtils.registerNativeImage(nativeImage, cacheFile.getName());
+        return ImageUtils.registerNativeImage(image, String.valueOf(OpenMCSkins.getHashFunction().hashUnencodedChars(name)));
     }
 
     public static @NotNull Identifier loadAnimatedTexture(StreamOpener sourceStream, String name, boolean cache) throws Exception {

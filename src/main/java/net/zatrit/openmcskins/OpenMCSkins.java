@@ -80,6 +80,7 @@ public class OpenMCSkins implements ClientModInitializer {
         PlayerSessionsManager.getProfileCache().cleanUp();
         PlayerSessionsManager.clearTextures();
         CosmeticsLoader.clear();
+        OptifineResolver.PlayerSkinHandler.texturesLoaded.forEach(id -> MinecraftClient.getInstance().getTextureManager().getTexture(id).close());
         OptifineResolver.PlayerSkinHandler.texturesLoaded.clear();
 
         MinecraftClient client = MinecraftClient.getInstance();
