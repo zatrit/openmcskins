@@ -49,8 +49,7 @@ public record SimpleServerResolver(String host, String format) implements Resolv
                 MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(k);
                 Map<String, ?> metadata = (Map<String, ?>) getOrDefaultNonGeneric(v, "metadata", new HashMap<>());
 
-                this.textures.put(type, (String) v.get("url"));
-
+                if (v.containsKey("url")) this.textures.put(type, (String) v.get("url"));
                 if (metadata.containsKey("model")) this.setModel((String) metadata.get("model"));
                 if (metadata.containsKey("animated")) this.setAnimated(type, (boolean) metadata.get("animated"));
 

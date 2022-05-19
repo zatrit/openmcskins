@@ -84,6 +84,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-type", "image/png")
             self.end_headers()
             self.wfile.write(open(findPath(*found[0]), 'rb').read())
+        else:
+            self.send_error(404, "Not found")
 
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
