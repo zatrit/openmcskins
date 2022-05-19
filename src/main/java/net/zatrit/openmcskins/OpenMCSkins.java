@@ -26,7 +26,6 @@ import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.OptifineResolver;
 import net.zatrit.openmcskins.resolvers.Resolver;
 import net.zatrit.openmcskins.util.ConfigUtil;
-import net.zatrit.openmcskins.util.PlayerManager;
 import net.zatrit.openmcskins.util.yaml.ConfigConstructor;
 import net.zatrit.openmcskins.util.yaml.ConfigRepresenter;
 import org.jetbrains.annotations.NotNull;

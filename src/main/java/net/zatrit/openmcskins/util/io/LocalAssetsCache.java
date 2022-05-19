@@ -22,7 +22,7 @@ public final class LocalAssetsCache {
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public File getCacheFile(String name) {
+    public @NotNull File getCacheFile(String name) {
         String hash = OpenMCSkins.getHashFunction().hashUnencodedChars(name).toString();
         File file = Paths.get(cacheDir.get().getPath(), hash.substring(0, 2), hash).toFile();
         file.getParentFile().mkdirs();

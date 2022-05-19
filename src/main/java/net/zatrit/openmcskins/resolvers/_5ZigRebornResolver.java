@@ -3,7 +3,6 @@ package net.zatrit.openmcskins.resolvers;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.resolvers.handler.IndexedPlayerHandler;
 import net.zatrit.openmcskins.util.io.NetworkUtils;
 import net.zatrit.openmcskins.util.io.TextureUtils;
 import org.apache.commons.codec.binary.Base64;
@@ -22,7 +21,7 @@ public class _5ZigRebornResolver implements Resolver<_5ZigRebornResolver.PlayerH
         return new PlayerHandler(profile);
     }
 
-    public static class PlayerHandler extends IndexedPlayerHandler<String> {
+    public static class PlayerHandler extends net.zatrit.openmcskins.resolvers.handler.PlayerHandler<String> {
         private static final String BASE_URL = "https://textures.5zigreborn.eu/profile/";
 
         public PlayerHandler(@NotNull GameProfile profile) {

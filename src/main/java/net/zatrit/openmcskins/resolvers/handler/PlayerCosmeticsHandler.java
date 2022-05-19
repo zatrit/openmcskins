@@ -1,7 +1,9 @@
 package net.zatrit.openmcskins.resolvers.handler;
 
+import net.zatrit.openmcskins.loader.CosmeticsLoader;
+
 import java.util.List;
 
 public interface PlayerCosmeticsHandler {
-    List<String> downloadCosmetics();
+    List<CosmeticsLoader.CosmeticsItem> downloadCosmetics();
 }

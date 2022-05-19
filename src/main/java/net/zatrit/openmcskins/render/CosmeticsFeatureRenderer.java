@@ -13,9 +13,11 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.loader.CosmeticsLoader;
+import net.zatrit.openmcskins.loader.Loaders;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
@@ -44,7 +46,8 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
 
         String name = entity.getEntityName();
         if (!CosmeticsLoader.PLAYER_COSMETICS.containsKey(name)) {
-            CosmeticsLoader.resolveCosmetics(entity.getGameProfile());
+            CosmeticsLoader.PLAYER_COSMETICS.put(name, new ArrayList<>());
+            Loaders.COSMETICS.getLoader().loadAsync(entity.getGameProfile(), null);
             return;
         }
 

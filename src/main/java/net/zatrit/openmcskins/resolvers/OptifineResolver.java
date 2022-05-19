@@ -66,7 +66,7 @@ public record OptifineResolver(
 
         @SuppressWarnings("unchecked")
         @Override
-        public List<String> downloadCosmetics() {
+        public List<CosmeticsLoader.CosmeticsItem> downloadCosmetics() {
             try {
                 String urlString = formatUrl("%s/users/%s.cfg", profile.getName());
                 URL realUrl = new URL(urlString);
@@ -76,24 +76,20 @@ public record OptifineResolver(
                     LinkedTreeMap<String, Object> map = mapFromReader(in);
                     List<Map<String, Object>> items = (List<Map<String, Object>>) map.get("items");
 
-                    List<String> cosmetics = new ArrayList<>();
+                    List<CosmeticsLoader.CosmeticsItem> cosmetics = new ArrayList<>();
 
-                    items.forEach(item -> {
-                        if (Objects.equals(item.get("active"), "true")) {
-                            String modelType = (String) item.get("type");
-                            Identifier textureId = new Identifier("cosmetics_texture", modelType);
-                            Identifier modelId = new Identifier("cosmetics_model", modelType);
+                    items.stream().filter(item -> Objects.equals(item.get("active"), "true")).forEach(item -> {
+                        String modelType = (String) item.get("type");
+                        Identifier textureId = new Identifier("cosmetics_texture", modelType);
+                        Identifier modelId = new Identifier("cosmetics_model", modelType);
+                        try {
+                            loadTextureFromUrl(formatUrl("%s/%s", (String) item.get("texture")), textureId);
+                            URL modelUrl = new URL(formatUrl("%s/%s", (String) item.get("model")));
 
-                            try {
-                                loadTextureFromUrl(formatUrl("%s/%s", (String) item.get("texture")), textureId);
-                                URL modelUrl = new URL(formatUrl("%s/%s", (String) item.get("model")));
-
-                                LinkedTreeMap<String, Object> model = mapFromReader(new InputStreamReader(Cache.MODELS.getCache().getOrDownload(modelType, modelUrl::openStream)));
-                                CosmeticsLoader.loadSingleCosmeticItem(textureId, modelId, model, modelType);
-                                cosmetics.add(modelType);
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
+                            LinkedTreeMap<String, Object> model = mapFromReader(new InputStreamReader(Cache.MODELS.getCache().getOrDownload(modelType, modelUrl::openStream)));
+                            cosmetics.add(CosmeticsLoader.loadSingleCosmeticItem(textureId, modelId, model, modelType));
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
                         }
                     });
 

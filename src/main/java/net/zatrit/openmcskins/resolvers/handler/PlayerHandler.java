@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
-public abstract class IndexedPlayerHandler<TT> implements Serializable {
+public abstract class PlayerHandler<TT> implements Serializable {
     protected final Map<MinecraftProfileTexture.Type, TT> textures = new HashMap<>();
     private String model = "default";
     private int index;
@@ -26,7 +26,7 @@ public abstract class IndexedPlayerHandler<TT> implements Serializable {
     }
 
     @Contract("_ -> this")
-    public final IndexedPlayerHandler<TT> withIndex(int index) {
+    public final PlayerHandler<TT> withIndex(int index) {
         this.index = index;
         return this;
     }

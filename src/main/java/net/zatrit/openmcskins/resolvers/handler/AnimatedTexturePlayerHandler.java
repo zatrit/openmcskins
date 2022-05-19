@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AnimatedTexturePlayerHandler extends IndexedPlayerHandler<String> {
+public abstract class AnimatedTexturePlayerHandler extends PlayerHandler<String> {
     private final Map<MinecraftProfileTexture.Type, Boolean> animated = new HashMap<>();
 
     protected boolean isAnimated(MinecraftProfileTexture.Type type) {
