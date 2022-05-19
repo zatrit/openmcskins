@@ -29,6 +29,11 @@ This is a mod that allows skins and capes to be use in various ways.
 * From [Cosmetica](https://cosmetica.cc/) capes system
 * From [MinecraftCapes](https://minecraftcapes.net/) capes system (no ears yet)
 
+### Screenshots
+
+![Cloaks+ cosmetics](./screenshots/1.png)
+![Custom capes](./screenshots/2.png)
+
 ### How to configure this
 
 This mod using a [Cloth config](https://www.curseforge.com/minecraft/mc-mods/cloth-config) for configuration, and you
