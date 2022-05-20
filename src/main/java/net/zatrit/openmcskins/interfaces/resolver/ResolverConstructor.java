@@ -1,6 +1,4 @@
-package net.zatrit.openmcskins;
-
-import net.zatrit.openmcskins.resolvers.Resolver;
+package net.zatrit.openmcskins.interfaces.resolver;
 
 @FunctionalInterface
 public interface ResolverConstructor {

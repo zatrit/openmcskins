@@ -6,6 +6,7 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.Cache;
 import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.interfaces.io.StreamOpener;
 import net.zatrit.openmcskins.render.textures.AnimatedTexture;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

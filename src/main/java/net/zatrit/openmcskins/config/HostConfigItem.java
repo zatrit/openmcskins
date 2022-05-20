@@ -1,7 +1,7 @@
 package net.zatrit.openmcskins.config;
 
 import net.zatrit.openmcskins.HostType;
-import net.zatrit.openmcskins.resolvers.Resolver;
+import net.zatrit.openmcskins.interfaces.resolver.Resolver;
 
 import javax.annotation.Nullable;
 import java.io.Serializable;

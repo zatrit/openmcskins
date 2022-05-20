@@ -2,7 +2,8 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.zatrit.openmcskins.resolvers.handler.AnimatedTexturePlayerHandler;
+import net.zatrit.openmcskins.interfaces.resolver.Resolver;
+import net.zatrit.openmcskins.resolvers.handler.AnimatedPlayerHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -32,7 +33,7 @@ public class LocalDirectoryResolver implements Resolver<LocalDirectoryResolver.P
         return false;
     }
 
-    public class PlayerHandler extends AnimatedTexturePlayerHandler {
+    public class PlayerHandler extends AnimatedPlayerHandler {
         public PlayerHandler(String name) throws FileNotFoundException {
             File texturesDirectory = new File(directory, "textures");
             File metadataDirectory = new File(directory, "metadata");

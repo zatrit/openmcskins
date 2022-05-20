@@ -1,10 +1,9 @@
 package net.zatrit.openmcskins.resolvers.handler;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Contract;
+import net.zatrit.openmcskins.interfaces.handler.PlayerVanillaHandler;
+import net.zatrit.openmcskins.util.IndexedObject;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -12,31 +11,17 @@ import java.util.Map;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
-public abstract class PlayerHandler<TT> implements Serializable {
+public abstract class AbstractPlayerHandler<TT> extends IndexedObject implements Serializable, PlayerVanillaHandler {
     protected final Map<MinecraftProfileTexture.Type, TT> textures = new HashMap<>();
     private String model = "default";
-    private int index;
-
-    @Nullable
-    public abstract Identifier downloadTexture(MinecraftProfileTexture.Type type);
 
     @NotNull
-    public final String getModelOrDefault() {
+    public final String getModel() {
         return firstNonNull(model, "default");
-    }
-
-    @Contract("_ -> this")
-    public final PlayerHandler<TT> withIndex(int index) {
-        this.index = index;
-        return this;
     }
 
     public boolean hasTexture(MinecraftProfileTexture.Type type) {
         return textures.containsKey(type);
-    }
-
-    public final int getIndex() {
-        return index;
     }
 
     protected void setModel(String model) {

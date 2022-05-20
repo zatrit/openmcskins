@@ -2,7 +2,8 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.zatrit.openmcskins.resolvers.handler.AnimatedTexturePlayerHandler;
+import net.zatrit.openmcskins.interfaces.resolver.Resolver;
+import net.zatrit.openmcskins.resolvers.handler.AnimatedPlayerHandler;
 import org.apache.commons.codec.binary.Base64;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +21,7 @@ public class MinecraftCapesResolver implements Resolver<MinecraftCapesResolver.P
         return new PlayerHandler(profile);
     }
 
-    public static class PlayerHandler extends AnimatedTexturePlayerHandler {
+    public static class PlayerHandler extends AnimatedPlayerHandler {
         private static final String BASE_URL = "https://minecraftcapes.net/profile/";
         private final Map<String, ?> data;
 

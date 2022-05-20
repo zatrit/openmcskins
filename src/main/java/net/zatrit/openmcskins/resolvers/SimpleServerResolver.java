@@ -2,7 +2,8 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.zatrit.openmcskins.resolvers.handler.AnimatedTexturePlayerHandler;
+import net.zatrit.openmcskins.interfaces.resolver.Resolver;
+import net.zatrit.openmcskins.resolvers.handler.AnimatedPlayerHandler;
 import net.zatrit.openmcskins.util.io.NetworkUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,7 +14,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.zatrit.openmcskins.util.CollectionUtils.getOrDefaultNonGeneric;
+import static com.google.common.base.MoreObjects.firstNonNull;
 
 public record SimpleServerResolver(String host, String format) implements Resolver<SimpleServerResolver.PlayerHandler> {
     public SimpleServerResolver(String host) {
@@ -42,12 +43,12 @@ public record SimpleServerResolver(String host, String format) implements Resolv
         return new PlayerHandler(map);
     }
 
-    public static class PlayerHandler extends AnimatedTexturePlayerHandler {
+    public static class PlayerHandler extends AnimatedPlayerHandler {
         @SuppressWarnings("unchecked")
         public PlayerHandler(Map<String, Map<String, ?>> data) {
             if (data != null) data.forEach((k, v) -> {
                 MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(k);
-                Map<String, ?> metadata = (Map<String, ?>) getOrDefaultNonGeneric(v, "metadata", new HashMap<>());
+                Map<String, ?> metadata = (Map<String, ?>) firstNonNull(v.get("metadata"), new HashMap<>());
 
                 if (v.containsKey("url")) this.textures.put(type, (String) v.get("url"));
                 if (metadata.containsKey("model")) this.setModel((String) metadata.get("model"));

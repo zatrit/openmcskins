@@ -1,6 +1,8 @@
 package net.zatrit.openmcskins.util.io;
 
 import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.interfaces.io.StreamAction;
+import net.zatrit.openmcskins.interfaces.io.StreamOpener;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

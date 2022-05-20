@@ -4,7 +4,9 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
+import net.zatrit.openmcskins.interfaces.resolver.Resolver;
 import net.zatrit.openmcskins.loader.PlayerManager;
+import net.zatrit.openmcskins.resolvers.handler.AbstractPlayerHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class MojangAuthlibResolver implements Resolver<MojangAuthlibResolver.PlayerHandler> {
@@ -13,7 +15,7 @@ public class MojangAuthlibResolver implements Resolver<MojangAuthlibResolver.Pla
         return new PlayerHandler(profile);
     }
 
-    public static class PlayerHandler extends net.zatrit.openmcskins.resolvers.handler.PlayerHandler<MinecraftProfileTexture> {
+    public static class PlayerHandler extends AbstractPlayerHandler<MinecraftProfileTexture> {
         public PlayerHandler(@NotNull GameProfile profile) {
             if (profile.getProperties().isEmpty())
                 PlayerManager.getSessionService().fillProfileProperties(profile, true);

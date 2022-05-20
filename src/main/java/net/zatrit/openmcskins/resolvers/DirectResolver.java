@@ -2,7 +2,8 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.zatrit.openmcskins.resolvers.handler.AnimatedTexturePlayerHandler;
+import net.zatrit.openmcskins.interfaces.resolver.Resolver;
+import net.zatrit.openmcskins.resolvers.handler.AnimatedPlayerHandler;
 import net.zatrit.openmcskins.util.io.NetworkUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +26,7 @@ public record DirectResolver(String baseUrl,
         return new PlayerHandler(baseUrl, profile, type);
     }
 
-    public static class PlayerHandler extends AnimatedTexturePlayerHandler {
+    public static class PlayerHandler extends AnimatedPlayerHandler {
         public PlayerHandler(@NotNull String baseUrl, @NotNull GameProfile profile, MinecraftProfileTexture.Type type) {
             String formattedUrl = baseUrl.replace("{name}", profile.getName()).replace("{id}", profile.getId().toString());
 

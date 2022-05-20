@@ -9,9 +9,10 @@ import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.Cache;
 import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.interfaces.handler.PlayerCosmeticsHandler;
+import net.zatrit.openmcskins.interfaces.resolver.PlayerCosmeticsResolver;
 import net.zatrit.openmcskins.loader.Cosmetics;
 import net.zatrit.openmcskins.mixin.NativeImageAccessor;
-import net.zatrit.openmcskins.resolvers.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.util.io.NetworkUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -22,14 +23,12 @@ import java.io.Reader;
 import java.net.URL;
 import java.util.*;
 
-public record OptifineResolver(
-        String baseUrl) implements Resolver<OptifineResolver.PlayerSkinHandler>, PlayerCosmeticsResolver<OptifineResolver.PlayerSkinHandler> {
+public record OptifineResolver(String baseUrl) implements PlayerCosmeticsResolver<OptifineResolver.PlayerSkinHandler> {
     public OptifineResolver(String baseUrl) {
         this.baseUrl = NetworkUtils.fixUrl(baseUrl);
     }
 
     @Contract("_ -> new")
-    @Override
     public @NotNull OptifineResolver.PlayerSkinHandler resolvePlayer(GameProfile profile) {
         return new PlayerSkinHandler(profile);
     }

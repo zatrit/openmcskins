@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AnimatedTexturePlayerHandler extends PlayerHandler<String> {
+public abstract class AnimatedPlayerHandler extends AbstractPlayerHandler<String> {
     private final Map<MinecraftProfileTexture.Type, Boolean> animated = new HashMap<>();
 
     protected boolean isAnimated(MinecraftProfileTexture.Type type) {
@@ -43,7 +43,7 @@ public abstract class AnimatedTexturePlayerHandler extends PlayerHandler<String>
             if (isAnimated(type) && OpenMCSkins.getConfig().ignoreAnimatedCapes) return null;
 
             if (type == MinecraftProfileTexture.Type.SKIN)
-                return TextureUtils.loadPlayerSkin(() -> openStream(textureUrl, type), getModelOrDefault(), textureUrl, this.cacheEnabled());
+                return TextureUtils.loadPlayerSkin(() -> openStream(textureUrl, type), getModel(), textureUrl, this.cacheEnabled());
             else if (isAnimated(type))
                 return TextureUtils.loadAnimatedTexture(() -> openStream(textureUrl, type), textureUrl, this.cacheEnabled());
             return TextureUtils.loadStaticTexture(() -> openStream(textureUrl, type), textureUrl, TextureUtils.getAspects(type), this.cacheEnabled());
