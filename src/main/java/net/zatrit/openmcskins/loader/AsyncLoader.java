@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.PlayerManager;
 import net.zatrit.openmcskins.resolvers.Resolver;
 import net.zatrit.openmcskins.resolvers.handler.PlayerHandler;
 import org.apache.logging.log4j.util.TriConsumer;
@@ -14,16 +13,16 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-public record AsyncLoader(Function<Resolver<?>, Boolean> filter, Function<List<PlayerHandler<?>>, ?> processing,
+public record AsyncLoader(Function<Resolver<?>, Boolean> filter,
+                          Function<List<? extends PlayerHandler<?>>, ?> processHandlers,
                           TriConsumer<Object, Object, GameProfile> doFinally) {
-    @SuppressWarnings("unchecked")
     public void loadAsync(GameProfile profile, Object callback) {
         List<? extends Resolver<?>> resolvers = OpenMCSkins.getResolvers().stream().filter(filter::apply).toList();
         Flowable.range(0, resolvers.size()).parallel().runOn(Schedulers.io()).mapOptional(i -> {
             Resolver<?> host = resolvers.get(i);
-            return Optional.of(host.resolvePlayer(host.requiresUUID() ? PlayerManager.patchProfile(profile) : profile));
-        }).sequential().timeout(OpenMCSkins.getConfig().resolvingTimeout, TimeUnit.SECONDS).toList().doOnSuccess(list -> {
-            Object result = processing.apply((List<PlayerHandler<?>>) list);
+            return Optional.of(host.resolvePlayer(host.requiresUUID() ? PlayerManager.patchProfile(profile) : profile).withIndex(i));
+        }).runOn(Schedulers.computation()).sequential().timeout(OpenMCSkins.getConfig().resolvingTimeout, TimeUnit.SECONDS).toList().doOnSuccess(handlers -> {
+            Object result = processHandlers.apply(handlers);
             doFinally.accept(result, callback, profile);
         }).doOnError(OpenMCSkins::handleError).subscribe();
     }

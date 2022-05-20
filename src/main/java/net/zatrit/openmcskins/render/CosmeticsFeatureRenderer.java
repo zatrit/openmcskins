@@ -12,7 +12,7 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
-import net.zatrit.openmcskins.loader.CosmeticsLoader;
+import net.zatrit.openmcskins.loader.Cosmetics;
 import net.zatrit.openmcskins.loader.Loaders;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -45,15 +45,15 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
             return;
 
         String name = entity.getEntityName();
-        if (!CosmeticsLoader.PLAYER_COSMETICS.containsKey(name)) {
-            CosmeticsLoader.PLAYER_COSMETICS.put(name, new ArrayList<>());
+        if (!Cosmetics.PLAYER_COSMETICS.containsKey(name)) {
+            Cosmetics.PLAYER_COSMETICS.put(name, new ArrayList<>());
             Loaders.COSMETICS.getLoader().loadAsync(entity.getGameProfile(), null);
             return;
         }
 
-        List<CosmeticsLoader.CosmeticsItem> items = CosmeticsLoader.PLAYER_COSMETICS.get(name);
+        List<Cosmetics.CosmeticsItem> items = Cosmetics.PLAYER_COSMETICS.get(name);
 
-        for (CosmeticsLoader.CosmeticsItem item : items) {
+        for (Cosmetics.CosmeticsItem item : items) {
             VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentCull(item.texture()));
             for (int i = 0; i < item.parts().size(); i++) {
                 ModelPart part = item.parts().get(i);

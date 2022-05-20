@@ -12,11 +12,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.stream.IntStream;
 
-public final class CosmeticsLoader {
+public final class Cosmetics {
     public static final Map<String, List<CosmeticsItem>> PLAYER_COSMETICS = new HashMap<>(256);
     public static final Map<String, CosmeticsItem> COSMETICS = new HashMap<>(16);
 
-    private CosmeticsLoader() {
+    private Cosmetics() {
     }
 
     @SuppressWarnings("unchecked")
@@ -32,7 +32,7 @@ public final class CosmeticsLoader {
         models.forEach(model -> {
             List<LinkedTreeMap<String, Object>> submodels = (List<LinkedTreeMap<String, Object>>) model.get("submodels");
             if (submodels != null && submodels.size() > 1) for (int i = 0; i < submodels.size(); i++)
-                submodels.get(i).put("id", ((String) submodels.get(i).get("id")) + i);
+                submodels.get(i).putIfAbsent("id", ((String) submodels.get(i).get("id")) + i);
         });
 
         JemFile jemFile = new JemFile(jemData, modelId, resourceManager);

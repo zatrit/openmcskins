@@ -20,7 +20,8 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
-import net.zatrit.openmcskins.loader.CosmeticsLoader;
+import net.zatrit.openmcskins.loader.Cosmetics;
+import net.zatrit.openmcskins.loader.PlayerManager;
 import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.OptifineResolver;
@@ -78,7 +79,7 @@ public class OpenMCSkins implements ClientModInitializer {
         OpenMCSkins.resolvers = null;
         PlayerManager.getProfileCache().cleanUp();
         PlayerManager.clearTextures();
-        CosmeticsLoader.clear();
+        Cosmetics.clear();
         OptifineResolver.PlayerSkinHandler.texturesLoaded.forEach(id -> MinecraftClient.getInstance().getTextureManager().getTexture(id).close());
         OptifineResolver.PlayerSkinHandler.texturesLoaded.clear();
 

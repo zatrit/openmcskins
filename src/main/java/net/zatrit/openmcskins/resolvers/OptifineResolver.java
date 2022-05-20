@@ -9,7 +9,8 @@ import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.Cache;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.loader.CosmeticsLoader;
+import net.zatrit.openmcskins.loader.Cosmetics;
+import net.zatrit.openmcskins.mixin.NativeImageAccessor;
 import net.zatrit.openmcskins.resolvers.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.util.io.NetworkUtils;
 import org.jetbrains.annotations.Contract;
@@ -55,6 +56,7 @@ public record OptifineResolver(
             if (texturesLoaded.contains(id)) return;
 
             NativeImage image = NativeImage.read(Cache.SKINS.getCache().getOrDownload(url, new URL(url)::openStream));
+            if (NativeImageAccessor.class.cast(image).getPointer() == 0L) return;
             MinecraftClient.getInstance().getTextureManager().registerTexture(id, new NativeImageBackedTexture(image));
 
             texturesLoaded.add(id);
@@ -66,7 +68,7 @@ public record OptifineResolver(
 
         @SuppressWarnings("unchecked")
         @Override
-        public List<CosmeticsLoader.CosmeticsItem> downloadCosmetics() {
+        public List<Cosmetics.CosmeticsItem> downloadCosmetics() {
             try {
                 String urlString = formatUrl("%s/users/%s.cfg", profile.getName());
                 URL realUrl = new URL(urlString);
@@ -76,7 +78,7 @@ public record OptifineResolver(
                     LinkedTreeMap<String, Object> map = mapFromReader(in);
                     List<Map<String, Object>> items = (List<Map<String, Object>>) map.get("items");
 
-                    List<CosmeticsLoader.CosmeticsItem> cosmetics = new ArrayList<>();
+                    List<Cosmetics.CosmeticsItem> cosmetics = new ArrayList<>();
 
                     items.stream().filter(item -> Objects.equals(item.get("active"), "true")).forEach(item -> {
                         String modelType = (String) item.get("type");
@@ -87,7 +89,7 @@ public record OptifineResolver(
                             URL modelUrl = new URL(formatUrl("%s/%s", (String) item.get("model")));
 
                             LinkedTreeMap<String, Object> model = mapFromReader(new InputStreamReader(Cache.MODELS.getCache().getOrDownload(modelType, modelUrl::openStream)));
-                            cosmetics.add(CosmeticsLoader.loadJemCosmeticItem(textureId, modelId, model, modelType));
+                            cosmetics.add(Cosmetics.loadJemCosmeticItem(textureId, modelId, model, modelType));
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }

@@ -2,8 +2,8 @@ package net.zatrit.openmcskins.loader;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
+import it.unimi.dsi.fastutil.ints.IntComparators;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.PlayerManager;
 import net.zatrit.openmcskins.resolvers.PlayerCosmeticsResolver;
 import net.zatrit.openmcskins.resolvers.Resolver;
 import net.zatrit.openmcskins.resolvers.handler.PlayerCosmeticsHandler;
@@ -21,30 +21,34 @@ import java.util.function.Function;
 
 @SuppressWarnings("unchecked")
 public enum Loaders {
-    COSMETICS(x -> x instanceof PlayerCosmeticsResolver<?>, list -> {
-        List<CosmeticsLoader.CosmeticsItem> allCosmetics = new ArrayList<>();
+    COSMETICS(x -> x instanceof PlayerCosmeticsResolver<?>, handlers -> {
+        // Operating with handlers list
+        List<Cosmetics.CosmeticsItem> allCosmetics = new ArrayList<>();
 
-        list.stream().map(x -> ((PlayerCosmeticsHandler) x).downloadCosmetics()).forEach(cosmetics -> {
+        handlers.stream().map(x -> ((PlayerCosmeticsHandler) x).downloadCosmetics()).forEach(cosmetics -> {
             if (cosmetics != null) allCosmetics.addAll(cosmetics);
         });
 
         return allCosmetics;
     }, (data, callback, profile) -> {
-        List<CosmeticsLoader.CosmeticsItem> cosmetics = (List<CosmeticsLoader.CosmeticsItem>) data;
-        CosmeticsLoader.PLAYER_COSMETICS.put(profile.getName(), cosmetics);
+        // Do finally
+        List<Cosmetics.CosmeticsItem> cosmetics = (List<Cosmetics.CosmeticsItem>) data;
+        Cosmetics.PLAYER_COSMETICS.put(profile.getName(), cosmetics);
     }),
-    VANILLA(x -> true, list -> {
+    VANILLA(x -> true, handlers -> {
+        // Operating with handlers list
         Map<Type, PlayerHandler<?>> leading = new EnumMap<>(Type.class);
 
         for (Type type : Type.values()) {
-            for (int i = 0; i < list.size(); i++) {
-                if ((!leading.containsKey(type) || leading.get(type).getIndex() > i) && list.get(i).hasTexture(type))
-                    leading.put(type, list.get(i));
-            }
+            leading.put(type, handlers.stream()
+                    .filter(x -> x.hasTexture(type))
+                    .min((a, b) -> IntComparators.NATURAL_COMPARATOR.compare(a.getIndex(), b.getIndex()))
+                    .orElse(null));
         }
 
         return leading;
     }, (a, b, profile) -> {
+        // Do finally
         SkinResolveCallback callback = (SkinResolveCallback) b;
         Map<Type, PlayerHandler<?>> leading = (Map<Type, PlayerHandler<?>>) a;
 
@@ -59,8 +63,8 @@ public enum Loaders {
     });
     private final AsyncLoader loader;
 
-    Loaders(Function<Resolver<?>, Boolean> filter, Function<List<PlayerHandler<?>>, ?> processing, TriConsumer<Object, Object, GameProfile> doFinally) {
-        this.loader = new AsyncLoader(filter, processing, doFinally);
+    Loaders(Function<Resolver<?>, Boolean> filter, Function<List<? extends PlayerHandler<?>>, ?> processHandlers, TriConsumer<Object, Object, GameProfile> doFinally) {
+        this.loader = new AsyncLoader(filter, processHandlers, doFinally);
     }
 
     @Contract(value = " -> new", pure = true)

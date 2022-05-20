@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.PlayerManager;
+import net.zatrit.openmcskins.loader.PlayerManager;
 import org.jetbrains.annotations.NotNull;
 
 public class MojangAuthlibResolver implements Resolver<MojangAuthlibResolver.PlayerHandler> {

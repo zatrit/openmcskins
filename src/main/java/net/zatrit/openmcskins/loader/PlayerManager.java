@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins;
+package net.zatrit.openmcskins.loader;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -9,6 +9,7 @@ import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.Identifier;
+import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.render.textures.AnimatedTexture;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
