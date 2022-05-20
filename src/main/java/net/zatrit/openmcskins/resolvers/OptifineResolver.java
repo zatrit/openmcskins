@@ -87,7 +87,7 @@ public record OptifineResolver(
                             URL modelUrl = new URL(formatUrl("%s/%s", (String) item.get("model")));
 
                             LinkedTreeMap<String, Object> model = mapFromReader(new InputStreamReader(Cache.MODELS.getCache().getOrDownload(modelType, modelUrl::openStream)));
-                            cosmetics.add(CosmeticsLoader.loadSingleCosmeticItem(textureId, modelId, model, modelType));
+                            cosmetics.add(CosmeticsLoader.loadJemCosmeticItem(textureId, modelId, model, modelType));
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }
