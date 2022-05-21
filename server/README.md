@@ -11,6 +11,8 @@ running it because it has the same filesystem structure as the local skins store
         * [PLAYER NAME].png
     * cape
         * [PLAYER NAME].png
+    * ears
+        * [PLAYER NAME].png
 * metadata (OPTIONAL)
     * skin
         * [PLAYER NAME].json

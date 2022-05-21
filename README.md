@@ -29,7 +29,7 @@ This is a mod that allows skins and capes to be use in various ways.
 * From [LabyMod](https://www.labymod.net/en) capes system
 * From [5ZigReborn](https://5zigreborn.eu/) capes system
 * From [Cosmetica](https://cosmetica.cc/) capes system
-* From [MinecraftCapes](https://minecraftcapes.net/) capes system (no ears yet)
+* From [MinecraftCapes](https://minecraftcapes.net/) capes system
 * From [Mantle](https://mantle.gg) capes system
 
 ### Screenshots

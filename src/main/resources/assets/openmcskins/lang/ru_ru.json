@@ -17,6 +17,8 @@
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[0]": "(в разработке) Дополнительная косметика",
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[1]": "Для работы необходим мод CEM",
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[2]": "Об ошибках сообщайте на ",
+  "text.autoconfig.openmcskins.option.ears.@Tooltip[0]": "Пользовательские уши",
+  "text.autoconfig.openmcskins.option.ears.@Tooltip[1]": "Для работы необходим мод Manningham Mills",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[0]": "Алгоритм, генерирующий имя для скина",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[1]": " SHA384 (РЕКОМЕНДУЕТСЯ) - генерирует уникальное имя для",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[2]": "  каждого файла скина, но они имеют большую длину",

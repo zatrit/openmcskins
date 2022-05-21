@@ -18,6 +18,8 @@
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[1]": "Requires CEM mod",
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[2]": "Report any issues on",
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[3]": "https://github.com/zatrit/openmcskins/issues",
+  "text.autoconfig.openmcskins.option.ears.@Tooltip[0]": "Custom ears",
+  "text.autoconfig.openmcskins.option.ears.@Tooltip[1]": "Requires Manningham Mills mod",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[0]": "Algorithm that generates a skin name",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[1]": " SHA384 (RECOMMENDED) - generates a unique name",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[2]": "  for each skin file, but they are long",
