@@ -46,7 +46,12 @@ Force render player icon near name in player list if ``true``
 
 ### cosmetics
 
-Render player Optifine/Cloaks+ cosmetics (requires [CEM](https://www.curseforge.com/minecraft/mc-mods/custom-entity-models-cem)) if ``true``
+Render player Optifine/Cloaks+/Mantle cosmetics
+(requires [CEM](https://www.curseforge.com/minecraft/mc-mods/custom-entity-models-cem)) if ``true``
+
+### ears
+
+Render player ears (requires [Manningham Mills](https://github.com/Chocohead/Fabric-ASM/releases/tag/v2.0)) if ``true``
 
 ### Config example:
 
@@ -58,6 +63,7 @@ resolvingTimeout: 5
 offlineMode: false
 forceIcons: true
 cosmetics: true
+ears: true
 # DON'T USE TOO MANY HOSTS
 hosts:
   - !direct 'CAPE:http://example.com/api/{name}?uuid={id}'
