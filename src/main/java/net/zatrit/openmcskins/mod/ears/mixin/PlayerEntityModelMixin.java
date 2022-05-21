@@ -18,7 +18,7 @@ public class PlayerEntityModelMixin {
     }
 
     @Redirect(method = "getTexturedModelData", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ModelPartBuilder;cuboid(FFFFFFLnet/minecraft/client/model/Dilation;)Lnet/minecraft/client/model/ModelPartBuilder;", ordinal = 0))
-    private static ModelPartBuilder cuboid(@NotNull ModelPartBuilder instance, float offsetX, float offsetY, float offsetZ, float sizeX, float sizeY, float sizeZ, Dilation extra) {
+    private static ModelPartBuilder resizeCuboid(@NotNull ModelPartBuilder instance, float offsetX, float offsetY, float offsetZ, float sizeX, float sizeY, float sizeZ, Dilation extra) {
         return instance.cuboid(offsetX, offsetY, offsetZ, sizeX, sizeY, sizeZ, extra, 0.25F, 0.125F);
     }
 }

@@ -1,7 +1,6 @@
 package net.zatrit.openmcskins.mod;
 
 import com.google.common.hash.HashFunction;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.gui.registry.GuiRegistry;
@@ -34,7 +33,6 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,7 +40,7 @@ import java.util.Objects;
 @Environment(EnvType.CLIENT)
 public class OpenMCSkins implements ClientModInitializer {
     public static final String MOD_ID = "openmcskins";
-    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final Logger LOGGER = LoggerFactory.getLogger("OpenMCSkins");
     public static final boolean HAS_CEM_MOD = FabricLoader.getInstance().isModLoaded("cem");
     public static final boolean HAS_MM_MOD = FabricLoader.getInstance().isModLoaded("mm");
     private static List<? extends Resolver<?>> resolvers;

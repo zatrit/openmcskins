@@ -32,8 +32,8 @@ public class OpenMCSkinsConfig implements ConfigData, Serializable {
     @ConfigEntry.Category("loader")
     @KeepClassMember
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
-    @ConfigEntry.Gui.Tooltip(count = 7)
-    public HashingAlgorithm hashingAlgorithm = HashingAlgorithm.SHA384;
+    @ConfigEntry.Gui.Tooltip(count = 8)
+    public HashingAlgorithm hashingAlgorithm = HashingAlgorithm.MURMUR3;
     @ConfigEntry.Category("rendering")
     @KeepClassMember
     public boolean ignoreAnimatedCapes = false;

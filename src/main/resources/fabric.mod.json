@@ -27,7 +27,9 @@
     ]
   },
   "mixins": [
-    "openmcskins.mixins.json"
+    "openmcskins.mixins.json",
+    "openmcskins.ears.mixins.json",
+    "openmcskins.cem.mixins.json"
   ],
   "depends": {
     "fabricloader": "*",

@@ -5,7 +5,6 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.entity.feature.Deadmau5FeatureRenderer;
-import net.minecraft.client.util.DefaultSkinHelper;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.mod.mixin.AbstractClientPlayerEntityAccessor;
@@ -19,25 +18,25 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 
 @Mixin(Deadmau5FeatureRenderer.class)
 public class Deadmau5FeatureRendererMixin {
-    private static final Type EARS_TYPE = (ClassTinkerers.getEnum(Type.class, "EARS"));
+    private static final Type earsType = (ClassTinkerers.getEnum(Type.class, "EARS"));
 
     @Redirect(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Ljava/lang/String;equals(Ljava/lang/Object;)Z", remap = false))
     public boolean earsEnabled(@NotNull String string, Object object) {
-        return OpenMCSkins.getConfig().ears;
+        return (OpenMCSkins.getConfig().ears && OpenMCSkins.HAS_MM_MOD);
     }
 
     @Redirect(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getSkinTexture()Lnet/minecraft/util/Identifier;"))
     public Identifier playerEarsInsteadOfSkin(AbstractClientPlayerEntity instance) {
         PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) instance).invokeGetPlayerListEntry();
         ((PlayerListEntryAccessor) entry).invokeLoadTextures();
-        Identifier ears = ((PlayerListEntryAccessor) entry).getTextures().get(EARS_TYPE);
-        return firstNonNull(ears, DefaultSkinHelper.getTexture(entry.getProfile().getId()));
+        Identifier ears = ((PlayerListEntryAccessor) entry).getTextures().get(earsType);
+        return firstNonNull(ears, entry.getSkinTexture());
     }
 
     @Redirect(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;hasSkinTexture()Z"))
     public boolean hasEars(AbstractClientPlayerEntity instance) {
         PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) instance).invokeGetPlayerListEntry();
         ((PlayerListEntryAccessor) entry).invokeLoadTextures();
-        return ((PlayerListEntryAccessor) entry).getTextures().containsKey(EARS_TYPE);
+        return ((PlayerListEntryAccessor) entry).getTextures().containsKey(earsType);
     }
 }

@@ -3,13 +3,12 @@
   "minVersion": "0.8",
   "package": "net.zatrit.openmcskins.mod.mixin",
   "compatibilityLevel": "JAVA_17",
-  "client": [
+  "mixins": [
     "AbstractClientPlayerEntityAccessor",
     "HashingFunctionChangerMixin",
     "MinecraftClientAccessor",
     "MinecraftClientMixin",
     "NativeImageAccessor",
-    "PlayerEntityRendererMixin",
     "PlayerListEntryAccessor",
     "PlayerListEntryMixin",
     "PlayerListHudMixin",

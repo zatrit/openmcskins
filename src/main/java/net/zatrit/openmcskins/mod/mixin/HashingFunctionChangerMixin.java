@@ -15,5 +15,6 @@ public class HashingFunctionChangerMixin {
     @Redirect(method = "*", at = @At(value = "INVOKE", target = "Lcom/google/common/hash/Hashing;sha1()Lcom/google/common/hash/HashFunction;"))
     public HashFunction changeHashingAlgorithm() {
         return OpenMCSkins.getHashFunction();
+
     }
 }
