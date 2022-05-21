@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.mixin;
+package net.zatrit.openmcskins.mod.mixin;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
@@ -8,7 +8,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
 import net.zatrit.openmcskins.util.GUIUtils;
 import org.spongepowered.asm.mixin.Mixin;

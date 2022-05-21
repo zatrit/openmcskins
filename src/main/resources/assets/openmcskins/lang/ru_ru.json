@@ -10,6 +10,7 @@
   "text.autoconfig.openmcskins.option.offlineMode": "Оффлайн (пиратский) режим",
   "text.autoconfig.openmcskins.option.ignoreAnimatedCapes": "Игнорировать анимированные плащи",
   "text.autoconfig.openmcskins.option.cosmetics": "Косметика",
+  "text.autoconfig.openmcskins.option.ears": "Уши",
   "text.autoconfig.openmcskins.option.forceIcons": "Принудительные иконки в списке игроков",
   "text.autoconfig.openmcskins.option.forceIcons.@Tooltip[0]": "Рисовать иконку возле ника игрока",
   "text.autoconfig.openmcskins.option.forceIcons.@Tooltip[1]": "даже на оффлайн-серверах",

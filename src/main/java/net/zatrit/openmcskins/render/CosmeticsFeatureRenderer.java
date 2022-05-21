@@ -10,7 +10,7 @@ import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.loader.Cosmetics;
 import net.zatrit.openmcskins.loader.Loaders;

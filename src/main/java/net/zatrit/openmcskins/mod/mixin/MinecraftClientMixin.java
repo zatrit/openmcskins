@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.mixin;
+package net.zatrit.openmcskins.mod.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;

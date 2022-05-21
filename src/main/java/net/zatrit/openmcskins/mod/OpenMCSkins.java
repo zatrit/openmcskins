@@ -1,6 +1,7 @@
-package net.zatrit.openmcskins;
+package net.zatrit.openmcskins.mod;
 
 import com.google.common.hash.HashFunction;
+import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.gui.registry.GuiRegistry;
@@ -20,12 +21,12 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
+import net.zatrit.openmcskins.interfaces.resolver.Resolver;
 import net.zatrit.openmcskins.loader.Cosmetics;
 import net.zatrit.openmcskins.loader.PlayerManager;
-import net.zatrit.openmcskins.mixin.AbstractClientPlayerEntityAccessor;
-import net.zatrit.openmcskins.mixin.PlayerListEntryAccessor;
+import net.zatrit.openmcskins.mod.mixin.AbstractClientPlayerEntityAccessor;
+import net.zatrit.openmcskins.mod.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.OptifineResolver;
-import net.zatrit.openmcskins.interfaces.resolver.Resolver;
 import net.zatrit.openmcskins.util.ConfigUtil;
 import net.zatrit.openmcskins.util.yaml.ConfigConstructor;
 import net.zatrit.openmcskins.util.yaml.ConfigRepresenter;
@@ -33,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,6 +44,7 @@ public class OpenMCSkins implements ClientModInitializer {
     public static final String MOD_ID = "openmcskins";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     public static final boolean HAS_CEM_MOD = FabricLoader.getInstance().isModLoaded("cem");
+    public static final boolean HAS_MM_MOD = FabricLoader.getInstance().isModLoaded("mm");
     private static List<? extends Resolver<?>> resolvers;
 
     public static OpenMCSkinsConfig getConfig() {
@@ -105,7 +108,6 @@ public class OpenMCSkins implements ClientModInitializer {
         });
 
         final GuiRegistry registry = AutoConfig.getGuiRegistry(OpenMCSkinsConfig.class);
-
         final ConfigEntryBuilder builder = ConfigEntryBuilder.create();
 
         registry.registerTypeProvider((s, field, o, o1, guiRegistryAccess) -> {

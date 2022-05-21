@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins;
+package net.zatrit.openmcskins.mod;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 @KeepClass
-public class OpenMCSkinsModMenu implements ModMenuApi {
+public class ModMenu implements ModMenuApi {
     @Contract(pure = true)
     @Override
     public @NotNull ConfigScreenFactory<?> getModConfigScreenFactory() {

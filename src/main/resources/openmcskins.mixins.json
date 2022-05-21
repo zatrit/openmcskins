@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.zatrit.openmcskins.mixin",
+  "package": "net.zatrit.openmcskins.mod.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
     "AbstractClientPlayerEntityAccessor",
@@ -13,7 +13,6 @@
     "PlayerListEntryAccessor",
     "PlayerListEntryMixin",
     "PlayerListHudMixin",
-    "PlayerSkinProviderAccessor",
     "SkinOptionsScreenMixin"
   ]
 }

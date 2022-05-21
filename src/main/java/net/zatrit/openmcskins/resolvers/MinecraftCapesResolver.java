@@ -34,28 +34,19 @@ public class MinecraftCapesResolver implements Resolver<MinecraftCapesResolver.P
             Map<String, String> textures = (Map<String, String>) data.get("textures");
             Arrays.stream(MinecraftProfileTexture.Type.values()).parallel().forEach(t -> {
                 String k = t.toString().toLowerCase();
-                if (textures.containsKey(k) && textures.get(k) != null) this.textures.put(t, url);
+                if (textures.containsKey(k) && textures.get(k) != null) this.textures.put(t, textures.get(k));
             });
         }
 
-        @SuppressWarnings("unchecked")
         @Override
-        protected InputStream openStream(String path, MinecraftProfileTexture.@NotNull Type type) {
-            Map<String, String> textures = (Map<String, String>) data.get("textures");
-
-            if (textures.get(type.toString().toLowerCase()) == null) return null;
-            byte[] bytes = Base64.decodeBase64(textures.get(type.toString().toLowerCase()));
+        protected InputStream openStream(String data, MinecraftProfileTexture.@NotNull Type type) {
+            byte[] bytes = Base64.decodeBase64(data);
             return new ByteArrayInputStream(bytes);
         }
 
         @Override
         protected boolean isAnimated(MinecraftProfileTexture.Type type) {
             return type == MinecraftProfileTexture.Type.CAPE && (boolean) data.get("animatedCape");
-        }
-
-        @Override
-        public boolean hasTexture(MinecraftProfileTexture.Type type) {
-            return this.textures.containsKey(type);
         }
     }
 }

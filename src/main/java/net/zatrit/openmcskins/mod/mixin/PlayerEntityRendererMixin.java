@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.mixin;
+package net.zatrit.openmcskins.mod.mixin;
 
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.EntityRendererFactory;

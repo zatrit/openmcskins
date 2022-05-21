@@ -3,7 +3,7 @@ package net.zatrit.openmcskins.loader;
 import com.mojang.authlib.GameProfile;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.interfaces.resolver.Resolver;
 import net.zatrit.openmcskins.resolvers.handler.AbstractPlayerHandler;
 import net.zatrit.openmcskins.interfaces.handler.PlayerVanillaHandler;

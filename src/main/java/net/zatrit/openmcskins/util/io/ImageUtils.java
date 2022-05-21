@@ -5,7 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.mixin.NativeImageAccessor;
+import net.zatrit.openmcskins.mod.mixin.NativeImageAccessor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,6 +15,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public final class ImageUtils {
     private ImageUtils() {
@@ -52,5 +53,12 @@ public final class ImageUtils {
         NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
         if (texture.getImage() == null) return null;
         return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture(prefix, texture);
+    }
+
+    public static @Nullable Identifier fromStream(InputStream stream, String prefix) throws IOException {
+        NativeImage image = NativeImage.read(stream);
+        if (NativeImageAccessor.class.cast(image).getPointer() == 0L)
+            return null;
+        return registerNativeImage(image, prefix);
     }
 }

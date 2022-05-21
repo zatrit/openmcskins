@@ -1,10 +1,11 @@
-package net.zatrit.openmcskins.mixin;
+package net.zatrit.openmcskins.mod.mixin;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.loader.Loaders;
+import net.zatrit.openmcskins.mod.OpenMCSkins;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,9 +1,9 @@
-package net.zatrit.openmcskins.mixin;
+package net.zatrit.openmcskins.mod.mixin;
 
 import com.google.common.hash.HashFunction;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.texture.PlayerSkinProvider;
-import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClass;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

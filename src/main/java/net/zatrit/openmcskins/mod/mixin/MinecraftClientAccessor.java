@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.mixin;
+package net.zatrit.openmcskins.mod.mixin;
 
 import com.mojang.authlib.minecraft.UserApiService;
 import net.minecraft.client.MinecraftClient;

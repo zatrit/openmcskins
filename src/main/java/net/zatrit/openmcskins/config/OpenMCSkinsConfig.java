@@ -8,9 +8,9 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.zatrit.openmcskins.HostType;
-import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
-import net.zatrit.openmcskins.mixin.MinecraftClientAccessor;
+import net.zatrit.openmcskins.mod.mixin.MinecraftClientAccessor;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -41,6 +41,10 @@ public class OpenMCSkinsConfig implements ConfigData, Serializable {
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip(count = 4)
     public boolean cosmetics = OpenMCSkins.HAS_CEM_MOD;
+    @ConfigEntry.Category("rendering")
+    @KeepClassMember
+    @ConfigEntry.Gui.Tooltip(count = 4)
+    public boolean ears = OpenMCSkins.HAS_MM_MOD;
     @ConfigEntry.Category("rendering")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip(count = 2)

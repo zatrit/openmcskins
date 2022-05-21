@@ -5,8 +5,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.Cache;
-import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.interfaces.io.StreamOpener;
+import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.render.textures.AnimatedTexture;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -52,11 +52,9 @@ public final class TextureUtils {
         return id;
     }
 
-    public static int[] getAspects(MinecraftProfileTexture.Type type) {
-        return switch (type) {
-            case SKIN -> new int[]{1, 1};
-            case CAPE, ELYTRA -> new int[]{2, 1};
-        };
+    @Contract(pure = true)
+    public static int @NotNull [] getAspects(MinecraftProfileTexture.Type type) {
+        return type == MinecraftProfileTexture.Type.SKIN ? new int[]{1, 1} : new int[]{2, 1};
     }
 
     @Contract(pure = true)

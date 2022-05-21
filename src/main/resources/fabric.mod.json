@@ -17,10 +17,13 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "net.zatrit.openmcskins.OpenMCSkins"
+      "net.zatrit.openmcskins.mod.OpenMCSkins"
     ],
     "modmenu": [
-      "net.zatrit.openmcskins.OpenMCSkinsModMenu"
+      "net.zatrit.openmcskins.mod.ModMenu"
+    ],
+    "mm:early_risers": [
+      "net.zatrit.openmcskins.mod.EarlyRiser"
     ]
   },
   "mixins": [
@@ -40,6 +43,7 @@
   },
   "recommends": {
     "modmenu": "*",
-    "cem": "*"
+    "cem": "*",
+    "mm": "*"
   }
 }

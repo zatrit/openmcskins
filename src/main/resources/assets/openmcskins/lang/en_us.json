@@ -10,6 +10,7 @@
   "text.autoconfig.openmcskins.option.offlineMode": "Offline mode",
   "text.autoconfig.openmcskins.option.ignoreAnimatedCapes": "Ignore animated capes",
   "text.autoconfig.openmcskins.option.cosmetics": "Cosmetics",
+  "text.autoconfig.openmcskins.option.ears": "Ears",
   "text.autoconfig.openmcskins.option.forceIcons": "Force draw icons in player list",
   "text.autoconfig.openmcskins.option.forceIcons.@Tooltip[0]": "Draw player icon near name",
   "text.autoconfig.openmcskins.option.forceIcons.@Tooltip[1]": "on offline servers too",
