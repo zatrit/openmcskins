@@ -15,7 +15,7 @@ This is a mod that allows skins and capes to be use in various ways.
 * [Cloth config](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 * [CEM](https://www.curseforge.com/minecraft/mc-mods/custom-entity-models-cem) (OPTIONAL) (required for custom
   Optifine models)
-* [Manningham Mills](https://github.com/Chocohead/Fabric-ASM/releases/tag/v2.0) (OPTIONAL) (required for ears)
+* [Manningham Mills](https://jitpack.io/com/github/Chocohead/Fabric-ASM/v2.3/Fabric-ASM-v2.3.jar) (OPTIONAL) (required for ears)
 
 ### Where can this mod download skins and capes from?
 
