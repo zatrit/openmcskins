@@ -87,7 +87,7 @@ processResources {
 
 final String VERSION_AND_NAME = "${project.archivesBaseName}-${project.version}"
 
-// Create shadow jar, because ReactiveX and SnakeYAML are third-party libraries
+// Create shadow jar, because ReactiveX is third-party library
 
 project.configurations.implementation.setCanBeResolved(true)
 
