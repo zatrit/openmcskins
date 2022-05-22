@@ -12,13 +12,13 @@ PORT = 8080
 REDIRECTS = {}
 
 
-def findPath(type, hash, extension):
-    keys = list(REDIRECTS[type].keys())
-    values = list(REDIRECTS[type].values())
-    redirect = keys[values.index(hash)]
+def findPath(textureType, redirectHash, extension):
+    keys = list(REDIRECTS[textureType].keys())
+    values = list(REDIRECTS[textureType].values())
+    redirect = keys[values.index(redirectHash)]
     if len(extension) == 0:
         extension = ".png"
-    return f"textures/{type}/{redirect}{extension}"
+    return f"textures/{textureType}/{redirect}{extension}"
 
 
 # https://stackoverflow.com/a/1761615/12245612
@@ -30,24 +30,24 @@ def crc32(fileName):
     return "%X" % (prev & 0xFFFFFFFF)
 
 
-def generateRedirect(type, name, extension):
-    file = f'textures/{type}/{name}{extension}'
-    if type not in REDIRECTS:
+def generateRedirect(textureType, name, extension):
+    file = f'textures/{textureType}/{name}{extension}'
+    if textureType not in REDIRECTS:
         REDIRECTS[type] = {}
-    if name in REDIRECTS[type]:
-        hash = REDIRECTS[type][name]
-        if hash == crc32(file):
-            return f"/redirect/{type}/{hash}{extension}"
-        del REDIRECTS[type][name]
+    if name in REDIRECTS[textureType]:
+        redirectHash = REDIRECTS[textureType][name]
+        if redirectHash == crc32(file):
+            return f"/redirect/{textureType}/{redirectHash}{extension}"
+        del REDIRECTS[textureType][name]
 
     if not exists(file):
         return None
 
-    hash = crc32(file)
-    if type not in REDIRECTS:
-        REDIRECTS[type] = {}
-    REDIRECTS[type][name] = hash
-    return f"/redirect/{type}/{hash}{extension}"
+    redirectHash = crc32(file)
+    if textureType not in REDIRECTS:
+        REDIRECTS[textureType] = {}
+    REDIRECTS[textureType][name] = redirectHash
+    return f"/redirect/{textureType}/{redirectHash}{extension}"
 
 
 class PlayerData(dict):

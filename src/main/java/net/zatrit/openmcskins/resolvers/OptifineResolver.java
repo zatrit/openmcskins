@@ -8,10 +8,10 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.Cache;
-import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.interfaces.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.interfaces.resolver.PlayerCosmeticsResolver;
 import net.zatrit.openmcskins.loader.Cosmetics;
+import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.mod.mixin.NativeImageAccessor;
 import net.zatrit.openmcskins.util.io.NetworkUtils;
 import org.jetbrains.annotations.Contract;
@@ -21,7 +21,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public record OptifineResolver(String baseUrl) implements PlayerCosmeticsResolver<OptifineResolver.PlayerSkinHandler> {
     public OptifineResolver(String baseUrl) {
@@ -39,7 +42,7 @@ public record OptifineResolver(String baseUrl) implements PlayerCosmeticsResolve
     }
 
     public class PlayerSkinHandler extends DirectResolver.PlayerHandler implements PlayerCosmeticsHandler {
-        public static List<Identifier> texturesLoaded = new LinkedList<>();
+        public static final List<Identifier> texturesLoaded = new ArrayList<>();
         private final GameProfile profile;
 
         public PlayerSkinHandler(@NotNull GameProfile profile) {
