@@ -5,13 +5,12 @@ import net.zatrit.openmcskins.interfaces.handler.PlayerVanillaHandler;
 import net.zatrit.openmcskins.util.IndexedObject;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
-public abstract class AbstractPlayerHandler<TT> extends IndexedObject implements Serializable, PlayerVanillaHandler {
+public abstract class AbstractPlayerHandler<TT> extends IndexedObject implements PlayerVanillaHandler {
     protected final Map<MinecraftProfileTexture.Type, TT> textures = new HashMap<>();
     private String model = "default";
 

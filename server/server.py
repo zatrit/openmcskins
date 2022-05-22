@@ -38,8 +38,7 @@ def generateRedirect(type, name, extension):
         hash = REDIRECTS[type][name]
         if hash == crc32(file):
             return f"/redirect/{type}/{hash}{extension}"
-        else:
-            del REDIRECTS[type][name]
+        del REDIRECTS[type][name]
 
     if not exists(file):
         return None
@@ -56,7 +55,7 @@ class PlayerData(dict):
         super().__init__()
         for i in os.listdir("textures/"):
             for j in os.listdir(f"textures/{i}"):
-                found = re.findall("([^\"]*)(\.\w*)", j)[0]
+                found = re.findall(r"([^\"]*)(\.\w*)", j)[0]
                 if found[0] == name:
                     self[i.upper()] = {}
                     redirect = generateRedirect(i, name, found[1])
@@ -71,7 +70,7 @@ class PlayerData(dict):
 class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         trimmedPath = self.path.lstrip("/").rstrip("/")
-        found = re.findall("redirect/([^\"]*)/([^\"]*)(\.\w*)", trimmedPath)
+        found = re.findall(r"redirect/([^\"]*)/([^\"]*)(\.\w*)", trimmedPath)
         if trimmedPath.startswith("textures/"):
             name = trimmedPath.removeprefix("textures/")
             name = re.findall("(\w*)", name)[0]
@@ -83,7 +82,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "image/png")
             self.end_headers()
-            self.wfile.write(open(findPath(*found[0]), 'rb').read())
+            with open(findPath(*found[0]), 'rb') as file:
+                self.wfile.write(file.read())
         else:
             self.send_error(404, "Not found")
 

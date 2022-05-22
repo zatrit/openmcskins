@@ -26,7 +26,7 @@ public class ConfigConstructor extends Constructor {
 
         @Override
         public @NotNull Object construct(Node node) {
-            String nodeAsString = constructScalar((ScalarNode) node);
+            String nodeAsString = ConfigConstructor.this.constructScalar((ScalarNode) node);
             return new HostConfigItem(type, nodeAsString);
         }
     }
