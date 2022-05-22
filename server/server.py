@@ -73,7 +73,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         found = re.findall(r"redirect/([^\"]*)/([^\"]*)(\.\w*)", trimmedPath)
         if trimmedPath.startswith("textures/"):
             name = trimmedPath.removeprefix("textures/")
-            name = re.findall("(\w*)", name)[0]
+            name = re.findall(r"(\w*)", name)[0]
             self.send_response(200)
             self.send_header("Content-type", "application/json")
             self.end_headers()

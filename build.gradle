@@ -124,3 +124,7 @@ task proguard(type: ProGuardTask) {
     libraryjars(project.configurations.modImplementation.files)
     libraryjars(project.configurations.modApi.files)
 }
+
+compileJava {
+    options.compilerArgs << '-Xlint'
+}

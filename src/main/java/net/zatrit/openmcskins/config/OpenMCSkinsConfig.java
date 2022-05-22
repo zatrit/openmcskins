@@ -14,13 +14,12 @@ import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.mod.mixin.MinecraftClientAccessor;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Config.Gui.Background(value = Config.Gui.Background.TRANSPARENT)
 @Config(name = OpenMCSkins.MOD_ID)
-public class OpenMCSkinsConfig implements ConfigData, Serializable {
+public class OpenMCSkinsConfig implements ConfigData {
     @ConfigEntry.Category("loader")
     @KeepClassMember
     public int resolvingTimeout = 5;

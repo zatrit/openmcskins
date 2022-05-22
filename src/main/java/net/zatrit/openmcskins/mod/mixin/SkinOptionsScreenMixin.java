@@ -32,7 +32,7 @@ public abstract class SkinOptionsScreenMixin extends Screen {
     }
 
     @Inject(method = "init", at = @At("RETURN"))
-    private void init(CallbackInfo info) {
+    public void init(CallbackInfo info) {
         int buttonX = this.width / 2 - 124;
         int buttonY = this.height / 6 + 12 * (PlayerModelPart.values().length + 1);
 

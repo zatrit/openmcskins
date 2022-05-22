@@ -4,11 +4,10 @@ import net.zatrit.openmcskins.HostType;
 import net.zatrit.openmcskins.interfaces.resolver.Resolver;
 
 import javax.annotation.Nullable;
-import java.io.Serializable;
 
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
-public class HostConfigItem implements Serializable {
+public class HostConfigItem {
     public HostType type;
     public String value;
 

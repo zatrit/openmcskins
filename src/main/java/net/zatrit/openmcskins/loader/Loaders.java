@@ -4,10 +4,10 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import it.unimi.dsi.fastutil.ints.IntComparators;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.interfaces.resolver.PlayerCosmeticsResolver;
-import net.zatrit.openmcskins.interfaces.resolver.Resolver;
 import net.zatrit.openmcskins.interfaces.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.interfaces.handler.PlayerVanillaHandler;
+import net.zatrit.openmcskins.interfaces.resolver.PlayerCosmeticsResolver;
+import net.zatrit.openmcskins.interfaces.resolver.Resolver;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +35,7 @@ public enum Loaders {
         List<Cosmetics.CosmeticsItem> cosmetics = (List<Cosmetics.CosmeticsItem>) data;
         Cosmetics.PLAYER_COSMETICS.put(profile.getName(), cosmetics);
     }),
+    @SuppressWarnings("CatchMayIgnoreException")
     VANILLA(x -> true, handlers -> {
         // Operating with handlers list
         Map<Type, PlayerVanillaHandler> leading = new EnumMap<>(Type.class);
@@ -57,7 +58,8 @@ public enum Loaders {
                 Identifier identifier = v.downloadTexture(k);
                 PlayerManager.registerTextureId(identifier);
                 callback.onSkinResolved(k, identifier, v.getModel());
-            } catch (Exception ignore) {
+            } catch (Exception exception) {
+
             }
         });
     });
