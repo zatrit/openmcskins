@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @KeepClass
@@ -40,13 +41,15 @@ public class RequiresModMixinPlugin implements IMixinConfigPlugin {
                 @KeepClassMember
                 @Override
                 public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-                    return new AnnotationVisitor(Opcodes.ASM9) {
-                        @KeepClassMember
-                        @Override
-                        public void visit(String name, Object value) {
-                            requiredMod[0] = String.valueOf(value);
-                        }
-                    };
+                    if (Objects.equals(descriptor, "Lnet/zatrit/openmcskins/annotation/RequiresMod;"))
+                        return new AnnotationVisitor(Opcodes.ASM9) {
+                            @KeepClassMember
+                            @Override
+                            public void visit(String name, Object value) {
+                                requiredMod[0] = String.valueOf(value);
+                            }
+                        };
+                    else return super.visitAnnotation(descriptor, visible);
                 }
             }, 0);
 
