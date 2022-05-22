@@ -79,8 +79,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "application/json")
             self.end_headers()
-            json =  json.dumps(PlayerData(name, self.headers["Host"]))
-            self.wfile.write(bytes(json, "utf-8"))
+            jsonStr = json.dumps(PlayerData(name, self.headers["Host"]))
+            self.wfile.write(bytes(jsonStr, "utf-8"))
         elif len(found) > 0:
             self.send_response(200)
             self.send_header("Content-type", "image/png")
