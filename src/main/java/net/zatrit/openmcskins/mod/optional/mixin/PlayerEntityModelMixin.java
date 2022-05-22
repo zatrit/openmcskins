@@ -1,8 +1,9 @@
-package net.zatrit.openmcskins.mod.ears.mixin;
+package net.zatrit.openmcskins.mod.optional.mixin;
 
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.ModelPartBuilder;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
+import net.zatrit.openmcskins.annotation.RequiresMod;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
+@RequiresMod("mm")
 @Mixin(PlayerEntityModel.class)
 public class PlayerEntityModelMixin {
     @ModifyArgs(method = "getTexturedModelData", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/ModelPartBuilder;uv(II)Lnet/minecraft/client/model/ModelPartBuilder;", ordinal = 0))

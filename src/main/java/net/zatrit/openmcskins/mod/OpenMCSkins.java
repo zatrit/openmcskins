@@ -12,7 +12,6 @@ import me.shedaniel.clothconfig2.impl.builders.StringListBuilder;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
@@ -41,8 +40,6 @@ import java.util.Objects;
 public class OpenMCSkins implements ClientModInitializer {
     public static final String MOD_ID = "openmcskins";
     public static final Logger LOGGER = LoggerFactory.getLogger("OpenMCSkins");
-    public static final boolean HAS_CEM_MOD = FabricLoader.getInstance().isModLoaded("cem");
-    public static final boolean HAS_MM_MOD = FabricLoader.getInstance().isModLoaded("mm");
     private static List<? extends Resolver<?>> resolvers;
 
     public static OpenMCSkinsConfig getConfig() {

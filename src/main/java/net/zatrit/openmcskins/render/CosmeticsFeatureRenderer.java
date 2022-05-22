@@ -1,5 +1,6 @@
 package net.zatrit.openmcskins.render;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;
@@ -10,10 +11,10 @@ import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.loader.Cosmetics;
 import net.zatrit.openmcskins.loader.Loaders;
+import net.zatrit.openmcskins.mod.OpenMCSkins;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
+    private static final boolean hasCem = FabricLoader.getInstance().isModLoaded("cem");
+
     public CosmeticsFeatureRenderer(FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> context) {
         super(context);
     }
@@ -41,7 +44,7 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
     @KeepClassMember
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, @NotNull AbstractClientPlayerEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        if (!OpenMCSkins.getConfig().cosmetics || !OpenMCSkins.HAS_CEM_MOD || entity.getGameProfile() == null || entity.isInvisible())
+        if (!OpenMCSkins.getConfig().cosmetics || !hasCem || entity.getGameProfile() == null || entity.isInvisible())
             return;
 
         String name = entity.getEntityName();

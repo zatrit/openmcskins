@@ -28,11 +28,10 @@
   },
   "mixins": [
     "openmcskins.mixins.json",
-    "openmcskins.ears.mixins.json",
-    "openmcskins.cem.mixins.json"
+    "openmcskins.optional.mixins.json"
   ],
   "depends": {
-    "fabricloader": "*",
+    "fabricloader": ">=0.14",
     "fabric-resource-loader-v0": "*",
     "minecraft": ">=1.17",
     "java": ">=16",

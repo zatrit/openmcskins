@@ -1,0 +1,14 @@
+{
+  "parent": "openmcskins.mixins.json",
+  "verbose": true,
+  "package": "net.zatrit.openmcskins.mod.optional.mixin",
+  "plugin": "net.zatrit.openmcskins.mod.plugin.RequiresModMixinPlugin",
+  "mixins": [
+    "Deadmau5FeatureRendererMixin",
+    "PlayerEntityModelMixin",
+    "PlayerEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

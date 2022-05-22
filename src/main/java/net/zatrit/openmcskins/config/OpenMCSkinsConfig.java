@@ -5,6 +5,7 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.resource.language.I18n;
 import net.zatrit.openmcskins.HostType;
@@ -40,11 +41,11 @@ public class OpenMCSkinsConfig implements ConfigData, Serializable {
     @ConfigEntry.Category("rendering")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip(count = 4)
-    public boolean cosmetics = OpenMCSkins.HAS_CEM_MOD;
+    public boolean cosmetics = FabricLoader.getInstance().isModLoaded("cem");
     @ConfigEntry.Category("rendering")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip(count = 2)
-    public boolean ears = OpenMCSkins.HAS_MM_MOD;
+    public boolean ears = FabricLoader.getInstance().isModLoaded("mm");
     @ConfigEntry.Category("rendering")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip(count = 2)
