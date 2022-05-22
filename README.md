@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![CurseForge](https://cf.way2muchnoise.eu/versions/620015_latest.svg)](https://www.curseforge.com/minecraft/mc-mods/openmcskins)
-[![DeepSource](https://deepsource.io/gh/zatrit/openmcskins.svg/?label=active+issues&show_trend=true&token=QZ_WP20fjwD0OJZeCwi9yxlW)](https://deepsource.io/gh/zatrit/openmcskins/?ref=repository-badge)
+[![DeepSource](https://deepsource.io/gh/zatrit/openmcskins.svg/?label=resolved+issues&token=QZ_WP20fjwD0OJZeCwi9yxlW)](https://deepsource.io/gh/zatrit/openmcskins/?ref=repository-badge)
 
 *This mod is not affiliated with Mojang, Optifine, LabyMod, MinecraftCapes mod, Cloaks+, TLauncher, ely.by, 5ZigReborn,
 Mantle or Cosmetica mod*
