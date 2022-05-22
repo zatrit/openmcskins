@@ -1,5 +1,6 @@
 # https://www.afternerd.com/blog/python-http-server/
-# Partial implementation of the skins system API from https://docs.ely.by/en/skins-system.html
+# Partial implementation of the skins system
+# API from https://docs.ely.by/en/skins-system.html
 from genericpath import exists
 import http.server
 import os
@@ -63,7 +64,8 @@ class PlayerData(dict):
 
                     metadataFile = f'{os.getcwd()}/metadata/{i}/{name}.json'
                     if exists(metadataFile):
-                        self[i.upper()]["metadata"] = json.load(open(metadataFile, 'rb'))
+                        with open(metadataFile, 'rb') as file:
+                            self[i.upper()]["metadata"] = json.load(file)
 
 
 # https://stackoverflow.com/a/52531444/12245612
@@ -77,7 +79,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-type", "application/json")
             self.end_headers()
-            self.wfile.write(bytes(json.dumps(PlayerData(name, self.headers["Host"])), "utf-8"))
+            json =  json.dumps(PlayerData(name, self.headers["Host"]))
+            self.wfile.write(bytes(json, "utf-8"))
         elif len(found) > 0:
             self.send_response(200)
             self.send_header("Content-type", "image/png")
@@ -92,6 +95,6 @@ with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print("Serving at port", PORT)
     try:
         httpd.serve_forever()
-    except(KeyboardInterrupt):
+    except KeyboardInterrupt:
         httpd.shutdown()
         print("Closing server at port", PORT)
