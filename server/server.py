@@ -34,7 +34,7 @@ def crc32(fileName):
 def generateRedirect(textureType, name, extension):
     file = f'textures/{textureType}/{name}{extension}'
     if textureType not in REDIRECTS:
-        REDIRECTS[type] = {}
+        REDIRECTS[textureType] = {}
     if name in REDIRECTS[textureType]:
         redirectHash = REDIRECTS[textureType][name]
         if redirectHash == crc32(file):
