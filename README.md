@@ -9,7 +9,7 @@ Mantle or Cosmetica mod*
 
 ## What is it?
 
-This is a mod that allows skins and capes to be use in various ways.
+It's a custom Minecraft skin loader, that's supports custom ears and some cosmetics
 
 ### Dependencies
 

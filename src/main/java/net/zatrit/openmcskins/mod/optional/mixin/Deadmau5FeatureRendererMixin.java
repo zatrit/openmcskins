@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
-@RequiresMod("mm")
+@RequiresMod(all = "mm", any = {"fabricloader:>=0.14", "quilt_loader"})
 @Mixin(Deadmau5FeatureRenderer.class)
 public class Deadmau5FeatureRendererMixin {
     private static final Type earsType = (ClassTinkerers.getEnum(Type.class, "EARS"));

@@ -5,9 +5,9 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import it.unimi.dsi.fastutil.ints.IntComparators;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.interfaces.handler.PlayerCosmeticsHandler;
-import net.zatrit.openmcskins.interfaces.handler.PlayerVanillaHandler;
-import net.zatrit.openmcskins.interfaces.resolver.PlayerCosmeticsResolver;
+import net.zatrit.openmcskins.interfaces.resolver.CosmeticsResolver;
 import net.zatrit.openmcskins.interfaces.resolver.Resolver;
+import net.zatrit.openmcskins.resolvers.handler.AbstractPlayerHandler;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -21,7 +21,7 @@ import java.util.function.Function;
 
 @SuppressWarnings("unchecked")
 public enum Loaders {
-    COSMETICS(x -> x instanceof PlayerCosmeticsResolver, handlers -> {
+    COSMETICS(x -> x instanceof CosmeticsResolver, handlers -> {
         // Operating with handlers list
         List<Cosmetics.CosmeticsItem> allCosmetics = new ArrayList<>();
 
@@ -30,7 +30,7 @@ public enum Loaders {
         });
 
         return allCosmetics;
-    }, (data, callback, profile) -> {
+    }, (data, profile, args) -> {
         // Do finally
         List<Cosmetics.CosmeticsItem> cosmetics = (List<Cosmetics.CosmeticsItem>) data;
         Cosmetics.PLAYER_COSMETICS.put(profile.getName(), cosmetics);
@@ -38,7 +38,7 @@ public enum Loaders {
     @SuppressWarnings("CatchMayIgnoreException")
     VANILLA(x -> true, handlers -> {
         // Operating with handlers list
-        Map<Type, PlayerVanillaHandler> leading = new EnumMap<>(Type.class);
+        Map<Type, AbstractPlayerHandler<?>> leading = new EnumMap<>(Type.class);
 
         for (Type type : Type.values()) {
             leading.put(type, handlers.stream()
@@ -48,15 +48,15 @@ public enum Loaders {
         }
 
         return leading;
-    }, (a, b, profile) -> {
+    }, (a, profile, args) -> {
         // Do finally
-        SkinResolveCallback callback = (SkinResolveCallback) b;
-        Map<Type, PlayerVanillaHandler> leading = (Map<Type, PlayerVanillaHandler>) a;
+        SkinResolveCallback callback = (SkinResolveCallback) args[0];
+        Map<Type, AbstractPlayerHandler<?>> leading = (Map<Type, AbstractPlayerHandler<?>>) a;
 
         leading.forEach((k, v) -> {
             try {
                 Identifier identifier = v.downloadTexture(k);
-                PlayerManager.registerTextureId(identifier);
+                PlayerRegistry.registerTextureId(identifier);
                 callback.onSkinResolved(k, identifier, v.getModel());
             } catch (Exception exception) {
 
@@ -65,7 +65,7 @@ public enum Loaders {
     });
     private final AsyncLoader loader;
 
-    Loaders(Function<Resolver<?>, Boolean> filter, Function<List<? extends PlayerVanillaHandler>, ?> processHandlers, TriConsumer<Object, Object, GameProfile> doFinally) {
+    Loaders(Function<Resolver<?>, Boolean> filter, Function<List<? extends AbstractPlayerHandler<?>>, ?> processHandlers, TriConsumer<Object, GameProfile, Object[]> doFinally) {
         this.loader = new AsyncLoader(filter, processHandlers, doFinally);
     }
 

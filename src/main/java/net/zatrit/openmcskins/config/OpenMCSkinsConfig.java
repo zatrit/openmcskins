@@ -22,12 +22,15 @@ import java.util.List;
 public class OpenMCSkinsConfig implements ConfigData {
     @ConfigEntry.Category("loader")
     @KeepClassMember
+    @ConfigEntry.Gui.Tooltip(count = 2)
     public int resolvingTimeout = 5;
     @ConfigEntry.Category("loader")
     @KeepClassMember
+    @ConfigEntry.Gui.Tooltip(count = 2)
     public @NotNull List<HostConfigItem> hosts = new ArrayList<>();
     @ConfigEntry.Category("loader")
     @KeepClassMember
+    @ConfigEntry.Gui.Tooltip()
     public boolean offlineMode = ((MinecraftClientAccessor) MinecraftClient.getInstance()).getUserApiService() == UserApiService.OFFLINE;
     @ConfigEntry.Category("loader")
     @KeepClassMember
@@ -36,14 +39,15 @@ public class OpenMCSkinsConfig implements ConfigData {
     public HashingAlgorithm hashingAlgorithm = HashingAlgorithm.MURMUR3;
     @ConfigEntry.Category("rendering")
     @KeepClassMember
-    public boolean ignoreAnimatedCapes = false;
+    @ConfigEntry.Gui.Tooltip()
+    public boolean animatedCapes = true;
     @ConfigEntry.Category("rendering")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip(count = 4)
     public boolean cosmetics = FabricLoader.getInstance().isModLoaded("cem");
     @ConfigEntry.Category("rendering")
     @KeepClassMember
-    @ConfigEntry.Gui.Tooltip(count = 2)
+    @ConfigEntry.Gui.Tooltip(count = 3)
     public boolean ears = FabricLoader.getInstance().isModLoaded("mm");
     @ConfigEntry.Category("rendering")
     @KeepClassMember

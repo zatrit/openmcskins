@@ -40,7 +40,7 @@ public abstract class AnimatedPlayerHandler extends AbstractPlayerHandler<String
         try {
             String textureUrl = textures.get(type);
 
-            if (isAnimated(type) && OpenMCSkins.getConfig().ignoreAnimatedCapes && type == MinecraftProfileTexture.Type.CAPE)
+            if (isAnimated(type) && !OpenMCSkins.getConfig().animatedCapes && type == MinecraftProfileTexture.Type.CAPE)
                 return null;
 
             if (type == MinecraftProfileTexture.Type.SKIN)

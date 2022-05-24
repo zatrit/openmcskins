@@ -5,6 +5,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public interface PlayerCosmeticsHandler extends PlayerVanillaHandler {
+public interface PlayerCosmeticsHandler {
     @Nullable List<Cosmetics.CosmeticsItem> downloadCosmetics();
 }

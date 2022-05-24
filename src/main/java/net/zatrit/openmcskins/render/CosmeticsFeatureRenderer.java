@@ -50,7 +50,7 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
         String name = entity.getEntityName();
         if (!Cosmetics.PLAYER_COSMETICS.containsKey(name)) {
             Cosmetics.PLAYER_COSMETICS.put(name, new ArrayList<>());
-            Loaders.COSMETICS.getLoader().loadAsync(entity.getGameProfile(), null);
+            Loaders.COSMETICS.getLoader().loadAsync(entity.getGameProfile(), (Object[]) null);
             return;
         }
 

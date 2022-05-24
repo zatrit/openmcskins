@@ -2,7 +2,7 @@
   "parent": "openmcskins.mixins.json",
   "verbose": true,
   "package": "net.zatrit.openmcskins.mod.optional.mixin",
-  "plugin": "net.zatrit.openmcskins.mod.plugin.RequiresModMixinPlugin",
+  "plugin": "net.zatrit.openmcskins.mod.plugin.ConditionalMixinPlugin",
   "mixins": [
     "Deadmau5FeatureRendererMixin",
     "PlayerEntityModelMixin",

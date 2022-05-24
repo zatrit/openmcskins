@@ -1,34 +1,52 @@
 {
-  "modmenu.descriptionTranslation.openmcskins": "Мод, позволяющий игрокам использовать свои скины и плащи. Конфиг находится в .minecraft/config/openmcskins.yml",
-  "openmcskins.reloadConfig": "Перезагрузить конфиг OpenMCSkins \nи скины всех игроков из доступных хостов",
-  "openmcskins.configure": "Настройки OpenMCSkins",
-  "text.autoconfig.openmcskins.title": "Настройки OpenMCSkins",
+  // Option: Hosts
   "text.autoconfig.openmcskins.option.hosts": "Хосты",
+  "text.autoconfig.openmcskins.option.hosts.@Tooltip[0]": "Список источников, из которых",
+  "text.autoconfig.openmcskins.option.hosts.@Tooltip[1]": "мод пытается загрузить скины",
+  // Option: Resolving timeout
   "text.autoconfig.openmcskins.option.resolvingTimeout": "Время на загрузку",
+  "text.autoconfig.openmcskins.option.resolvingTimeout.@Tooltip[0]": "Время, выделяемое на загрузку",
+  "text.autoconfig.openmcskins.option.resolvingTimeout.@Tooltip[1]": "скинов в §nсекундах",
+  // Option: Print full error message
   "text.autoconfig.openmcskins.option.fullErrorMessage": "Печатать полное сообщение об ошибке",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm": "Алгоритм хэширования скинов",
+  // Option: Offline mode
   "text.autoconfig.openmcskins.option.offlineMode": "Оффлайн (пиратский) режим",
-  "text.autoconfig.openmcskins.option.ignoreAnimatedCapes": "Игнорировать анимированные плащи",
-  "text.autoconfig.openmcskins.option.cosmetics": "Косметика",
-  "text.autoconfig.openmcskins.option.ears": "Уши",
+  "text.autoconfig.openmcskins.option.offlineMode.@Tooltip": "Загружать скины по §lимени§r вместо §lUUID",
+  // Option: Ignore animated capes
+  "text.autoconfig.openmcskins.option.animatedCapes": "Анимированные плащи",
+  "text.autoconfig.openmcskins.option.animatedCapes.@Tooltip": "Отображать анимированные плащи",
+  // Option: Force icons
   "text.autoconfig.openmcskins.option.forceIcons": "Принудительные иконки в списке игроков",
   "text.autoconfig.openmcskins.option.forceIcons.@Tooltip[0]": "Рисовать иконку возле ника игрока",
   "text.autoconfig.openmcskins.option.forceIcons.@Tooltip[1]": "даже на оффлайн-серверах",
+  // Option: Cosmetics
+  "text.autoconfig.openmcskins.option.cosmetics": "Косметика",
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[0]": "(в разработке) Дополнительная косметика",
-  "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[1]": "Для работы необходим мод CEM",
+  "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[1]": "Для работы необходим §lмод CEM",
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[2]": "Об ошибках сообщайте на ",
+  // Option: Ears
+  "text.autoconfig.openmcskins.option.ears": "Пользовательские уши",
   "text.autoconfig.openmcskins.option.ears.@Tooltip[0]": "Пользовательские уши",
-  "text.autoconfig.openmcskins.option.ears.@Tooltip[1]": "Для работы необходим мод Manningham Mills",
+  "text.autoconfig.openmcskins.option.ears.@Tooltip[1]": "Для работы необходим §nмод Manningham Mills",
+  "text.autoconfig.openmcskins.option.ears.@Tooltip[2]": "и версия §nFabric Loader§r >=0.14",
+  // Option: Hashing algorithm
+  "text.autoconfig.openmcskins.option.hashingAlgorithm": "Алгоритм хэширования скинов",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[0]": "Алгоритм, генерирующий имя для скина",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[1]": " SHA384 - генерирует уникальное имя для",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[1]": " §lSHA384§r - генерирует уникальное имя для",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[2]": "  каждого файла скина, но они имеют большую длину",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[3]": " SHA1 - устарел, но используется в ванильном Minecraft",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[4]": " CRC32 - генерирует короткие имена файлов, но",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[3]": " §l§mSHA1§r - устарел, но используется в ванильном Minecraft",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[4]": " §lCRC32§r - генерирует короткие имена файлов, но",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[5]": "  имеет высокий шанс коллизий",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[6]": " MURMUR3 (РЕКОМЕНДУЕТСЯ) - очень быстрый ",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[6]": " §lMURMUR3§r (РЕКОМЕНДУЕТСЯ) - очень быстрый ",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[7]": "  алгоритм хэширования",
-  "text.openmcskins.validation_error": "Неверная конфигурация!",
+  // Cloth config
   "text.autoconfig.openmcskins.category.debug": "Отладка",
   "text.autoconfig.openmcskins.category.rendering": "Рендеринг",
-  "text.autoconfig.openmcskins.category.loader": "Загрузчик"
+  "text.autoconfig.openmcskins.category.loader": "Загрузчик",
+  "text.openmcskins.validation_error": "Неверная конфигурация!",
+  "text.autoconfig.openmcskins.title": "Настройки OpenMCSkins",
+  // Other
+  "openmcskins.reloadConfig": "Перезагрузить конфиг OpenMCSkins \nи скины всех игроков из доступных хостов",
+  "openmcskins.configure": "Настройки §oOpenMCSkins",
+  "modmenu.descriptionTranslation.openmcskins": "Мод, позволяющий игрокам использовать свои скины и плащи. Конфиг находится в §n.minecraft/config/openmcskins.yml"
 }

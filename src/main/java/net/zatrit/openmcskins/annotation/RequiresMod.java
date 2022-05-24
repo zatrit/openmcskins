@@ -9,5 +9,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface RequiresMod {
-    String value();
+    String[] all() default {};
+
+    String[] any() default {};
 }

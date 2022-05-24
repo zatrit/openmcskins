@@ -12,6 +12,10 @@ import me.shedaniel.clothconfig2.impl.builders.StringListBuilder;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.VersionParsingException;
+import net.fabricmc.loader.impl.util.version.SemanticVersionImpl;
+import net.fabricmc.loader.util.version.SemanticVersionPredicateParser;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
@@ -21,7 +25,7 @@ import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
 import net.zatrit.openmcskins.interfaces.resolver.Resolver;
 import net.zatrit.openmcskins.loader.Cosmetics;
-import net.zatrit.openmcskins.loader.PlayerManager;
+import net.zatrit.openmcskins.loader.PlayerRegistry;
 import net.zatrit.openmcskins.mod.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mod.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.OptifineResolver;
@@ -34,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 @KeepClass
 @Environment(EnvType.CLIENT)
@@ -73,10 +78,10 @@ public class OpenMCSkins implements ClientModInitializer {
         invalidateAllResolvers();
     }
 
-    public static void invalidateAllResolvers() {
+    public static synchronized void invalidateAllResolvers() {
         OpenMCSkins.resolvers = null;
-        PlayerManager.getProfileCache().cleanUp();
-        PlayerManager.clearTextures();
+        PlayerRegistry.getProfileCache().cleanUp();
+        PlayerRegistry.clearTextures();
         Cosmetics.clear();
         OptifineResolver.PlayerSkinHandler.texturesLoaded.forEach(id -> MinecraftClient.getInstance().getTextureManager().getTexture(id).close());
         OptifineResolver.PlayerSkinHandler.texturesLoaded.clear();
@@ -118,5 +123,24 @@ public class OpenMCSkins implements ClientModInitializer {
             });
             return List.of(hostList.build());
         }, List.class);
+    }
+
+    @SuppressWarnings({"deprecation", "OptionalGetWithoutIsPresent"})
+    public static boolean isModLoaded(String name, String version) {
+        try {
+            var predicate = SemanticVersionPredicateParser.create(version);
+            var modVersion = new SemanticVersionImpl(FabricLoader.getInstance().getModContainer(name).get().getMetadata().getVersion().getFriendlyString(), false);
+            return predicate.test(modVersion);
+        } catch (VersionParsingException e) {
+            return false;
+        }
+    }
+
+    public static boolean isModLoaded(@NotNull String name) {
+        String[] splitted = name.split(":");
+        if (splitted.length > 1)
+            return isModLoaded(splitted[0], splitted[1]);
+        else
+            return isModLoaded(splitted[0], "*");
     }
 }

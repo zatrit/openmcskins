@@ -1,35 +1,53 @@
 {
-  "modmenu.descriptionTranslation.openmcskins": "Mod that's allows to use own skins and capes. Config placed in .minecraft/config/openmcskins.yml",
-  "openmcskins.reloadConfig": "Reload OpenMCSkins config and \nall players skins from available hosts",
-  "openmcskins.configure": "OpenMCSkins options",
-  "text.autoconfig.openmcskins.title": "OpenMCSkins configuration",
+  // Option: Hosts
   "text.autoconfig.openmcskins.option.hosts": "Hosts",
+  "text.autoconfig.openmcskins.option.hosts.@Tooltip[0]": "A list of sources where OpenMCSkins",
+  "text.autoconfig.openmcskins.option.hosts.@Tooltip[1]": "tries to find player skins",
+  // Option: Resolving timeout
   "text.autoconfig.openmcskins.option.resolvingTimeout": "Resolving timeout",
+  "text.autoconfig.openmcskins.option.resolvingTimeout.@Tooltip[0]": "Time allocated for resolve",
+  "text.autoconfig.openmcskins.option.resolvingTimeout.@Tooltip[1]": "skins in §nseconds",
+  // Option: Print full error message
   "text.autoconfig.openmcskins.option.fullErrorMessage": "Print full error message",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm": "Skin hashing algorithm",
+  // Option: Offline mode
   "text.autoconfig.openmcskins.option.offlineMode": "Offline mode",
-  "text.autoconfig.openmcskins.option.ignoreAnimatedCapes": "Ignore animated capes",
-  "text.autoconfig.openmcskins.option.cosmetics": "Cosmetics",
-  "text.autoconfig.openmcskins.option.ears": "Ears",
+  "text.autoconfig.openmcskins.option.offlineMode.@Tooltip": "Load skins by §lname§r instead of §lUUID",
+  // Option: Ignore animated capes
+  "text.autoconfig.openmcskins.option.animatedCapes": "Animated capes",
+  "text.autoconfig.openmcskins.option.animatedCapes.@Tooltip": "Render animated capes",
+  // Option: Force icons
   "text.autoconfig.openmcskins.option.forceIcons": "Force draw icons in player list",
   "text.autoconfig.openmcskins.option.forceIcons.@Tooltip[0]": "Draw player icon near name",
   "text.autoconfig.openmcskins.option.forceIcons.@Tooltip[1]": "on offline servers too",
+  // Option: Cosmetics
+  "text.autoconfig.openmcskins.option.cosmetics": "Cosmetics",
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[0]": "(W.I.P) Extra cosmetics",
-  "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[1]": "Requires CEM mod",
+  "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[1]": "Requires §nCEM mod",
   "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[2]": "Report any issues on",
-  "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[3]": "https://github.com/zatrit/openmcskins/issues",
+  "text.autoconfig.openmcskins.option.cosmetics.@Tooltip[3]": "§nhttps://github.com/zatrit/openmcskins/issues",
+  // Option: Ears
+  "text.autoconfig.openmcskins.option.ears": "Ears",
   "text.autoconfig.openmcskins.option.ears.@Tooltip[0]": "Custom ears",
-  "text.autoconfig.openmcskins.option.ears.@Tooltip[1]": "Requires Manningham Mills mod",
+  "text.autoconfig.openmcskins.option.ears.@Tooltip[1]": "Requires §nManningham Mills mod",
+  "text.autoconfig.openmcskins.option.ears.@Tooltip[2]": "and §nFabric Loader§r version >=0.14",
+  // Option: Hashing algorithm
+  "text.autoconfig.openmcskins.option.hashingAlgorithm": "Skin hashing algorithm",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[0]": "Algorithm that generates a skin name",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[1]": " SHA384 - generates a unique name",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[1]": " §lSHA384§r - generates a unique name",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[2]": "  for each skin file, but they are long",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[3]": " SHA1 - deprecated but used in vanilla Minecraft",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[4]": " CRC32 - generates short filenames, but it has a",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[3]": " §l§mSHA1§r - deprecated but used in vanilla Minecraft",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[4]": " §lCRC32§r - generates short filenames, but it has a",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[5]": "  high collision chance",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[6]": " MURMUR3 (RECOMMENDED) - very fast ",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[6]": " §lMURMUR3§r (RECOMMENDED) - very fast ",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[7]": "  hashing algorithm",
-  "text.openmcskins.validation_error": "Invalid config!",
+  // Cloth config
   "text.autoconfig.openmcskins.category.debug": "Debug",
   "text.autoconfig.openmcskins.category.rendering": "Rendering",
-  "text.autoconfig.openmcskins.category.loader": "Loader"
+  "text.autoconfig.openmcskins.category.loader": "Loader",
+  "text.openmcskins.validation_error": "Invalid config!",
+  "text.autoconfig.openmcskins.title": "OpenMCSkins configuration",
+  // Other
+  "openmcskins.reloadConfig": "Reload OpenMCSkins config and \nall players skins from available hosts",
+  "openmcskins.configure": "OpenMCSkins options",
+  "modmenu.descriptionTranslation.openmcskins": "Mod that's allows to use own skins and capes. Config placed in §n.minecraft/config/openmcskins.yml"
 }

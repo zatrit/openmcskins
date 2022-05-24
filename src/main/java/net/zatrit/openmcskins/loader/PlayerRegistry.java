@@ -4,7 +4,6 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gson.internal.LinkedTreeMap;
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.TextureManager;
@@ -22,19 +21,19 @@ import java.util.UUID;
 
 import static net.zatrit.openmcskins.interfaces.resolver.Resolver.GSON;
 
-public final class PlayerManager {
+public final class PlayerRegistry {
     private final static YggdrasilMinecraftSessionService sessionService = (YggdrasilMinecraftSessionService) MinecraftClient.getInstance().getSessionService();
     private static final Cache<String, GameProfile> profileCache = CacheBuilder.newBuilder().build();
     private static final ArrayList<Identifier> idRegistry = new ArrayList<>();
 
-    private PlayerManager() {
+    private PlayerRegistry() {
     }
 
-    public static MinecraftSessionService getSessionService() {
+    public static YggdrasilMinecraftSessionService getSessionService() {
         return sessionService;
     }
 
-    public static GameProfile patchProfile(@NotNull GameProfile profile) {
+    public static synchronized GameProfile patchProfile(@NotNull GameProfile profile) {
         if (OpenMCSkins.getConfig().offlineMode) {
             try {
                 GameProfile cachedProfile = getProfileCache().getIfPresent(profile.getName());
@@ -64,7 +63,7 @@ public final class PlayerManager {
         idRegistry.add(identifier);
     }
 
-    public static void clearTextures() {
+    public static synchronized void clearTextures() {
         TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
         idRegistry.stream().parallel().filter(Objects::nonNull).filter(x -> textureManager.getTexture(x) instanceof AnimatedTexture).forEach(x -> textureManager.getTexture(x).close());
         idRegistry.clear();

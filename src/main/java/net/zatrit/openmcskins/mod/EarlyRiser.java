@@ -3,7 +3,6 @@ package net.zatrit.openmcskins.mod;
 import com.chocohead.mm.api.ClassTinkerers;
 import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
-import org.spongepowered.asm.mixin.Mixins;
 
 @KeepClass
 public class EarlyRiser implements Runnable {

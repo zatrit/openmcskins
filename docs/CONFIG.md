@@ -36,9 +36,9 @@ Download skins by names instead of UUID's if ``true``
 
 Algorithm, that using for generate skin file name
 
-### ignoreAnimatedCapes
+### animatedCapes
 
-Ignore animated capes from custom server and MinecraftCapes if ``true``
+Render animated capes from custom server and MinecraftCapes if ``true``
 
 ### forceIcons
 

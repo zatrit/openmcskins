@@ -9,7 +9,7 @@ import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.Cache;
 import net.zatrit.openmcskins.interfaces.handler.PlayerCosmeticsHandler;
-import net.zatrit.openmcskins.interfaces.resolver.PlayerCosmeticsResolver;
+import net.zatrit.openmcskins.interfaces.resolver.CosmeticsResolver;
 import net.zatrit.openmcskins.loader.Cosmetics;
 import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.mod.mixin.NativeImageAccessor;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public record OptifineResolver(String baseUrl) implements PlayerCosmeticsResolver<OptifineResolver.PlayerSkinHandler> {
+public record OptifineResolver(String baseUrl) implements CosmeticsResolver<OptifineResolver.PlayerSkinHandler> {
     public OptifineResolver(String baseUrl) {
         this.baseUrl = NetworkUtils.fixUrl(baseUrl);
     }
