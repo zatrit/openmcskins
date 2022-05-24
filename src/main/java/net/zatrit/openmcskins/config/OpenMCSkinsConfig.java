@@ -47,7 +47,7 @@ public class OpenMCSkinsConfig implements ConfigData {
     public boolean cosmetics = FabricLoader.getInstance().isModLoaded("cem");
     @ConfigEntry.Category("rendering")
     @KeepClassMember
-    @ConfigEntry.Gui.Tooltip(count = 3)
+    @ConfigEntry.Gui.Tooltip(count = 4)
     public boolean ears = FabricLoader.getInstance().isModLoaded("mm");
     @ConfigEntry.Category("rendering")
     @KeepClassMember
