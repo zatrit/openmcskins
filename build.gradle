@@ -12,7 +12,6 @@ buildscript {
 
 plugins {
     id 'fabric-loom' version '0.12-SNAPSHOT'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17

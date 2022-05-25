@@ -2,25 +2,12 @@ package net.zatrit.openmcskins.mod;
 
 import com.google.common.hash.HashFunction;
 import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.gui.registry.GuiRegistry;
-import me.shedaniel.autoconfig.serializer.YamlConfigSerializer;
-import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.DumperOptions;
-import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.Yaml;
-import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
-import me.shedaniel.clothconfig2.impl.builders.StringListBuilder;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.VersionParsingException;
 import net.fabricmc.loader.impl.util.version.SemanticVersionImpl;
 import net.fabricmc.loader.util.version.SemanticVersionPredicateParser;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
 import net.zatrit.openmcskins.interfaces.resolver.Resolver;
 import net.zatrit.openmcskins.loader.Cosmetics;
@@ -28,9 +15,6 @@ import net.zatrit.openmcskins.loader.PlayerRegistry;
 import net.zatrit.openmcskins.mod.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mod.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.resolvers.OptifineResolver;
-import net.zatrit.openmcskins.util.ConfigUtil;
-import net.zatrit.openmcskins.util.yaml.ConfigConstructor;
-import net.zatrit.openmcskins.util.yaml.ConfigRepresenter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,9 +22,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Objects;
 
-@KeepClass
-@Environment(EnvType.CLIENT)
-public class OpenMCSkins implements ClientModInitializer {
+public class OpenMCSkins {
     public static final String MOD_ID = "openmcskins";
     public static final Logger LOGGER = LoggerFactory.getLogger("OpenMCSkins");
     private static List<? extends Resolver<?>> resolvers;
@@ -80,7 +62,8 @@ public class OpenMCSkins implements ClientModInitializer {
         OpenMCSkins.resolvers = null;
         PlayerRegistry.getProfileCache().cleanUp();
         PlayerRegistry.clearTextures();
-        Cosmetics.clear();
+        if (isModLoaded("cem"))
+            Cosmetics.clear();
         OptifineResolver.PlayerSkinHandler.texturesLoaded.forEach(id -> MinecraftClient.getInstance().getTextureManager().getTexture(id).close());
         OptifineResolver.PlayerSkinHandler.texturesLoaded.clear();
 
@@ -95,40 +78,13 @@ public class OpenMCSkins implements ClientModInitializer {
         }
     }
 
-    @Override
-    public void onInitializeClient() {
-        AutoConfig.register(OpenMCSkinsConfig.class, (d, c) -> {
-            final DumperOptions dumperOptions = new DumperOptions();
-            dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-            final Yaml yaml = new Yaml(new ConfigConstructor(), new ConfigRepresenter(), dumperOptions);
-            return new YamlConfigSerializer<>(d, c, yaml);
-        });
-
-        final GuiRegistry registry = AutoConfig.getGuiRegistry(OpenMCSkinsConfig.class);
-        final ConfigEntryBuilder builder = ConfigEntryBuilder.create();
-
-        registry.registerTypeProvider((s, field, o, o1, guiRegistryAccess) -> {
-            final List<String> hosts = ConfigUtil.getHostsAsStrings((OpenMCSkinsConfig) o);
-            final Text text = new TranslatableText("text.autoconfig.openmcskins.option.hosts");
-
-            StringListBuilder hostList = builder.startStrList(text, hosts).setInsertInFront(true).setSaveConsumer(x -> {
-                try {
-                    field.set(o, ConfigUtil.getHostsFromStrings(x));
-                } catch (IllegalAccessException e) {
-                    OpenMCSkins.handleError(e);
-                }
-            });
-            return List.of(hostList.build());
-        }, List.class);
-    }
-
     @SuppressWarnings({"deprecation", "OptionalGetWithoutIsPresent"})
     public static boolean isModLoaded(String name, String version) {
         try {
             var predicate = SemanticVersionPredicateParser.create(version);
             var modVersion = new SemanticVersionImpl(FabricLoader.getInstance().getModContainer(name).get().getMetadata().getVersion().getFriendlyString(), false);
             return predicate.test(modVersion);
-        } catch (VersionParsingException e) {
+        } catch (Exception e) {
             return false;
         }
     }

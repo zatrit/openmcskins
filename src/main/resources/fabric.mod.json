@@ -17,7 +17,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "net.zatrit.openmcskins.mod.OpenMCSkins"
+      "net.zatrit.openmcskins.mod.OpenMCSkinsFabric"
     ],
     "modmenu": [
       "net.zatrit.openmcskins.mod.ModMenu"
@@ -38,9 +38,9 @@
     "cloth-config": ">=6.0.0"
   },
   "breaks": {
+    "optifabric": "*",
     "offlineskins": "*",
-    "capes": "*",
-    "optifabric": "*"
+    "capes": "*"
   },
   "recommends": {
     "modmenu": "*",

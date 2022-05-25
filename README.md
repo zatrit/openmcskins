@@ -16,7 +16,8 @@ It's a custom Minecraft skin loader, that's supports custom ears and some cosmet
 * [Cloth config](https://www.curseforge.com/minecraft/mc-mods/cloth-config)
 * [CEM](https://www.curseforge.com/minecraft/mc-mods/custom-entity-models-cem) (OPTIONAL) (required for custom
   Optifine models)
-* [Manningham Mills](https://jitpack.io/com/github/Chocohead/Fabric-ASM/v2.3/Fabric-ASM-v2.3.jar) (OPTIONAL) (required for ears)
+* [Manningham Mills](https://jitpack.io/com/github/Chocohead/Fabric-ASM/v2.3/Fabric-ASM-v2.3.jar) (OPTIONAL) (required
+  for ears)
 
 ### Where can this mod download skins and capes from?
 
