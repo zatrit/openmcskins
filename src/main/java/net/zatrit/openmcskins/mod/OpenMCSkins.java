@@ -1,7 +1,6 @@
 package net.zatrit.openmcskins.mod;
 
 import com.google.common.hash.HashFunction;
-import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.gui.registry.GuiRegistry;
 import me.shedaniel.autoconfig.serializer.YamlConfigSerializer;
@@ -38,7 +37,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 @KeepClass
 @Environment(EnvType.CLIENT)
@@ -99,7 +97,6 @@ public class OpenMCSkins implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        RxJavaPlugins.setErrorHandler(OpenMCSkins::handleError);
         AutoConfig.register(OpenMCSkinsConfig.class, (d, c) -> {
             final DumperOptions dumperOptions = new DumperOptions();
             dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);

@@ -23,7 +23,7 @@ public class OpenMCSkinsConfig implements ConfigData {
     @ConfigEntry.Category("loader")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip(count = 2)
-    public int resolvingTimeout = 5;
+    public int resolvingTimeout = 10;
     @ConfigEntry.Category("loader")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip(count = 2)

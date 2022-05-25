@@ -44,9 +44,6 @@ dependencies {
 
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    implementation "io.reactivex.rxjava3:rxjava:${project.rxjava_version}"
-    shadow "io.reactivex.rxjava3:rxjava:${project.rxjava_version}"
-
     modImplementation("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
         exclude group: "net.fabricmc"
         exclude group: "net.fabricmc.fabric-api"
@@ -87,29 +84,14 @@ processResources {
 
 final String VERSION_AND_NAME = "${project.archivesBaseName}-${project.version}"
 
-// Create shadow jar, because ReactiveX is third-party library
-
-project.configurations.implementation.setCanBeResolved(true)
-
-shadowJar {
-    configurations = [project.configurations.shadow]
-    archiveClassifier.set("dev-shadow")
-
+remapJar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}" }
     }
-    from "NOTICE"
 
     dependencies {
         exclude '**/META-INF/proguard/**'
     }
-    minimize()
-}
-
-remapJar {
-    dependsOn(shadowJar)
-
-    inputFile.set(shadowJar.archiveFile)
 }
 
 // Optimize using ProGuard because 3MB is too much

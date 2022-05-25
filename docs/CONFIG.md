@@ -59,7 +59,7 @@ Render player ears if ``true`` (requires [Manningham Mills](https://github.com/C
 ignoreAnimatedCapes: false
 hashingAlgorithm: SHA318
 fullErrorMessage: true
-resolvingTimeout: 5
+resolvingTimeout: 15
 offlineMode: false
 forceIcons: true
 cosmetics: true
