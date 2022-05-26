@@ -5,8 +5,8 @@ import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.constructor.Co
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.Node;
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.ScalarNode;
 import net.zatrit.openmcskins.HostType;
-import net.zatrit.openmcskins.config.HostConfigItem;
-import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
+import net.zatrit.openmcskins.mod.config.HostConfigItem;
+import net.zatrit.openmcskins.mod.config.OpenMCSkinsConfig;
 import org.jetbrains.annotations.NotNull;
 
 public class ConfigConstructor extends Constructor {

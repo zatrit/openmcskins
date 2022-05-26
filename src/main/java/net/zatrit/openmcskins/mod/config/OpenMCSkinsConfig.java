@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.config;
+package net.zatrit.openmcskins.mod.config;
 
 import com.mojang.authlib.minecraft.UserApiService;
 import me.shedaniel.autoconfig.ConfigData;

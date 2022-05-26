@@ -8,8 +8,8 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
 import net.zatrit.openmcskins.mod.OpenMCSkins;
+import net.zatrit.openmcskins.mod.config.OpenMCSkinsConfig;
 import net.zatrit.openmcskins.util.GUIUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,9 +22,8 @@ import static net.zatrit.openmcskins.util.GUIUtils.textListFromKey;
 
 @Mixin(SkinOptionsScreen.class)
 public abstract class SkinOptionsScreenMixin extends Screen {
-    private static final Identifier REFRESH_BUTTON_LOCATION = new Identifier(OpenMCSkins.MOD_ID, "textures/gui/refresh_button.png");
+    private static final Identifier BUTTONS_LOCATION = new Identifier(OpenMCSkins.MOD_ID, "textures/gui/gui_buttons.png");
     private static final List<Text> REFRESH_CONFIG_BUTTON_TOOLTIP = textListFromKey("openmcskins.reloadConfig");
-    private static final Identifier CONFIGURE_BUTTON_LOCATION = new Identifier(OpenMCSkins.MOD_ID, "textures/gui/configure_button.png");
     private static final List<Text> CONFIGURE_BUTTON_TOOLTIP = textListFromKey("openmcskins.configure");
 
     protected SkinOptionsScreenMixin(Text title) {
@@ -39,8 +38,8 @@ public abstract class SkinOptionsScreenMixin extends Screen {
         ButtonWidget.PressAction optionsOnClick = b -> MinecraftClient.getInstance().setScreen(AutoConfig.getConfigScreen(OpenMCSkinsConfig.class, this).get());
         ButtonWidget.PressAction refreshOnClick = b -> OpenMCSkins.reloadConfig();
 
-        ButtonWidget optionsButton = GUIUtils.createButton(buttonX, buttonY, this, CONFIGURE_BUTTON_TOOLTIP, CONFIGURE_BUTTON_LOCATION, optionsOnClick);
-        ButtonWidget refreshButton = GUIUtils.createButton(buttonX - 24, buttonY, this, REFRESH_CONFIG_BUTTON_TOOLTIP, REFRESH_BUTTON_LOCATION, refreshOnClick);
+        ButtonWidget refreshButton = GUIUtils.createButton(buttonX - 24, buttonY, 0, this, REFRESH_CONFIG_BUTTON_TOOLTIP, BUTTONS_LOCATION, refreshOnClick);
+        ButtonWidget optionsButton = GUIUtils.createButton(buttonX, buttonY, 20, this, CONFIGURE_BUTTON_TOOLTIP, BUTTONS_LOCATION, optionsOnClick);
 
         this.addDrawableChild(optionsButton);
         this.addDrawableChild(refreshButton);

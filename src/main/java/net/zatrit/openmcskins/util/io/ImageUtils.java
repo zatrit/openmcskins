@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 public final class ImageUtils {
     private ImageUtils() {
@@ -48,17 +47,12 @@ public final class ImageUtils {
         return target;
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static @Nullable Identifier registerNativeImage(@NotNull NativeImage image, String prefix) {
         if (NativeImageAccessor.class.cast(image).getPointer() == 0L) return null;
         NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
-        if (texture.getImage() == null) return null;
-        return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture(prefix, texture);
-    }
-
-    public static @Nullable Identifier fromStream(InputStream stream, String prefix) throws IOException {
-        NativeImage image = NativeImage.read(stream);
-        if (NativeImageAccessor.class.cast(image).getPointer() == 0L)
+        if (texture.getImage() == null || NativeImageAccessor.class.cast(texture.getImage()).getPointer() == 0L)
             return null;
-        return registerNativeImage(image, prefix);
+        return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture(prefix, texture);
     }
 }

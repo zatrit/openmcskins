@@ -8,7 +8,7 @@ import net.fabricmc.loader.util.version.SemanticVersionPredicateParser;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
-import net.zatrit.openmcskins.config.OpenMCSkinsConfig;
+import net.zatrit.openmcskins.mod.config.OpenMCSkinsConfig;
 import net.zatrit.openmcskins.interfaces.resolver.Resolver;
 import net.zatrit.openmcskins.loader.Cosmetics;
 import net.zatrit.openmcskins.loader.PlayerRegistry;

@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.config;
+package net.zatrit.openmcskins.mod.config;
 
 import net.zatrit.openmcskins.HostType;
 import net.zatrit.openmcskins.interfaces.resolver.Resolver;

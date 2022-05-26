@@ -2,7 +2,7 @@ package net.zatrit.openmcskins;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.Tag;
-import net.zatrit.openmcskins.config.CosmeticaMode;
+import net.zatrit.openmcskins.mod.config.CosmeticaMode;
 import net.zatrit.openmcskins.interfaces.resolver.Resolver;
 import net.zatrit.openmcskins.interfaces.resolver.ResolverConstructor;
 import net.zatrit.openmcskins.resolvers.*;
