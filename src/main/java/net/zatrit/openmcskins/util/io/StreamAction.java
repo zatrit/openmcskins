@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.interfaces.io;
+package net.zatrit.openmcskins.util.io;
 
 import java.io.OutputStream;
 

@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.mod.optional.mixin;
+package net.zatrit.openmcskins.util.io.mixin;
 
 import net.minecraft.client.model.Dilation;
 import net.minecraft.client.model.ModelPartBuilder;

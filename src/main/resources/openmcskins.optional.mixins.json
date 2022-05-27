@@ -1,6 +1,6 @@
 {
   "parent": "openmcskins.mixins.json",
-  "package": "net.zatrit.openmcskins.mod.optional.mixin",
+  "package": "net.zatrit.openmcskins.util.io.mixin",
   "plugin": "net.zatrit.openmcskins.mod.plugin.ConditionalMixinPlugin",
   "mixins": [
     "Deadmau5FeatureRendererMixin",

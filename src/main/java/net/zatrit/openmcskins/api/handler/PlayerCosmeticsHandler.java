@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.interfaces.handler;
+package net.zatrit.openmcskins.api.handler;
 
 import net.zatrit.openmcskins.loader.Cosmetics;
 import org.jetbrains.annotations.Nullable;

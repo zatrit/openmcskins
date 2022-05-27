@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.interfaces.resolver;
+package net.zatrit.openmcskins.api.resolver;
 
 import com.google.gson.Gson;
 import com.mojang.authlib.GameProfile;

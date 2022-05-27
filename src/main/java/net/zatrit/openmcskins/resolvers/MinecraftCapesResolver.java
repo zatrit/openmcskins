@@ -2,7 +2,7 @@ package net.zatrit.openmcskins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import net.zatrit.openmcskins.interfaces.resolver.Resolver;
+import net.zatrit.openmcskins.api.resolver.Resolver;
 import net.zatrit.openmcskins.resolvers.handler.AnimatedPlayerHandler;
 import org.apache.commons.codec.binary.Base64;
 import org.jetbrains.annotations.NotNull;

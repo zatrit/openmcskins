@@ -3,7 +3,7 @@ package net.zatrit.openmcskins.resolvers;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.interfaces.resolver.Resolver;
+import net.zatrit.openmcskins.api.resolver.Resolver;
 import net.zatrit.openmcskins.resolvers.handler.AbstractPlayerHandler;
 import net.zatrit.openmcskins.util.io.NetworkUtils;
 import net.zatrit.openmcskins.util.io.TextureUtils;

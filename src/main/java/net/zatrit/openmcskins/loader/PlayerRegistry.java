@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
-import static net.zatrit.openmcskins.interfaces.resolver.Resolver.GSON;
+import static net.zatrit.openmcskins.api.resolver.Resolver.GSON;
 
 public final class PlayerRegistry {
     private final static YggdrasilMinecraftSessionService sessionService = (YggdrasilMinecraftSessionService) MinecraftClient.getInstance().getSessionService();

@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.mod.optional.mixin;
+package net.zatrit.openmcskins.util.io.mixin;
 
 import com.chocohead.mm.api.ClassTinkerers;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;

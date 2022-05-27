@@ -1,7 +1,7 @@
 package net.zatrit.openmcskins.loader;
 
 import com.mojang.authlib.GameProfile;
-import net.zatrit.openmcskins.interfaces.resolver.Resolver;
+import net.zatrit.openmcskins.api.resolver.Resolver;
 import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.resolvers.handler.AbstractPlayerHandler;
 import org.apache.logging.log4j.util.TriConsumer;
