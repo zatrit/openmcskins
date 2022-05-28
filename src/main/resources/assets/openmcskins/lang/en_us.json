@@ -28,7 +28,7 @@
   // Option: Ears
   "text.autoconfig.openmcskins.option.ears": "Ears",
   "text.autoconfig.openmcskins.option.ears.@Tooltip[0]": "Custom ears",
-  "text.autoconfig.openmcskins.option.ears.@Tooltip[1]": "Requires §nManningham Mills mod",
+  "text.autoconfig.openmcskins.option.ears.@Tooltip[1]": "Requires §lManningham Mills mod",
   "text.autoconfig.openmcskins.option.ears.@Tooltip[2]": "and §nFabric Loader§r version >=0.14",
   "text.autoconfig.openmcskins.option.ears.@Tooltip[3]": "or §nQuilt Loader",
   // Option: Hashing algorithm
@@ -46,9 +46,9 @@
   "text.autoconfig.openmcskins.category.rendering": "Rendering",
   "text.autoconfig.openmcskins.category.loader": "Loader",
   "text.openmcskins.validation_error": "Invalid config!",
-  "text.autoconfig.openmcskins.title": "OpenMCSkins configuration",
+  "text.autoconfig.openmcskins.title": "§nOpenMCSkins configuration",
   // Other
-  "openmcskins.reloadConfig": "Reload OpenMCSkins config and \nall players skins from available hosts",
-  "openmcskins.configure": "OpenMCSkins options",
+  "openmcskins.reloadConfig": "Reload §nOpenMCSkins§r config and \nall players skins from available hosts",
+  "openmcskins.configure": "§nOpenMCSkins§r options",
   "modmenu.descriptionTranslation.openmcskins": "Mod that's allows to use own skins and capes. Config placed in §n.minecraft/config/openmcskins.yml"
 }

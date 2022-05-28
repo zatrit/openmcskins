@@ -27,7 +27,7 @@
   // Option: Ears
   "text.autoconfig.openmcskins.option.ears": "Пользовательские уши",
   "text.autoconfig.openmcskins.option.ears.@Tooltip[0]": "Пользовательские уши",
-  "text.autoconfig.openmcskins.option.ears.@Tooltip[1]": "Для работы необходим §nмод Manningham Mills",
+  "text.autoconfig.openmcskins.option.ears.@Tooltip[1]": "Для работы необходим §lмод Manningham Mills",
   "text.autoconfig.openmcskins.option.ears.@Tooltip[2]": "и версия §nFabric Loader§r >=0.14 или §nQuiltMC",
   "text.autoconfig.openmcskins.option.ears.@Tooltip[3]": "или §nQuilt Loader",
   // Option: Hashing algorithm
@@ -45,9 +45,9 @@
   "text.autoconfig.openmcskins.category.rendering": "Рендеринг",
   "text.autoconfig.openmcskins.category.loader": "Загрузчик",
   "text.openmcskins.validation_error": "Неверная конфигурация!",
-  "text.autoconfig.openmcskins.title": "Настройки OpenMCSkins",
+  "text.autoconfig.openmcskins.title": "§nНастройки OpenMCSkins",
   // Other
-  "openmcskins.reloadConfig": "Перезагрузить конфиг OpenMCSkins \nи скины всех игроков из доступных хостов",
-  "openmcskins.configure": "Настройки §oOpenMCSkins",
+  "openmcskins.reloadConfig": "Перезагрузить конфиг §nOpenMCSkins§r \nи скины всех игроков из доступных хостов",
+  "openmcskins.configure": "Настройки §nOpenMCSkins",
   "modmenu.descriptionTranslation.openmcskins": "Мод, позволяющий игрокам использовать свои скины и плащи. Конфиг находится в §n.minecraft/config/openmcskins.yml"
 }

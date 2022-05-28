@@ -2,7 +2,7 @@ package net.zatrit.openmcskins.mod.mixin;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.RunArgs;
-import net.zatrit.openmcskins.util.io.LocalAssetsCache;
+import net.zatrit.openmcskins.io.LocalAssetsCache;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

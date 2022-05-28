@@ -8,13 +8,13 @@ import net.fabricmc.loader.util.version.SemanticVersionPredicateParser;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
-import net.zatrit.openmcskins.mod.config.OpenMCSkinsConfig;
+import net.zatrit.openmcskins.config.Config;
 import net.zatrit.openmcskins.api.resolver.Resolver;
-import net.zatrit.openmcskins.loader.Cosmetics;
-import net.zatrit.openmcskins.loader.PlayerRegistry;
+import net.zatrit.openmcskins.io.skins.Cosmetics;
+import net.zatrit.openmcskins.io.skins.PlayerRegistry;
 import net.zatrit.openmcskins.mod.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mod.mixin.PlayerListEntryAccessor;
-import net.zatrit.openmcskins.resolvers.OptifineResolver;
+import net.zatrit.openmcskins.io.skins.resolvers.OptifineResolver;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +27,8 @@ public class OpenMCSkins {
     public static final Logger LOGGER = LoggerFactory.getLogger("OpenMCSkins");
     private static List<? extends Resolver<?>> resolvers;
 
-    public static OpenMCSkinsConfig getConfig() {
-        return AutoConfig.getConfigHolder(OpenMCSkinsConfig.class).getConfig();
+    public static Config getConfig() {
+        return AutoConfig.getConfigHolder(Config.class).getConfig();
     }
 
     public static synchronized List<? extends Resolver<?>> getResolvers() {
@@ -54,7 +54,7 @@ public class OpenMCSkins {
     }
 
     public static void reloadConfig() {
-        AutoConfig.getConfigHolder(OpenMCSkinsConfig.class).load();
+        AutoConfig.getConfigHolder(Config.class).load();
         invalidateAllResolvers();
     }
 

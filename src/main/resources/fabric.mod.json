@@ -17,7 +17,7 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "net.zatrit.openmcskins.mod.OpenMCSkinsFabric"
+      "net.zatrit.openmcskins.mod.ModInit"
     ],
     "modmenu": [
       "net.zatrit.openmcskins.mod.ModMenu"

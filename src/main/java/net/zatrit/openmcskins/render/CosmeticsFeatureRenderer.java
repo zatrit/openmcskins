@@ -12,8 +12,8 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
-import net.zatrit.openmcskins.loader.Cosmetics;
-import net.zatrit.openmcskins.loader.Loaders;
+import net.zatrit.openmcskins.io.skins.Cosmetics;
+import net.zatrit.openmcskins.io.skins.Loaders;
 import net.zatrit.openmcskins.mod.OpenMCSkins;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -50,7 +50,7 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
         String name = entity.getEntityName();
         if (!Cosmetics.PLAYER_COSMETICS.containsKey(name)) {
             Cosmetics.PLAYER_COSMETICS.put(name, new ArrayList<>());
-            Loaders.COSMETICS.getLoader().loadAsync(entity.getGameProfile(), (Object[]) null);
+            Loaders.COSMETICS.getHandler().loadAsync(entity.getGameProfile(), (Object[]) null);
             return;
         }
 

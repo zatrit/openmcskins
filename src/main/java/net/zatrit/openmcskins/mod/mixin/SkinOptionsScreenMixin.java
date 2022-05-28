@@ -9,8 +9,8 @@ import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.mod.OpenMCSkins;
-import net.zatrit.openmcskins.mod.config.OpenMCSkinsConfig;
-import net.zatrit.openmcskins.util.GUIUtils;
+import net.zatrit.openmcskins.config.Config;
+import net.zatrit.openmcskins.gui.GUIUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-import static net.zatrit.openmcskins.util.GUIUtils.textListFromKey;
+import static net.zatrit.openmcskins.gui.GUIUtils.textListFromKey;
 
 @Mixin(SkinOptionsScreen.class)
 public abstract class SkinOptionsScreenMixin extends Screen {
@@ -35,7 +35,7 @@ public abstract class SkinOptionsScreenMixin extends Screen {
         int buttonX = this.width / 2 - 124;
         int buttonY = this.height / 6 + 12 * (PlayerModelPart.values().length + 1);
 
-        ButtonWidget.PressAction optionsOnClick = b -> MinecraftClient.getInstance().setScreen(AutoConfig.getConfigScreen(OpenMCSkinsConfig.class, this).get());
+        ButtonWidget.PressAction optionsOnClick = b -> MinecraftClient.getInstance().setScreen(AutoConfig.getConfigScreen(Config.class, this).get());
         ButtonWidget.PressAction refreshOnClick = b -> OpenMCSkins.reloadConfig();
 
         ButtonWidget refreshButton = GUIUtils.createButton(buttonX - 24, buttonY, 0, this, REFRESH_CONFIG_BUTTON_TOOLTIP, BUTTONS_LOCATION, refreshOnClick);
