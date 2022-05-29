@@ -84,13 +84,7 @@ processResources {
 final String VERSION_AND_NAME = "${project.archivesBaseName}-${project.version}"
 
 remapJar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
-    }
-
-    dependencies {
-        exclude '**/META-INF/proguard/**'
-    }
+    from "LICENSE"
 }
 
 // Optimize using ProGuard because 3MB is too much

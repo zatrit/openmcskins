@@ -28,7 +28,7 @@
   "text.autoconfig.openmcskins.option.ears": "Пользовательские уши",
   "text.autoconfig.openmcskins.option.ears.@Tooltip[0]": "Пользовательские уши",
   "text.autoconfig.openmcskins.option.ears.@Tooltip[1]": "Для работы необходим §lмод Manningham Mills",
-  "text.autoconfig.openmcskins.option.ears.@Tooltip[2]": "и версия §nFabric Loader§r >=0.14 или §nQuiltMC",
+  "text.autoconfig.openmcskins.option.ears.@Tooltip[2]": "и версия §nFabric Loader§r >=0.14",
   "text.autoconfig.openmcskins.option.ears.@Tooltip[3]": "или §nQuilt Loader",
   // Option: Hashing algorithm
   "text.autoconfig.openmcskins.option.hashingAlgorithm": "Алгоритм хэширования скинов",
