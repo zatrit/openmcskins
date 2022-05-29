@@ -47,10 +47,7 @@ dependencies {
         exclude group: "net.fabricmc"
         exclude group: "net.fabricmc.fabric-api"
     }
-    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}") {
-        exclude group: "net.fabricmc"
-        exclude group: "net.fabricmc.fabric-api"
-    }
+    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}") { transitive false }
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}+${project.minecraft_version}"
     modImplementation "maven.modrinth:cem:${project.cem_version}"
@@ -70,10 +67,6 @@ if (project.hasProperty("mod_url")) url = project.mod_url else {
 // Format fabric.mod.json
 
 processResources {
-    inputs.properties "version": project.version,
-            "mod_name": project.mod_name,
-            "mod_url": url
-
     filesMatching("fabric.mod.json") {
         expand "version": project.version,
                 "mod_name": project.mod_name,
@@ -84,7 +77,7 @@ processResources {
 final String VERSION_AND_NAME = "${project.archivesBaseName}-${project.version}"
 
 remapJar {
-    from "LICENSE"
+    from "LICENSE", "NOTICE"
 }
 
 // Optimize using ProGuard because 3MB is too much

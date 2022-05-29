@@ -33,7 +33,7 @@
   "text.autoconfig.openmcskins.option.ears.@Tooltip[3]": "or §nQuilt Loader",
   // Option: Hashing algorithm
   "text.autoconfig.openmcskins.option.hashingAlgorithm": "Skin hashing algorithm",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[0]": "Algorithm that generates a skin name",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[0]": "Algorithm that generates a skin filename",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[1]": " §lSHA384§r - generates a unique name",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[2]": "  for each skin file, but they are long",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[3]": " §l§mSHA1§r - deprecated but used in vanilla Minecraft",
@@ -41,6 +41,10 @@
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[5]": "  high collision chance",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[6]": " §lMURMUR3§r (RECOMMENDED) - very fast ",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[7]": "  hashing algorithm",
+  // Reload button
+  "text.autoconfig.openmcskins.option.reload": "Reload skins",
+  "text.autoconfig.openmcskins.option.reload.@Tooltip[0]": "Reload §nOpenMCSkins§r resolvers ",
+  "text.autoconfig.openmcskins.option.reload.@Tooltip[1]": "all players skins from available hosts",
   // Cloth config
   "text.autoconfig.openmcskins.category.debug": "Debug",
   "text.autoconfig.openmcskins.category.rendering": "Rendering",
@@ -48,7 +52,6 @@
   "text.openmcskins.validation_error": "Invalid config!",
   "text.autoconfig.openmcskins.title": "§nOpenMCSkins configuration",
   // Other
-  "openmcskins.reloadConfig": "Reload §nOpenMCSkins§r config and \nall players skins from available hosts",
   "openmcskins.configure": "§nOpenMCSkins§r options",
   "modmenu.descriptionTranslation.openmcskins": "Mod that's allows to use own skins and capes. Config placed in §n.minecraft/config/openmcskins.yml"
 }

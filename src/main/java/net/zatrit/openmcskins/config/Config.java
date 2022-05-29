@@ -6,12 +6,13 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
+import net.zatrit.openmcskins.config.options.ConfigHostOption;
+import net.zatrit.openmcskins.config.options.HashingAlgorithm;
 import net.zatrit.openmcskins.config.options.HostType;
 import net.zatrit.openmcskins.mod.OpenMCSkins;
-import net.zatrit.openmcskins.config.options.HashingAlgorithm;
-import net.zatrit.openmcskins.config.options.ConfigHostOption;
 import net.zatrit.openmcskins.mod.mixin.MinecraftClientAccessor;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,6 +39,10 @@ public class Config implements ConfigData {
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip(count = 8)
     public HashingAlgorithm hashingAlgorithm = HashingAlgorithm.MURMUR3;
+    @ConfigEntry.Category("loader")
+    @KeepClassMember
+    @ConfigEntry.Gui.Tooltip(count = 2)
+    public transient final ButtonWidget.PressAction reload = b -> OpenMCSkins.invalidateAllResolvers();
     @ConfigEntry.Category("rendering")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip()

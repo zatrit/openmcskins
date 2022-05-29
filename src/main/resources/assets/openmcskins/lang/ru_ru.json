@@ -32,7 +32,7 @@
   "text.autoconfig.openmcskins.option.ears.@Tooltip[3]": "или §nQuilt Loader",
   // Option: Hashing algorithm
   "text.autoconfig.openmcskins.option.hashingAlgorithm": "Алгоритм хэширования скинов",
-  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[0]": "Алгоритм, генерирующий имя для скина",
+  "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[0]": "Алгоритм, генерирующий имя файла скина",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[1]": " §lSHA384§r - генерирует уникальное имя для",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[2]": "  каждого файла скина, но они имеют большую длину",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[3]": " §l§mSHA1§r - устарел, но используется в ванильном Minecraft",
@@ -40,6 +40,10 @@
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[5]": "  имеет высокий шанс коллизий",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[6]": " §lMURMUR3§r (РЕКОМЕНДУЕТСЯ) - очень быстрый ",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[7]": "  алгоритм хэширования",
+  // Reload button
+  "text.autoconfig.openmcskins.option.reload": "Перезагрузить скины",
+  "text.autoconfig.openmcskins.option.reload.@Tooltip[0]": "Перезагрузить загрузчики §nOpenMCSkins§r ",
+  "text.autoconfig.openmcskins.option.reload.@Tooltip[1]": "и скины всех игроков из доступных хостов",
   // Cloth config
   "text.autoconfig.openmcskins.category.debug": "Отладка",
   "text.autoconfig.openmcskins.category.rendering": "Рендеринг",
@@ -47,7 +51,6 @@
   "text.openmcskins.validation_error": "Неверная конфигурация!",
   "text.autoconfig.openmcskins.title": "§nНастройки OpenMCSkins",
   // Other
-  "openmcskins.reloadConfig": "Перезагрузить конфиг §nOpenMCSkins§r \nи скины всех игроков из доступных хостов",
   "openmcskins.configure": "Настройки §nOpenMCSkins",
   "modmenu.descriptionTranslation.openmcskins": "Мод, позволяющий игрокам использовать свои скины и плащи. Конфиг находится в §n.minecraft/config/openmcskins.yml"
 }
