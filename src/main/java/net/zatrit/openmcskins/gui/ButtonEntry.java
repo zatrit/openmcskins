@@ -13,6 +13,9 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.Collections;
 import java.util.List;
@@ -56,7 +59,8 @@ public class ButtonEntry extends TooltipListEntry<Void> {
     public void save() {
     }
 
-    private List<ButtonWidget> children0() {
+    @Contract(value = " -> new", pure = true)
+    private @NotNull @Unmodifiable List<ButtonWidget> children0() {
         return Collections.singletonList(button);
     }
 
