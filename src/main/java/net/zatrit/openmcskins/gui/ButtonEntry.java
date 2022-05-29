@@ -12,6 +12,7 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import net.zatrit.openmcskins.annotation.KeepClassMember;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,6 +30,7 @@ public class ButtonEntry extends TooltipListEntry<Void> {
         button = new ButtonWidget(0, 0, width, HEIGHT, fieldName, onPress);
     }
 
+    @KeepClassMember
     @Override
     public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean isHovered, float delta) {
         super.render(matrices, index, y, x, entryWidth, entryHeight, mouseX, mouseY, isHovered, delta);
@@ -37,16 +39,19 @@ public class ButtonEntry extends TooltipListEntry<Void> {
         button.render(matrices, mouseX, mouseY, delta);
     }
 
+    @KeepClassMember
     @Override
     public Void getValue() {
         return null;
     }
 
+    @KeepClassMember
     @Override
     public Optional<Void> getDefaultValue() {
         return Optional.empty();
     }
 
+    @KeepClassMember
     @Override
     public void save() {
     }
@@ -55,11 +60,13 @@ public class ButtonEntry extends TooltipListEntry<Void> {
         return Collections.singletonList(button);
     }
 
+    @KeepClassMember
     @Override
     public List<? extends Element> children() {
         return children0();
     }
 
+    @KeepClassMember
     @Override
     public List<? extends Selectable> narratables() {
         return children0();
