@@ -10,20 +10,18 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public enum Loaders {
-    COSMETICS(new CosmeticsLoader()),
-    VANILLA(new VanillaLoader());
+    COSMETICS(new CosmeticsLoader()), VANILLA(new VanillaLoader());
 
     private final AsyncLoaderHandler handler;
 
-    Loaders(@NotNull Loader asyncLoaderHandler) {
-        this.handler = new AsyncLoaderHandler(asyncLoaderHandler::filter, asyncLoaderHandler::processHandlers, asyncLoaderHandler::doFinally);
+    Loaders(@NotNull Loader loader) {
+        this.handler = new AsyncLoaderHandler(loader);
     }
 
     @Contract(value = " -> new", pure = true)
     public @NotNull AsyncLoaderHandler getHandler() {
         return this.handler;
     }
-
 
     @FunctionalInterface
     public interface SkinResolveCallback {
