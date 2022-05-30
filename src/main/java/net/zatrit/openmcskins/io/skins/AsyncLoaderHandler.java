@@ -7,8 +7,10 @@ import net.zatrit.openmcskins.mod.OpenMCSkins;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -22,11 +24,11 @@ public record AsyncLoaderHandler(Loader loader, ExecutorService executor) {
     }
 
     public void loadAsync(GameProfile profile, Object... args) {
-        List<? extends Resolver<?>> resolvers = OpenMCSkins.getResolvers().stream().filter(loader::filter).toList();
+        Resolver<?>[] resolvers = Arrays.stream(OpenMCSkins.getResolvers()).filter(loader::filter).toArray(Resolver<?>[]::new);
 
-        all(IntStream.range(0, resolvers.size()).boxed().map(i -> CompletableFuture.supplyAsync(() -> {
+        all(IntStream.range(0, resolvers.length).boxed().map(i -> CompletableFuture.supplyAsync(() -> {
             try {
-                Resolver<?> host = resolvers.get(i);
+                Resolver<?> host = resolvers[i];
                 if (!loader.filter(host)) return null;
                 return host.resolvePlayer(host.requiresUUID() ? PlayerRegistry.patchProfile(profile) : profile).withIndex(i);
             } catch (IOException e) {
@@ -45,7 +47,7 @@ public record AsyncLoaderHandler(Loader loader, ExecutorService executor) {
     // https://stackoverflow.com/a/36261808/12245612
     @SuppressWarnings("rawtypes")
     private static <T> CompletableFuture<List<T>> all(@NotNull List<CompletableFuture<T>> futures) {
-        CompletableFuture[] cfs = futures.toArray(new CompletableFuture[0]);
+        CompletableFuture[] cfs = futures.toArray(CompletableFuture[]::new);
 
         return CompletableFuture.allOf(cfs).thenApply(ignored -> {
             try {

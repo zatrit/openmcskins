@@ -1,5 +1,6 @@
 package net.zatrit.openmcskins.config;
 
+import it.unimi.dsi.fastutil.ints.IntComparators;
 import joptsimple.internal.Strings;
 import net.zatrit.openmcskins.config.options.HostType;
 import net.zatrit.openmcskins.config.options.ConfigHostOption;
@@ -7,9 +8,8 @@ import net.zatrit.openmcskins.config.Config;
 import net.zatrit.openmcskins.mod.OpenMCSkins;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public final class ConfigUtil {
     private ConfigUtil() {

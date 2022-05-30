@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class ButtonEntry extends TooltipListEntry<Void> {
-
     private static final int HEIGHT = 20;
     private final ButtonWidget button;
 

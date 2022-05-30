@@ -21,17 +21,18 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.IntFunction;
 
 public class OpenMCSkins {
     public static final String MOD_ID = "openmcskins";
     public static final Logger LOGGER = LoggerFactory.getLogger("OpenMCSkins");
-    private static List<? extends Resolver<?>> resolvers;
+    private static Resolver<?>[] resolvers;
 
     public static Config getConfig() {
         return AutoConfig.getConfigHolder(Config.class).getConfig();
     }
 
-    public static synchronized List<? extends Resolver<?>> getResolvers() {
+    public static synchronized Resolver<?>[] getResolvers() {
         if (resolvers == null) resolvers = getConfig().hosts.stream().parallel().map(x -> {
             try {
                 return x.createResolver();
@@ -39,7 +40,7 @@ public class OpenMCSkins {
                 OpenMCSkins.handleError(ex);
                 return null;
             }
-        }).filter(Objects::nonNull).toList();
+        }).filter(Objects::nonNull).toArray(Resolver[]::new);
         return resolvers;
     }
 
@@ -65,7 +66,7 @@ public class OpenMCSkins {
         MinecraftClient client = MinecraftClient.getInstance();
 
         if (client.world != null) {
-            AbstractClientPlayerEntity[] players = client.world.getPlayers().toArray(new AbstractClientPlayerEntity[0]);
+            AbstractClientPlayerEntity[] players = client.world.getPlayers().toArray(AbstractClientPlayerEntity[]::new);
             for (AbstractClientPlayerEntity player : players) {
                 PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) player).invokeGetPlayerListEntry();
                 if (entry != null) ((PlayerListEntryAccessor) entry).setTexturesLoaded(false);
