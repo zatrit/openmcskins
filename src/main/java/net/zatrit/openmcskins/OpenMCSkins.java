@@ -38,7 +38,7 @@ public class OpenMCSkins {
                 OpenMCSkins.handleError(ex);
                 return null;
             }
-        }).filter(Objects::nonNull).toArray(Resolver[]::new);
+        }).filter(Objects::nonNull).toArray(new Resolver<>[0]);
         return resolvers;
     }
 
@@ -63,7 +63,7 @@ public class OpenMCSkins {
         MinecraftClient client = MinecraftClient.getInstance();
 
         if (client.world != null) {
-            AbstractClientPlayerEntity[] players = client.world.getPlayers().toArray(AbstractClientPlayerEntity[]::new);
+            AbstractClientPlayerEntity[] players = client.world.getPlayers().toArray(new AbstractClientPlayerEntity[0]);
             for (AbstractClientPlayerEntity player : players) {
                 final PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) player).invokeGetPlayerListEntry();
                 if (entry != null) ((PlayerListEntryAccessor) entry).setTexturesLoaded(false);

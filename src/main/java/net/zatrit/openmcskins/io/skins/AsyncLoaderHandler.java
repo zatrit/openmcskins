@@ -25,7 +25,7 @@ public record AsyncLoaderHandler(Loader loader, ExecutorService executor) {
     // https://stackoverflow.com/a/36261808/12245612
     @SuppressWarnings("rawtypes")
     private static <T> CompletableFuture<List<T>> all(@NotNull List<CompletableFuture<T>> futures) {
-        final CompletableFuture[] cfs = futures.toArray(CompletableFuture[]::new);
+        final CompletableFuture[] cfs = futures.toArray(new CompletableFuture[0]);
 
         return CompletableFuture.allOf(cfs).thenApply(ignored -> {
             try {
@@ -38,7 +38,7 @@ public record AsyncLoaderHandler(Loader loader, ExecutorService executor) {
     }
 
     public void loadAsync(GameProfile profile, Object... args) {
-        final Resolver<?>[] resolvers = Arrays.stream(OpenMCSkins.getResolvers()).filter(loader::filter).toArray(Resolver<?>[]::new);
+        final Resolver<?>[] resolvers = Arrays.stream(OpenMCSkins.getResolvers()).filter(loader::filter).toArray(new Resolver<>[0]);
 
         all(IntStream.range(0, resolvers.length).boxed().map(i -> CompletableFuture.supplyAsync(() -> {
             try {
