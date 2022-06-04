@@ -26,7 +26,7 @@ public enum UUIDResolutionMode {
         this.function = checkOfflineMode;
     }
 
-    public boolean resolveByName() {
+    public boolean shouldResolveByName() {
         return this.function.get();
     }
 }

@@ -35,7 +35,7 @@ public final class PlayerRegistry {
 
     @SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
     public static GameProfile patchProfile(@NotNull GameProfile profile) {
-        if (OpenMCSkins.getConfig().uuidResolutionMode.resolveByName()) {
+        if (OpenMCSkins.getConfig().uuidResolutionMode.shouldResolveByName()) {
             synchronized (profile) {
                 try {
                     GameProfile cachedProfile = getProfileCache().getIfPresent(profile.getName());

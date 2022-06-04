@@ -13,6 +13,7 @@ import net.zatrit.openmcskins.config.options.HashingAlgorithm;
 import net.zatrit.openmcskins.config.options.HostType;
 import net.zatrit.openmcskins.config.options.UUIDResolutionMode;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 @me.shedaniel.autoconfig.annotation.Config.Gui.Background(value = me.shedaniel.autoconfig.annotation.Config.Gui.Background.TRANSPARENT)
 @me.shedaniel.autoconfig.annotation.Config(name = OpenMCSkins.MOD_ID)
 public class Config implements ConfigData {
+    @Range(from = 1, to = Integer.MAX_VALUE)
     @ConfigEntry.Category("loader")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip(count = 2)
