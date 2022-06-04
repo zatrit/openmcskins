@@ -1,9 +1,9 @@
 package net.zatrit.openmcskins.config;
 
 import joptsimple.internal.Strings;
+import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.config.options.ConfigHostOption;
 import net.zatrit.openmcskins.config.options.HostType;
-import net.zatrit.openmcskins.OpenMCSkins;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

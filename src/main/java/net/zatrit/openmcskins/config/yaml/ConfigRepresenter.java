@@ -11,8 +11,6 @@ import net.zatrit.openmcskins.config.options.ConfigHostOption;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
-
 public class ConfigRepresenter extends Representer {
     public ConfigRepresenter() {
         this.representers.put(ConfigHostOption.class, new HostConfigItemRepresent());

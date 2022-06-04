@@ -1,5 +1,6 @@
 package net.zatrit.openmcskins.io.skins.resolvers;
 
+import com.google.common.base.MoreObjects;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.zatrit.openmcskins.api.resolver.Resolver;
@@ -13,8 +14,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.google.common.base.MoreObjects.firstNonNull;
 
 public record SimpleServerResolver(String host, String format) implements Resolver<SimpleServerResolver.PlayerHandler> {
     public SimpleServerResolver(String host) {
@@ -48,7 +47,7 @@ public record SimpleServerResolver(String host, String format) implements Resolv
         public PlayerHandler(Map<String, Map<String, ?>> data) {
             if (data != null) data.forEach((k, v) -> {
                 final MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(k);
-                final Map<String, ?> metadata = (Map<String, ?>) firstNonNull(v.get("metadata"), new HashMap<>());
+                final Map<String, ?> metadata = (Map<String, ?>) MoreObjects.firstNonNull(v.get("metadata"), new HashMap<>());
 
                 if (v.containsKey("url")) this.textures.put(type, (String) v.get("url"));
                 if (metadata.containsKey("model")) this.setModel((String) metadata.get("model"));

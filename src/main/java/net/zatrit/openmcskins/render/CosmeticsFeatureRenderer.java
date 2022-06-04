@@ -11,10 +11,10 @@ import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.io.skins.Cosmetics;
 import net.zatrit.openmcskins.io.skins.Loaders;
-import net.zatrit.openmcskins.OpenMCSkins;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

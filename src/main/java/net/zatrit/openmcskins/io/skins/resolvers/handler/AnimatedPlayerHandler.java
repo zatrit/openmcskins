@@ -2,8 +2,8 @@ package net.zatrit.openmcskins.io.skins.resolvers.handler;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.io.util.TextureUtils;
 import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.io.util.TextureUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
