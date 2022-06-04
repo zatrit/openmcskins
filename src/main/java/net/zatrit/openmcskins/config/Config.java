@@ -23,10 +23,6 @@ public class Config implements ConfigData {
     @ConfigEntry.Category("loader")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip(count = 2)
-    public transient final ButtonWidget.PressAction reload = b -> OpenMCSkins.invalidateAllResolvers();
-    @ConfigEntry.Category("loader")
-    @KeepClassMember
-    @ConfigEntry.Gui.Tooltip(count = 2)
     public int resolvingTimeout = 10;
     @ConfigEntry.Category("loader")
     @KeepClassMember
@@ -42,6 +38,10 @@ public class Config implements ConfigData {
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip(count = 8)
     public HashingAlgorithm hashingAlgorithm = HashingAlgorithm.MURMUR3;
+    @ConfigEntry.Category("loader")
+    @KeepClassMember
+    @ConfigEntry.Gui.Tooltip(count = 2)
+    public transient final ButtonWidget.PressAction reload = b -> OpenMCSkins.invalidateAllResolvers();
     @ConfigEntry.Category("rendering")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip()

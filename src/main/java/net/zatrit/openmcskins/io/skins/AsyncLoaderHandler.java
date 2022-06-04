@@ -27,25 +27,18 @@ public record AsyncLoaderHandler(Loader loader, ExecutorService executor) {
     private static <T> CompletableFuture<List<T>> all(@NotNull List<CompletableFuture<T>> futures) {
         final CompletableFuture[] cfs = futures.toArray(new CompletableFuture[0]);
 
-        return CompletableFuture.allOf(cfs).thenApply(ignored -> {
-            try {
-                return futures.stream().map(CompletableFuture::join).collect(Collectors.toList());
-            } catch (Throwable e) {
-                OpenMCSkins.handleError(e);
-                return null;
-            }
-        });
+        return CompletableFuture.allOf(cfs).thenApply(ignored -> futures.stream().map(CompletableFuture::join).collect(Collectors.toList()));
     }
 
     public void loadAsync(GameProfile profile, Object... args) {
-        final Resolver<?>[] resolvers = Arrays.stream(OpenMCSkins.getResolvers()).filter(loader::filter).toArray(new Resolver<>[0]);
+        final Resolver<?>[] resolvers = Arrays.stream(OpenMCSkins.getResolvers()).filter(loader::filter).toArray(Resolver[]::new);
 
         all(IntStream.range(0, resolvers.length).boxed().map(i -> CompletableFuture.supplyAsync(() -> {
             try {
                 Resolver<?> host = resolvers[i];
                 if (!loader.filter(host)) return null;
                 return host.resolvePlayer(host.requiresUUID() ? PlayerRegistry.patchProfile(profile) : profile).withIndex(i);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 OpenMCSkins.handleError(e);
                 return null;
             }
