@@ -3,9 +3,11 @@ package net.zatrit.openmcskins.io.util;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
+import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
+import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.io.Cache;
-import net.zatrit.openmcskins.mod.OpenMCSkins;
+import net.zatrit.openmcskins.mod.mixin.NativeImageAccessor;
 import net.zatrit.openmcskins.render.textures.AnimatedTexture;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -13,10 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -58,19 +57,23 @@ public final class TextureUtils {
 
     @Contract(pure = true)
     public static @Nullable Identifier loadPlayerSkin(Supplier<InputStream> sourceStream, String model, String textureUrl, boolean cache) throws IOException {
-        File cacheFile = Cache.SKINS.getCache().getCacheFile(textureUrl);
+        final File cacheFile = Cache.SKINS.getCache().getCacheFile(textureUrl);
         NativeImage nativeImage;
 
         if (cacheFile.isFile()) {
             nativeImage = NativeImage.read(new FileInputStream(cacheFile));
         } else {
-            BufferedImage image = ImageIO.read(sourceStream.get());
-            BufferedImage target = ImageUtils.resizeToAspects(image, 1, 1, false);
-            nativeImage = ImageUtils.bufferedToNative(target);
+            final BufferedImage image = ImageIO.read(sourceStream.get());
+            final BufferedImage bufferedImage = ImageUtils.resizeToAspects(image, 1, 1, false);
 
-            int scale = image.getWidth() / 64;
-            boolean isLegacy = image.getWidth() == image.getHeight() * 2;
-            boolean isValid = isLegacy || image.getWidth() == image.getHeight();
+            final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", outputStream);
+            bufferedImage.flush();
+            nativeImage = NativeImage.read(new ByteArrayInputStream(outputStream.toByteArray()));
+
+            final int scale = image.getWidth() / 64;
+            final boolean isLegacy = image.getWidth() == image.getHeight() * 2;
+            final boolean isValid = isLegacy || image.getWidth() == image.getHeight();
             if (!isValid) {
                 OpenMCSkins.LOGGER.warn("Invalid image resolution");
                 return null;
@@ -78,7 +81,7 @@ public final class TextureUtils {
             image.flush();
 
             if (isLegacy) {
-                fixedFillRect(nativeImage, scale);
+                nativeImage.fillRect(0, 32 * scale, 64 * scale, 32 * scale, 0);
 
                 fixedCopyRect(nativeImage, 4, 16, 16, 4, 4, scale);
                 fixedCopyRect(nativeImage, 8, 16, 16, 4, 4, scale);
@@ -111,7 +114,7 @@ public final class TextureUtils {
         image.copyRect(x * n, y * n, translateX * n, 32 * n, width * n, height * n, true, false);
     }
 
-    private static void fixedFillRect(@NotNull NativeImage image, int n) {
-        image.fillRect(0, 32 * n, 64 * n, 32 * n, 0);
+    public static boolean checkNativeImageBackedTexture(@NotNull NativeImageBackedTexture texture) {
+        return texture.getImage() == null || NativeImageAccessor.class.cast(texture.getImage()).getPointer() == 0L;
     }
 }

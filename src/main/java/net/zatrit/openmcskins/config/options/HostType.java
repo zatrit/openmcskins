@@ -10,18 +10,18 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public enum HostType {
-    CLOAKSPLUS(d -> new OptifineResolver("http://161.35.130.99")),
+    CLOAKSPLUS(d -> new OptifineResolver("https://server.cloaksplus.com")),
     COSMETICA(d -> {
         String url = "https://api.cosmetica.cc/get/cloak?username={name}";
         if (!d.isEmpty()) {
-            CosmeticaMode mode = CosmeticaMode.valueOf(d);
+            final CosmeticaMode mode = CosmeticaMode.valueOf(d);
             if (mode == CosmeticaMode.NO_THIRD_PARTY) url += "&nothirdparty";
         }
         return new DirectResolver(url, MinecraftProfileTexture.Type.CAPE);
     }),
     DIRECT(d -> {
-        String[] values = d.split(":");
-        MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(values[0]);
+        final String[] values = d.split(":");
+        final MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(values[0]);
         return new DirectResolver(values[0], type);
     }),
     ELYBY(d -> new SimpleServerResolver("http://skinsystem.ely.by")),

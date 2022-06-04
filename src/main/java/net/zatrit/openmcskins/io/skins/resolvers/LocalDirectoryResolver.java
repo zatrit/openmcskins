@@ -35,25 +35,25 @@ public class LocalDirectoryResolver implements Resolver<LocalDirectoryResolver.P
 
     public class PlayerHandler extends AnimatedPlayerHandler {
         public PlayerHandler(String name) throws FileNotFoundException {
-            File texturesDirectory = new File(directory, "textures");
-            File metadataDirectory = new File(directory, "metadata");
+            final File texturesDirectory = new File(directory, "textures");
+            final File metadataDirectory = new File(directory, "metadata");
 
             if (!texturesDirectory.exists()) throw new FileNotFoundException(texturesDirectory.getAbsolutePath());
 
-            File[] subdirectories = texturesDirectory.listFiles(File::isDirectory);
+            final File[] subdirectories = texturesDirectory.listFiles(File::isDirectory);
             for (File subdirectory : Objects.requireNonNull(subdirectories))
                 try {
-                    String typeName = texturesDirectory.toPath().relativize(subdirectory.toPath()).toFile().getName();
-                    MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(typeName.toUpperCase());
-                    File textureFile = new File(subdirectory, name + ".png");
+                    final String typeName = texturesDirectory.toPath().relativize(subdirectory.toPath()).toFile().getName();
+                    final MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(typeName.toUpperCase());
+                    final File textureFile = new File(subdirectory, name + ".png");
                     if (textureFile.exists()) {
                         this.textures.put(type, textureFile.toURI().toString());
                     }
 
-                    File metadataTypeDirectory = new File(metadataDirectory, typeName);
-                    File metadataFile = new File(metadataTypeDirectory, name + ".json");
+                    final File metadataTypeDirectory = new File(metadataDirectory, typeName);
+                    final File metadataFile = new File(metadataTypeDirectory, name + ".json");
                     if (metadataFile.exists()) {
-                        Map<String, ?> metadata = GSON.<Map<String, String>>fromJson(new FileReader(metadataFile), Map.class);
+                        final Map<String, ?> metadata = GSON.<Map<String, String>>fromJson(new FileReader(metadataFile), Map.class);
                         if (metadata.containsKey("model")) this.setModel(String.valueOf(metadata.get("model")));
                         if (metadata.containsKey("animated"))
                             this.setAnimated(type, (boolean) metadata.get("animated"));

@@ -13,6 +13,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
+import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClass;
 import net.zatrit.openmcskins.config.Config;
 import net.zatrit.openmcskins.config.ConfigUtil;

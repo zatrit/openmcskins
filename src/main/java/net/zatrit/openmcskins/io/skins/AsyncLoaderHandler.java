@@ -1,16 +1,15 @@
 package net.zatrit.openmcskins.io.skins;
 
 import com.mojang.authlib.GameProfile;
+import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.api.resolver.Resolver;
 import net.zatrit.openmcskins.io.skins.loader.Loader;
-import net.zatrit.openmcskins.mod.OpenMCSkins;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -23,8 +22,23 @@ public record AsyncLoaderHandler(Loader loader, ExecutorService executor) {
         this(loader, new ScheduledThreadPoolExecutor(127));
     }
 
+    // https://stackoverflow.com/a/36261808/12245612
+    @SuppressWarnings("rawtypes")
+    private static <T> CompletableFuture<List<T>> all(@NotNull List<CompletableFuture<T>> futures) {
+        final CompletableFuture[] cfs = futures.toArray(CompletableFuture[]::new);
+
+        return CompletableFuture.allOf(cfs).thenApply(ignored -> {
+            try {
+                return futures.stream().map(CompletableFuture::join).collect(Collectors.toList());
+            } catch (Throwable e) {
+                OpenMCSkins.handleError(e);
+                return null;
+            }
+        });
+    }
+
     public void loadAsync(GameProfile profile, Object... args) {
-        Resolver<?>[] resolvers = Arrays.stream(OpenMCSkins.getResolvers()).filter(loader::filter).toArray(Resolver<?>[]::new);
+        final Resolver<?>[] resolvers = Arrays.stream(OpenMCSkins.getResolvers()).filter(loader::filter).toArray(Resolver<?>[]::new);
 
         all(IntStream.range(0, resolvers.length).boxed().map(i -> CompletableFuture.supplyAsync(() -> {
             try {
@@ -40,21 +54,6 @@ public record AsyncLoaderHandler(Loader loader, ExecutorService executor) {
             else {
                 Object result = loader.processHandlers(handlers.stream().filter(Objects::nonNull).toList());
                 loader.doFinally(result, profile, args);
-            }
-        });
-    }
-
-    // https://stackoverflow.com/a/36261808/12245612
-    @SuppressWarnings("rawtypes")
-    private static <T> CompletableFuture<List<T>> all(@NotNull List<CompletableFuture<T>> futures) {
-        CompletableFuture[] cfs = futures.toArray(CompletableFuture[]::new);
-
-        return CompletableFuture.allOf(cfs).thenApply(ignored -> {
-            try {
-                return futures.stream().map(CompletableFuture::join).collect(Collectors.toList());
-            } catch (Throwable e) {
-                OpenMCSkins.handleError(e);
-                return null;
             }
         });
     }

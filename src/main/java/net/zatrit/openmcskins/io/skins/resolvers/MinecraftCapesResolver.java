@@ -27,11 +27,11 @@ public class MinecraftCapesResolver implements Resolver<MinecraftCapesResolver.P
 
         @SuppressWarnings("unchecked")
         public PlayerHandler(@NotNull GameProfile profile) throws IOException {
-            String url = BASE_URL + profile.getId().toString().replace("-", "");
+            final String url = BASE_URL + profile.getId().toString().replace("-", "");
 
             data = GSON.<Map<String, ?>>fromJson(new InputStreamReader(new URL(url).openStream()), Map.class);
 
-            Map<String, String> textures = (Map<String, String>) data.get("textures");
+            final Map<String, String> textures = (Map<String, String>) data.get("textures");
             Arrays.stream(MinecraftProfileTexture.Type.values()).parallel().forEach(t -> {
                 String k = t.toString().toLowerCase();
                 if (textures.containsKey(k) && textures.get(k) != null) this.textures.put(t, textures.get(k));
@@ -40,7 +40,7 @@ public class MinecraftCapesResolver implements Resolver<MinecraftCapesResolver.P
 
         @Override
         protected InputStream openStream(String data, MinecraftProfileTexture.@NotNull Type type) {
-            byte[] bytes = Base64.decodeBase64(data);
+            final byte[] bytes = Base64.decodeBase64(data);
             return new ByteArrayInputStream(bytes);
         }
 

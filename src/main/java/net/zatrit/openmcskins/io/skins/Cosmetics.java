@@ -10,7 +10,6 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 public final class Cosmetics {
     public static final Map<String, List<CosmeticsItem>> PLAYER_COSMETICS = new HashMap<>(256);
@@ -23,10 +22,10 @@ public final class Cosmetics {
     public static CosmeticsItem loadJemCosmeticItem(@NotNull Identifier textureId, Identifier modelId, @NotNull LinkedTreeMap<String, Object> jemData, String modelName) throws Exception {
         if (COSMETICS.containsKey(modelName)) return COSMETICS.get(modelName);
 
-        ResourceManager resourceManager = MinecraftClient.getInstance().getResourceManager();
+        final ResourceManager resourceManager = MinecraftClient.getInstance().getResourceManager();
         jemData.put("texture", textureId.toString());
-        List<LinkedTreeMap<String, Object>> models = ((List<LinkedTreeMap<String, Object>>) jemData.get("models"));
-        List<String> attaches = models.stream().map(model -> (String) model.get("attachTo")).toList();
+        final List<LinkedTreeMap<String, Object>> models = ((List<LinkedTreeMap<String, Object>>) jemData.get("models"));
+        final List<String> attaches = models.stream().map(model -> (String) model.get("attachTo")).toList();
 
         models.forEach(model -> model.put("part", modelName + models.indexOf(model)));
         models.forEach(model -> {
@@ -35,16 +34,25 @@ public final class Cosmetics {
                 submodels.get(i).putIfAbsent("id", ((String) submodels.get(i).get("id")) + i);
         });
 
-        JemFile jemFile = new JemFile(jemData, modelId, resourceManager);
-        CemModelRegistry registry = new CemModelRegistry(jemFile);
+        final JemFile jemFile = new JemFile(jemData, modelId, resourceManager);
+        final CemModelRegistry registry = new CemModelRegistry(jemFile);
 
-        List<ModelPart> modelParts;
+        final List<ModelPart> modelParts;
 
         if (models.size() == 1) modelParts = Collections.singletonList(getPartByIndex(registry, models, 0));
-        else
-            modelParts = IntStream.range(0, models.size()).boxed().map(i -> getPartByIndex(registry, models, i)).filter(Objects::nonNull).toList();
+        else {
+            List<ModelPart> list = new ArrayList<>();
+            int bound = models.size();
+            for (int i = 0; i < bound; i++) {
+                ModelPart partByIndex = getPartByIndex(registry, models, i);
+                if (partByIndex != null) {
+                    list.add(partByIndex);
+                }
+            }
+            modelParts = list;
+        }
 
-        CosmeticsItem cosmeticsItem = new CosmeticsItem(textureId, modelParts, attaches);
+        final CosmeticsItem cosmeticsItem = new CosmeticsItem(textureId, modelParts, attaches);
         COSMETICS.put(modelName, cosmeticsItem);
 
         return cosmeticsItem;

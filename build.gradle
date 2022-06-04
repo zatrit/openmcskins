@@ -1,4 +1,5 @@
 import proguard.gradle.ProGuardTask
+import org.apache.commons.io.FilenameUtils
 
 buildscript {
     repositories {
@@ -74,8 +75,6 @@ processResources {
     }
 }
 
-final String VERSION_AND_NAME = "${project.archivesBaseName}-${project.version}"
-
 remapJar {
     from "LICENSE", "NOTICE"
 }
@@ -86,8 +85,8 @@ task proguard(type: ProGuardTask) {
     dependsOn(remapJar)
 
     configuration "${projectDir}/optimize.pro"
-    injars "${buildDir}/libs/${VERSION_AND_NAME}.jar"
-    outjars "${buildDir}/libs/${VERSION_AND_NAME}-optimized.jar"
+    injars remapJar.archiveFile
+    outjars FilenameUtils.removeExtension(remapJar.archiveFile.get().toString()) + "-optimized" + ".jar"
 
     libraryjars(project.configurations.modImplementation.files)
     libraryjars(project.configurations.modApi.files)

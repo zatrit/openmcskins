@@ -37,12 +37,12 @@ public class _5ZigRebornResolver implements Resolver<_5ZigRebornResolver.PlayerH
         @Override
         public @Nullable Identifier downloadTexture(MinecraftProfileTexture.Type type) {
             try {
-                String url = textures.get(type);
-                InputStreamReader reader = new InputStreamReader(new URL(url).openStream(), StandardCharsets.UTF_8);
-                Map<String, String> map = GSON.fromJson(reader, Map.class);
-                String base64String = map.get("d");
+                final String url = textures.get(type);
+                final InputStreamReader reader = new InputStreamReader(new URL(url).openStream(), StandardCharsets.UTF_8);
+                final Map<String, String> map = GSON.fromJson(reader, Map.class);
+                final String base64String = map.get("d");
                 if (base64String == null) return null;
-                byte[] bytes = Base64.decodeBase64(base64String);
+                final byte[] bytes = Base64.decodeBase64(base64String);
                 return TextureUtils.loadStaticTexture(() -> new ByteArrayInputStream(bytes), url, TextureUtils.getAspects(type), true);
             } catch (Exception e) {
                 throw new RuntimeException(e);

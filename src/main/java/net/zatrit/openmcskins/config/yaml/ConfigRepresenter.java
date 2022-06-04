@@ -6,8 +6,8 @@ import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.ScalarNo
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.Tag;
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.representer.Represent;
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.representer.Representer;
-import net.zatrit.openmcskins.config.options.ConfigHostOption;
 import net.zatrit.openmcskins.config.Config;
+import net.zatrit.openmcskins.config.options.ConfigHostOption;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,8 +23,8 @@ public class ConfigRepresenter extends Representer {
         @Contract("_ -> new")
         @Override
         public @NotNull Node representData(Object data) {
-            ConfigHostOption item = (ConfigHostOption) data;
-            return new ScalarNode(item.type.getTag(), firstNonNull(item.value, ""), null, null, DumperOptions.ScalarStyle.PLAIN);
+            final ConfigHostOption item = (ConfigHostOption) data;
+            return new ScalarNode(item.type.getTag(), item.getValue(), null, null, DumperOptions.ScalarStyle.PLAIN);
         }
     }
 }

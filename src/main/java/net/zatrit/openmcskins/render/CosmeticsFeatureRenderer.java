@@ -14,7 +14,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.io.skins.Cosmetics;
 import net.zatrit.openmcskins.io.skins.Loaders;
-import net.zatrit.openmcskins.mod.OpenMCSkins;
+import net.zatrit.openmcskins.OpenMCSkins;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,14 +54,14 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
             return;
         }
 
-        List<Cosmetics.CosmeticsItem> items = Cosmetics.PLAYER_COSMETICS.get(name);
+        final List<Cosmetics.CosmeticsItem> items = Cosmetics.PLAYER_COSMETICS.get(name);
 
         for (Cosmetics.CosmeticsItem item : items) {
-            VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentCull(item.texture()));
+            final VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentCull(item.texture()));
             for (int i = 0; i < item.parts().size(); i++) {
-                ModelPart part = item.parts().get(i);
+                final ModelPart part = item.parts().get(i);
                 if (!part.visible) continue;
-                ModelPart attachPart = getPartByName(getContextModel(), item.attaches().get(i));
+                final ModelPart attachPart = getPartByName(getContextModel(), item.attaches().get(i));
                 if (attachPart != null) part.copyTransform(attachPart);
                 part.render(matrices, buffer, light, OverlayTexture.DEFAULT_UV);
             }

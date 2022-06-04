@@ -8,7 +8,7 @@ import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
 public class ConfigHostOption {
     public HostType type;
-    public String value;
+    private final String value;
 
     public ConfigHostOption(HostType type, @Nullable String value) {
         this.type = type;

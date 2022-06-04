@@ -28,7 +28,7 @@ public record DirectResolver(String baseUrl,
 
     public static class PlayerHandler extends AnimatedPlayerHandler {
         public PlayerHandler(@NotNull String baseUrl, @NotNull GameProfile profile, MinecraftProfileTexture.Type type) {
-            String formattedUrl = baseUrl.replace("{name}", profile.getName()).replace("{id}", profile.getId().toString());
+            final String formattedUrl = baseUrl.replace("{name}", profile.getName()).replace("{id}", profile.getId().toString());
 
             if (NetworkUtils.getResponseCode(formattedUrl) != 200) return;
             textures.put(type, formattedUrl);

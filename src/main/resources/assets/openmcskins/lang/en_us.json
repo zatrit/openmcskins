@@ -10,8 +10,11 @@
   // Option: Print full error message
   "text.autoconfig.openmcskins.option.fullErrorMessage": "Print full error message",
   // Option: Offline mode
-  "text.autoconfig.openmcskins.option.offlineMode": "Offline mode",
-  "text.autoconfig.openmcskins.option.offlineMode.@Tooltip": "Load skins by §lname§r instead of §lUUID",
+  "text.autoconfig.openmcskins.option.uuidResolutionMode": "UUID Resolution Mode",
+  "text.autoconfig.openmcskins.option.uuidResolutionMode.@Tooltip[0]": "A UUID resolution mode",
+  "text.autoconfig.openmcskins.option.uuidResolutionMode.@Tooltip[1]": "§lAUTO§r - Automatically determine what to use",
+  "text.autoconfig.openmcskins.option.uuidResolutionMode.@Tooltip[2]": "§lBY_NAME§r - Use §lname§r instead of §lUUID",
+  "text.autoconfig.openmcskins.option.uuidResolutionMode.@Tooltip[3]": "§lNORMAL§r - Always use §lUUID",
   // Option: Ignore animated capes
   "text.autoconfig.openmcskins.option.animatedCapes": "Animated capes",
   "text.autoconfig.openmcskins.option.animatedCapes.@Tooltip": "Render animated capes",

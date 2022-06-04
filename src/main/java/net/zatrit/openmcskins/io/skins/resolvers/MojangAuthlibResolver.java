@@ -26,7 +26,7 @@ public class MojangAuthlibResolver implements Resolver<MojangAuthlibResolver.Pla
 
         @Override
         public Identifier downloadTexture(MinecraftProfileTexture.Type type) {
-            MinecraftProfileTexture texture = this.textures.get(type);
+            final MinecraftProfileTexture texture = this.textures.get(type);
             return MinecraftClient.getInstance().getSkinProvider().loadSkin(texture, type);
         }
     }

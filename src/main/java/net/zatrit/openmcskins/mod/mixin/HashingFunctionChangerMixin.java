@@ -4,7 +4,7 @@ import com.google.common.hash.HashFunction;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.texture.PlayerSkinProvider;
 import net.zatrit.openmcskins.annotation.KeepClass;
-import net.zatrit.openmcskins.mod.OpenMCSkins;
+import net.zatrit.openmcskins.OpenMCSkins;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;

@@ -2,7 +2,7 @@ package net.zatrit.openmcskins.mod.mixin;
 
 import net.minecraft.client.gui.hud.PlayerListHud;
 import net.minecraft.network.ClientConnection;
-import net.zatrit.openmcskins.mod.OpenMCSkins;
+import net.zatrit.openmcskins.OpenMCSkins;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

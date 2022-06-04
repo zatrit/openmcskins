@@ -8,6 +8,7 @@ import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.resource.ResourceManager;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
+import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,13 +20,13 @@ public class AnimatedTexture extends AbstractTexture {
     private int frameIndex = 0;
 
     public AnimatedTexture(InputStream source) throws IOException {
-        NativeImage sourceImage = NativeImage.read(source);
-        int frameHeight = sourceImage.getWidth() / 2;
+        final NativeImage sourceImage = NativeImage.read(source);
+        final int frameHeight = sourceImage.getWidth() / 2;
         framesCount = sourceImage.getHeight() / frameHeight;
 
         ids = new int[framesCount];
         RenderSystem.recordRenderCall(() -> {
-            GlStateManager._genTextures(ids);
+            GL11.glGenTextures(ids);
 
             for (int i = 0; i < framesCount; i++) {
                 TextureUtil.prepareImage(ids[i], sourceImage.getWidth(), frameHeight);
@@ -47,7 +48,7 @@ public class AnimatedTexture extends AbstractTexture {
     @KeepClassMember
     @Override
     public void bindTexture() {
-        long time = System.currentTimeMillis();
+        final long time = System.currentTimeMillis();
 
         if (time - lastFrameTime > 100L) {
             lastFrameTime = time;

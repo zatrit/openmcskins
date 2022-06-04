@@ -36,9 +36,9 @@ public record SimpleServerResolver(String host, String format) implements Resolv
         // Example: http://127.0.0.1:8080/textures/PlayerName
         final String url = String.format(format, host(), profile.getName());
 
-        URL realUrl = new URL(url);
-        BufferedReader in = new BufferedReader(new InputStreamReader(realUrl.openStream()));
-        Map<String, Map<String, ?>> map = GSON.<Map<String, Map<String, ?>>>fromJson(in, Map.class);
+        final URL realUrl = new URL(url);
+        final BufferedReader in = new BufferedReader(new InputStreamReader(realUrl.openStream()));
+        final Map<String, Map<String, ?>> map = GSON.<Map<String, Map<String, ?>>>fromJson(in, Map.class);
 
         return new PlayerHandler(map);
     }
@@ -47,8 +47,8 @@ public record SimpleServerResolver(String host, String format) implements Resolv
         @SuppressWarnings("unchecked")
         public PlayerHandler(Map<String, Map<String, ?>> data) {
             if (data != null) data.forEach((k, v) -> {
-                MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(k);
-                Map<String, ?> metadata = (Map<String, ?>) firstNonNull(v.get("metadata"), new HashMap<>());
+                final MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(k);
+                final Map<String, ?> metadata = (Map<String, ?>) firstNonNull(v.get("metadata"), new HashMap<>());
 
                 if (v.containsKey("url")) this.textures.put(type, (String) v.get("url"));
                 if (metadata.containsKey("model")) this.setModel((String) metadata.get("model"));

@@ -1,19 +1,14 @@
 package net.zatrit.openmcskins.config;
 
-import com.mojang.authlib.minecraft.UserApiService;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
-import net.zatrit.openmcskins.config.options.ConfigHostOption;
-import net.zatrit.openmcskins.config.options.HashingAlgorithm;
-import net.zatrit.openmcskins.config.options.HostType;
-import net.zatrit.openmcskins.mod.OpenMCSkins;
-import net.zatrit.openmcskins.mod.mixin.MinecraftClientAccessor;
+import net.zatrit.openmcskins.config.options.*;
+import net.zatrit.openmcskins.OpenMCSkins;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -32,8 +27,9 @@ public class Config implements ConfigData {
     public @NotNull List<ConfigHostOption> hosts = new ArrayList<>();
     @ConfigEntry.Category("loader")
     @KeepClassMember
-    @ConfigEntry.Gui.Tooltip()
-    public boolean offlineMode = ((MinecraftClientAccessor) MinecraftClient.getInstance()).getUserApiService() == UserApiService.OFFLINE;
+    @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
+    @ConfigEntry.Gui.Tooltip(count = 4)
+    public UUIDResolutionMode uuidResolutionMode = UUIDResolutionMode.AUTO;
     @ConfigEntry.Category("loader")
     @KeepClassMember
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)

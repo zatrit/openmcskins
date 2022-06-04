@@ -10,8 +10,11 @@
   // Option: Print full error message
   "text.autoconfig.openmcskins.option.fullErrorMessage": "Печатать полное сообщение об ошибке",
   // Option: Offline mode
-  "text.autoconfig.openmcskins.option.offlineMode": "Оффлайн (пиратский) режим",
-  "text.autoconfig.openmcskins.option.offlineMode.@Tooltip": "Загружать скины по §lимени§r вместо §lUUID",
+  "text.autoconfig.openmcskins.option.uuidResolutionMode": "Режим разрешения UUID",
+  "text.autoconfig.openmcskins.option.uuidResolutionMode.@Tooltip[0]": "Режим разрешения UUID",
+  "text.autoconfig.openmcskins.option.uuidResolutionMode.@Tooltip[1]": "§lAUTO§r - Автоматически определять, как загружать скины",
+  "text.autoconfig.openmcskins.option.uuidResolutionMode.@Tooltip[2]": "§lBY_NAME§r - Загружать скины по §lимени§r вместо §lUUID",
+  "text.autoconfig.openmcskins.option.uuidResolutionMode.@Tooltip[3]": "§lNORMAL§r - Загружать скины всегда по §lUUID",
   // Option: Ignore animated capes
   "text.autoconfig.openmcskins.option.animatedCapes": "Анимированные плащи",
   "text.autoconfig.openmcskins.option.animatedCapes.@Tooltip": "Отображать анимированные плащи",

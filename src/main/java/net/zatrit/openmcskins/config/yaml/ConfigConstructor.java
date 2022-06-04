@@ -4,9 +4,9 @@ import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.constructor.Ab
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.constructor.Constructor;
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.Node;
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.ScalarNode;
-import net.zatrit.openmcskins.config.options.HostType;
-import net.zatrit.openmcskins.config.options.ConfigHostOption;
 import net.zatrit.openmcskins.config.Config;
+import net.zatrit.openmcskins.config.options.ConfigHostOption;
+import net.zatrit.openmcskins.config.options.HostType;
 import org.jetbrains.annotations.NotNull;
 
 public class ConfigConstructor extends Constructor {
@@ -17,7 +17,7 @@ public class ConfigConstructor extends Constructor {
             this.yamlConstructors.put(type.getTag(), new HostConstructRepresent(type));
     }
 
-    public class HostConstructRepresent extends AbstractConstruct {
+    private class HostConstructRepresent extends AbstractConstruct {
         private final HostType type;
 
         public HostConstructRepresent(HostType type) {
@@ -26,7 +26,7 @@ public class ConfigConstructor extends Constructor {
 
         @Override
         public @NotNull Object construct(Node node) {
-            String nodeAsString = ConfigConstructor.this.constructScalar((ScalarNode) node);
+            final String nodeAsString = ConfigConstructor.this.constructScalar((ScalarNode) node);
             return new ConfigHostOption(type, nodeAsString);
         }
     }

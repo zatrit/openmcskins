@@ -19,7 +19,7 @@ public class CosmeticsLoader implements Loader {
 
     @Override
     public Object processHandlers(@NotNull List<? extends AbstractPlayerHandler<?>> handlers) {
-        List<Cosmetics.CosmeticsItem> allCosmetics = new ArrayList<>();
+        final List<Cosmetics.CosmeticsItem> allCosmetics = new ArrayList<>();
 
         handlers.stream().map(x -> ((PlayerCosmeticsHandler) x).downloadCosmetics()).forEach(cosmetics -> {
             if (cosmetics != null) allCosmetics.addAll(cosmetics);
@@ -31,7 +31,7 @@ public class CosmeticsLoader implements Loader {
     @SuppressWarnings("unchecked")
     @Override
     public void doFinally(Object result, @NotNull GameProfile profile, Object[] args) {
-        List<Cosmetics.CosmeticsItem> cosmetics = (List<Cosmetics.CosmeticsItem>) result;
+        final List<Cosmetics.CosmeticsItem> cosmetics = (List<Cosmetics.CosmeticsItem>) result;
         Cosmetics.PLAYER_COSMETICS.put(profile.getName(), cosmetics);
     }
 }

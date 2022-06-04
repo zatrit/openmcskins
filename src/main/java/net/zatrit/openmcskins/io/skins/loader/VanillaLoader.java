@@ -22,7 +22,7 @@ public class VanillaLoader implements Loader {
 
     @Override
     public Object processHandlers(List<? extends AbstractPlayerHandler<?>> handlers) {
-        Map<MinecraftProfileTexture.Type, AbstractPlayerHandler<?>> leading = new EnumMap<>(MinecraftProfileTexture.Type.class);
+        final Map<MinecraftProfileTexture.Type, AbstractPlayerHandler<?>> leading = new EnumMap<>(MinecraftProfileTexture.Type.class);
 
         for (MinecraftProfileTexture.Type type : MinecraftProfileTexture.Type.values()) {
             leading.put(type, handlers.stream()
@@ -37,12 +37,12 @@ public class VanillaLoader implements Loader {
     @SuppressWarnings("unchecked")
     @Override
     public void doFinally(Object result, GameProfile profile, Object @NotNull [] args) {
-        Loaders.SkinResolveCallback callback = (Loaders.SkinResolveCallback) args[0];
-        Map<MinecraftProfileTexture.Type, AbstractPlayerHandler<?>> leading = (Map<MinecraftProfileTexture.Type, AbstractPlayerHandler<?>>) result;
+        final Loaders.SkinResolveCallback callback = (Loaders.SkinResolveCallback) args[0];
+        final Map<MinecraftProfileTexture.Type, AbstractPlayerHandler<?>> leading = (Map<MinecraftProfileTexture.Type, AbstractPlayerHandler<?>>) result;
 
         leading.forEach((k, v) -> {
             try {
-                Identifier identifier = v.downloadTexture(k);
+                final Identifier identifier = v.downloadTexture(k);
                 PlayerRegistry.registerTextureId(identifier);
                 callback.onSkinResolved(k, identifier, v.getModel());
             } catch (Exception ignored) {

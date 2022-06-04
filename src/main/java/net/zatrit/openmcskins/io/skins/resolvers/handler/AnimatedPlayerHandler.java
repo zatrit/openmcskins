@@ -2,8 +2,8 @@ package net.zatrit.openmcskins.io.skins.resolvers.handler;
 
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.mod.OpenMCSkins;
 import net.zatrit.openmcskins.io.util.TextureUtils;
+import net.zatrit.openmcskins.OpenMCSkins;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -38,7 +38,7 @@ public abstract class AnimatedPlayerHandler extends AbstractPlayerHandler<String
     @Override
     public @Nullable Identifier downloadTexture(MinecraftProfileTexture.Type type) {
         try {
-            String textureUrl = textures.get(type);
+            final String textureUrl = textures.get(type);
 
             if (isAnimated(type) && !OpenMCSkins.getConfig().animatedCapes && type == MinecraftProfileTexture.Type.CAPE)
                 return null;

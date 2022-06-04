@@ -5,40 +5,28 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.mod.mixin.NativeImageAccessor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 public final class ImageUtils {
     private ImageUtils() {
     }
 
-    public static @NotNull NativeImage bufferedToNative(BufferedImage source) throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ImageIO.write(source, "png", outputStream);
-        source.flush();
-        return NativeImage.read(new ByteArrayInputStream(outputStream.toByteArray()));
-    }
-
     public static @NotNull BufferedImage resizeToAspects(@NotNull BufferedImage source, int width, int height, boolean flushSource) {
         int newHeight = height;
-        int relation = width / height;
+        final int relation = width / height;
 
         if (relation != source.getWidth() / source.getHeight() || !IntMath.isPowerOfTwo(source.getHeight()))
             while (newHeight < source.getHeight() || newHeight * relation < source.getWidth())
                 newHeight *= 2;
         else newHeight = source.getHeight();
 
-        BufferedImage target = new BufferedImage(newHeight * relation, newHeight, BufferedImage.TYPE_INT_ARGB);
+        final BufferedImage target = new BufferedImage(newHeight * relation, newHeight, BufferedImage.TYPE_INT_ARGB);
 
-        Graphics2D graphics2D = (Graphics2D) target.getGraphics();
+        final Graphics2D graphics2D = (Graphics2D) target.getGraphics();
         graphics2D.drawImage(source, 0, 0, null);
 
         graphics2D.dispose();
@@ -47,11 +35,9 @@ public final class ImageUtils {
         return target;
     }
 
-    @SuppressWarnings("ConstantConditions")
     public static @Nullable Identifier registerNativeImage(@NotNull NativeImage image, String prefix) {
-        if (NativeImageAccessor.class.cast(image).getPointer() == 0L) return null;
         NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
-        if (texture.getImage() == null || NativeImageAccessor.class.cast(texture.getImage()).getPointer() == 0L)
+        if (TextureUtils.checkNativeImageBackedTexture(texture))
             return null;
         return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture(prefix, texture);
     }

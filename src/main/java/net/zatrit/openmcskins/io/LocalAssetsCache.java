@@ -2,7 +2,7 @@ package net.zatrit.openmcskins.io;
 
 import net.zatrit.openmcskins.io.util.StreamAction;
 import net.zatrit.openmcskins.io.util.StreamOpener;
-import net.zatrit.openmcskins.mod.OpenMCSkins;
+import net.zatrit.openmcskins.OpenMCSkins;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -25,8 +25,8 @@ public final class LocalAssetsCache {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public @NotNull File getCacheFile(String name) {
-        String hash = OpenMCSkins.getHashFunction().hashUnencodedChars(name).toString();
-        File file = Paths.get(cacheDir.get().getPath(), hash.substring(0, 2), hash).toFile();
+        final String hash = OpenMCSkins.getHashFunction().hashUnencodedChars(name).toString();
+        final File file = Paths.get(cacheDir.get().getPath(), hash.substring(0, 2), hash).toFile();
         file.getParentFile().mkdirs();
         return file;
     }
@@ -43,7 +43,7 @@ public final class LocalAssetsCache {
     @Contract("_, _ -> new")
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public @NotNull InputStream getOrDownload(String name, StreamAction download) throws Exception {
-        File cacheFile = getCacheFile(name);
+        final File cacheFile = getCacheFile(name);
 
         if (!cacheFile.isFile()) {
             cacheFile.getParentFile().mkdirs();

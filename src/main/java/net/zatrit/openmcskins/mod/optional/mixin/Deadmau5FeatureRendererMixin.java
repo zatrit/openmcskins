@@ -7,7 +7,7 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.entity.feature.Deadmau5FeatureRenderer;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.annotation.RequiresMod;
-import net.zatrit.openmcskins.mod.OpenMCSkins;
+import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.mod.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mod.mixin.PlayerListEntryAccessor;
 import org.jetbrains.annotations.NotNull;
@@ -29,15 +29,15 @@ public class Deadmau5FeatureRendererMixin {
 
     @Redirect(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getSkinTexture()Lnet/minecraft/util/Identifier;"))
     public Identifier playerEarsInsteadOfSkin(AbstractClientPlayerEntity instance) {
-        PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) instance).invokeGetPlayerListEntry();
+        final PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) instance).invokeGetPlayerListEntry();
         ((PlayerListEntryAccessor) entry).invokeLoadTextures();
-        Identifier ears = ((PlayerListEntryAccessor) entry).getTextures().get(earsType);
+        final Identifier ears = ((PlayerListEntryAccessor) entry).getTextures().get(earsType);
         return firstNonNull(ears, entry.getSkinTexture());
     }
 
     @Redirect(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;hasSkinTexture()Z"))
     public boolean hasEars(AbstractClientPlayerEntity instance) {
-        PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) instance).invokeGetPlayerListEntry();
+        final PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) instance).invokeGetPlayerListEntry();
         if (entry == null) return false;
         ((PlayerListEntryAccessor) entry).invokeLoadTextures();
         return ((PlayerListEntryAccessor) entry).getTextures().containsKey(earsType);

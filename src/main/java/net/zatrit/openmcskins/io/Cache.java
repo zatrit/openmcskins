@@ -1,7 +1,5 @@
 package net.zatrit.openmcskins.io;
 
-import net.zatrit.openmcskins.io.LocalAssetsCache;
-
 public enum Cache {
     MODELS("models"),
     SKINS("skins");

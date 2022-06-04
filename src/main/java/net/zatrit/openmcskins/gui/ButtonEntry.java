@@ -28,7 +28,7 @@ public class ButtonEntry extends TooltipListEntry<Void> {
     @SuppressWarnings({"deprecation", "UnstableApiUsage"})
     public ButtonEntry(Text fieldName, ButtonWidget.PressAction onPress) {
         super(fieldName, null);
-        int width = MinecraftClient.getInstance().textRenderer.getWidth(fieldName) + 24;
+        final int width = MinecraftClient.getInstance().textRenderer.getWidth(fieldName) + 24;
         button = new ButtonWidget(0, 0, width, HEIGHT, fieldName, onPress);
     }
 

@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.mod;
+package net.zatrit.openmcskins;
 
 import com.google.common.hash.HashFunction;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -19,9 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.function.IntFunction;
 
 public class OpenMCSkins {
     public static final String MOD_ID = "openmcskins";
@@ -56,8 +54,7 @@ public class OpenMCSkins {
 
     public static synchronized void invalidateAllResolvers() {
         OpenMCSkins.resolvers = null;
-        PlayerRegistry.getProfileCache().cleanUp();
-        PlayerRegistry.clearTextures();
+        PlayerRegistry.clear();
         if (isModLoaded("cem"))
             Cosmetics.clear();
         OptifineResolver.PlayerSkinHandler.texturesLoaded.forEach(id -> MinecraftClient.getInstance().getTextureManager().getTexture(id).close());
@@ -68,7 +65,7 @@ public class OpenMCSkins {
         if (client.world != null) {
             AbstractClientPlayerEntity[] players = client.world.getPlayers().toArray(AbstractClientPlayerEntity[]::new);
             for (AbstractClientPlayerEntity player : players) {
-                PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) player).invokeGetPlayerListEntry();
+                final PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) player).invokeGetPlayerListEntry();
                 if (entry != null) ((PlayerListEntryAccessor) entry).setTexturesLoaded(false);
             }
         }
@@ -77,8 +74,8 @@ public class OpenMCSkins {
     @SuppressWarnings({"deprecation", "OptionalGetWithoutIsPresent"})
     public static boolean isModLoaded(String name, String version) {
         try {
-            var predicate = SemanticVersionPredicateParser.create(version);
-            var modVersion = new SemanticVersionImpl(FabricLoader.getInstance().getModContainer(name).get().getMetadata().getVersion().getFriendlyString(), false);
+            final var predicate = SemanticVersionPredicateParser.create(version);
+            final var modVersion = new SemanticVersionImpl(FabricLoader.getInstance().getModContainer(name).get().getMetadata().getVersion().getFriendlyString(), false);
             return predicate.test(modVersion);
         } catch (Exception e) {
             return false;
@@ -86,7 +83,7 @@ public class OpenMCSkins {
     }
 
     public static boolean isModLoaded(@NotNull String name) {
-        String[] splitted = name.split(":");
+        final String[] splitted = name.split(":");
         if (splitted.length > 1)
             return isModLoaded(splitted[0], splitted[1]);
         else

@@ -1,7 +1,8 @@
 package net.zatrit.openmcskins.mod.plugin;
 
+import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClass;
-import net.zatrit.openmcskins.mod.OpenMCSkins;
+import org.apache.commons.lang3.function.TriFunction;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -12,6 +13,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 import java.io.InputStream;
 import java.util.*;
+import java.util.function.Function;
 
 @KeepClass
 public class ConditionalMixinPlugin implements IMixinConfigPlugin {
@@ -27,14 +29,11 @@ public class ConditionalMixinPlugin implements IMixinConfigPlugin {
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         try {
-            String classFile = "/" + mixinClassName.replace('.', '/') + ".class";
-            InputStream classStream = getClass().getResourceAsStream(classFile);
+            final String classFile = "/" + mixinClassName.replace('.', '/') + ".class";
+            final InputStream classStream = getClass().getResourceAsStream(classFile);
             assert classStream != null;
-            ClassReader reader = new ClassReader(classStream);
-            Map<String, List<String>> requires = new HashMap<>();
-
-            requires.put("all", new ArrayList<>());
-            requires.put("any", new ArrayList<>());
+            final ClassReader reader = new ClassReader(classStream);
+            final Map<String, List<String>> requires = new HashMap<>();
 
             reader.accept(new ClassVisitor(Opcodes.ASM9) {
                 @Override
@@ -46,7 +45,7 @@ public class ConditionalMixinPlugin implements IMixinConfigPlugin {
                                 return new AnnotationVisitor(Opcodes.ASM9) {
                                     @Override
                                     public void visit(String name, Object value) {
-                                        requires.get(arrayName).add(String.valueOf(value));
+                                        requires.computeIfAbsent(arrayName, k -> new ArrayList<>()).add(String.valueOf(value));
                                     }
                                 };
                             }
@@ -55,8 +54,11 @@ public class ConditionalMixinPlugin implements IMixinConfigPlugin {
                 }
             }, 0);
 
-            boolean allMatch = requires.get("all").stream().allMatch(OpenMCSkins::isModLoaded);
-            boolean anyMatch = requires.get("any").stream().anyMatch(OpenMCSkins::isModLoaded) || requires.get("any").size() == 0;
+            final TriFunction<Map<?, List<String>>, String, Function<List<String>, Boolean>, Boolean> mapValueMatches = (m, k, f) -> m.get(k) == null || f.apply(m.get("all"));
+
+            final boolean allMatch = mapValueMatches.apply(requires, "all", l -> l.stream().allMatch(OpenMCSkins::isModLoaded));
+            final boolean anyMatch = mapValueMatches.apply(requires, "any", l -> l.stream().anyMatch(OpenMCSkins::isModLoaded));
+
             return allMatch && anyMatch;
         } catch (Exception ex) {
             ex.printStackTrace();
