@@ -54,7 +54,7 @@ text editor (e.g. Notepad++).
 
 ### Here are the possible options in the config:
 
-You can find all config options [here](https://github.com/zatrit/openmcskins/wiki/Config-options)
+You can find all config options [here](./docs/Config-options.md)
 
 ## Why are there errors in README.md? (if any)
 
