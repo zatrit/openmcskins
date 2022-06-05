@@ -3,6 +3,7 @@ package net.zatrit.openmcskins.io.skins.resolvers;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.util.Identifier;
+import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.api.resolver.Resolver;
 import net.zatrit.openmcskins.io.skins.resolvers.handler.AbstractPlayerHandler;
 import net.zatrit.openmcskins.io.util.NetworkUtils;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -20,13 +22,18 @@ import java.util.Map;
 public class _5ZigRebornResolver implements Resolver<_5ZigRebornResolver.PlayerHandler> {
     @Override
     public PlayerHandler resolvePlayer(GameProfile profile) {
-        return new PlayerHandler(profile);
+        try {
+            return new PlayerHandler(profile);
+        } catch (IOException e) {
+            OpenMCSkins.handleError(e);
+            return null;
+        }
     }
 
     public static class PlayerHandler extends AbstractPlayerHandler<String> {
         private static final String BASE_URL = "https://textures.5zigreborn.eu/profile/";
 
-        public PlayerHandler(@NotNull GameProfile profile) {
+        public PlayerHandler(@NotNull GameProfile profile) throws IOException {
             String url = BASE_URL + profile.getId();
             if (NetworkUtils.getResponseCode(url) != 200) return;
 

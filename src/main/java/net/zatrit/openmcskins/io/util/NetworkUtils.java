@@ -13,16 +13,11 @@ public final class NetworkUtils {
     private NetworkUtils() {
     }
 
-    public static int getResponseCode(String url) {
-        try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-            connection.setRequestMethod("GET");
-            connection.connect();
-            return connection.getResponseCode();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return -1;
-        }
+    public static int getResponseCode(String url) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.setRequestMethod("GET");
+        connection.connect();
+        return connection.getResponseCode();
     }
 
     public static @NotNull String fixUrl(@NotNull String url) {

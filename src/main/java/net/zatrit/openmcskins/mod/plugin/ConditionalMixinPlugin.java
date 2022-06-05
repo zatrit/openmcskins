@@ -11,6 +11,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.function.Function;
@@ -60,8 +61,8 @@ public class ConditionalMixinPlugin implements IMixinConfigPlugin {
             final boolean anyMatch = mapValueMatches.apply(requires, "any", l -> l.stream().anyMatch(OpenMCSkins::isModLoaded));
 
             return allMatch && anyMatch;
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (IOException ex) {
+            OpenMCSkins.handleError(ex);
             return false;
         }
     }
