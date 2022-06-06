@@ -13,15 +13,19 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
-import net.zatrit.openmcskins.io.skins.Cosmetics;
+import net.zatrit.openmcskins.io.skins.CosmeticsParser;
 import net.zatrit.openmcskins.io.skins.Loaders;
+import net.zatrit.openmcskins.io.skins.loader.CosmeticsLoader;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
+    private static final Map<String, List<CosmeticsParser.CosmeticsItem>> playerCosmetics = new HashMap<>(256);
     private static final boolean hasCem = FabricLoader.getInstance().isModLoaded("cem");
 
     public CosmeticsFeatureRenderer(FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> context) {
@@ -41,22 +45,23 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
         };
     }
 
+    public static void clear() {
+        playerCosmetics.clear();
+    }
+
     @KeepClassMember
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, @NotNull AbstractClientPlayerEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
         if (!OpenMCSkins.getConfig().cosmetics || !hasCem || entity.getGameProfile() == null || entity.isInvisible())
             return;
 
-        String name = entity.getEntityName();
-        if (!Cosmetics.PLAYER_COSMETICS.containsKey(name)) {
-            Cosmetics.PLAYER_COSMETICS.put(name, new ArrayList<>());
-            Loaders.COSMETICS.getHandler().loadAsync(entity.getGameProfile(), (Object[]) null);
-            return;
-        }
+        final List<CosmeticsParser.CosmeticsItem> items = playerCosmetics.computeIfAbsent(entity.getEntityName(), k -> {
+            List<CosmeticsParser.CosmeticsItem> cosmeticsItems = new ArrayList<>();
+            Loaders.COSMETICS.getHandler().loadAsync(entity.getGameProfile(), (CosmeticsLoader.CosmeticsResolveCallback) cosmeticsItems::addAll);
+            return cosmeticsItems;
+        });
 
-        final List<Cosmetics.CosmeticsItem> items = Cosmetics.PLAYER_COSMETICS.get(name);
-
-        for (Cosmetics.CosmeticsItem item : items) {
+        for (CosmeticsParser.CosmeticsItem item : items) {
             final VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentCull(item.texture()));
             for (int i = 0; i < item.parts().size(); i++) {
                 final ModelPart part = item.parts().get(i);

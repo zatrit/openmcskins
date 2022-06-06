@@ -43,10 +43,6 @@
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[5]": "  имеет высокий шанс коллизий",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[6]": " §lMURMUR3§r (РЕКОМЕНДУЕТСЯ) - очень быстрый ",
   "text.autoconfig.openmcskins.option.hashingAlgorithm.@Tooltip[7]": "  алгоритм хэширования",
-  // Reload button
-  "text.autoconfig.openmcskins.option.reload": "Перезагрузить скины",
-  "text.autoconfig.openmcskins.option.reload.@Tooltip[0]": "Перезагрузить загрузчики §nOpenMCSkins§r ",
-  "text.autoconfig.openmcskins.option.reload.@Tooltip[1]": "и скины всех игроков из доступных хостов",
   // Cloth config
   "text.autoconfig.openmcskins.category.debug": "Отладка",
   "text.autoconfig.openmcskins.category.rendering": "Рендеринг",
@@ -55,5 +51,7 @@
   "text.autoconfig.openmcskins.title": "§nНастройки OpenMCSkins",
   // Other
   "openmcskins.configure": "Настройки §nOpenMCSkins",
+  "openmcskins.reload": "Перезагрузить загрузчики §nOpenMCSkins§r\nи скины всех игроков из доступных хостов",
+  "openmcskins.clearCache": "Очистить папку кэша скинов и моделей",
   "modmenu.descriptionTranslation.openmcskins": "Мод, позволяющий игрокам использовать свои скины и плащи. Конфиг находится в §n.minecraft/config/openmcskins.yml"
 }

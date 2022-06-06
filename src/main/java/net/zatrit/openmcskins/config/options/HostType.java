@@ -42,7 +42,7 @@ public enum HostType {
     }
 
     @Contract(" -> new")
-    public me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.@NotNull Tag getTag() {
+    public @NotNull Tag getTag() {
         return new Tag("!" + this.toString().toLowerCase());
     }
 

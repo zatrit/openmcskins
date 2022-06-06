@@ -5,6 +5,7 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.io.skins.Loaders;
+import net.zatrit.openmcskins.io.skins.loader.VanillaLoader;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,7 +42,7 @@ public abstract class PlayerListEntryMixin {
             this.textures.clear();
             this.model = null;
 
-            Loaders.VANILLA.getHandler().loadAsync(getProfile(), (Loaders.SkinResolveCallback) (t, r, model) -> {
+            Loaders.VANILLA.getHandler().loadAsync(getProfile(), (VanillaLoader.SkinResolveCallback) (t, r, model) -> {
                 if (r == null) return;
 
                 this.textures.put(t, r);

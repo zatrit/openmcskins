@@ -4,7 +4,6 @@ import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.EnumHandler;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
@@ -21,7 +20,6 @@ import java.util.List;
 @me.shedaniel.autoconfig.annotation.Config.Gui.Background(value = me.shedaniel.autoconfig.annotation.Config.Gui.Background.TRANSPARENT)
 @me.shedaniel.autoconfig.annotation.Config(name = OpenMCSkins.MOD_ID)
 public class Config implements ConfigData {
-    @Range(from = 1, to = Integer.MAX_VALUE)
     @ConfigEntry.Category("loader")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip(count = 2)
@@ -40,10 +38,6 @@ public class Config implements ConfigData {
     @EnumHandler(option = EnumHandler.EnumDisplayOption.BUTTON)
     @ConfigEntry.Gui.Tooltip(count = 8)
     public HashingAlgorithm hashingAlgorithm = HashingAlgorithm.MURMUR3;
-    @ConfigEntry.Category("loader")
-    @KeepClassMember
-    @ConfigEntry.Gui.Tooltip(count = 2)
-    public transient final ButtonWidget.PressAction reload = b -> OpenMCSkins.invalidateAllResolvers();
     @ConfigEntry.Category("rendering")
     @KeepClassMember
     @ConfigEntry.Gui.Tooltip()

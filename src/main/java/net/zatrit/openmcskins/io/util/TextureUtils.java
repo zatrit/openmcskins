@@ -23,7 +23,7 @@ public final class TextureUtils {
     private TextureUtils() {
     }
 
-    public static @Nullable Identifier loadStaticTexture(StreamOpener sourceStream, String name, int @NotNull [] aspects, boolean cache) throws Exception {
+    public static @Nullable Identifier loadStaticTexture(StreamSupplier sourceStream, String name, int @NotNull [] aspects, boolean cache) throws Exception {
         int width = aspects[0];
         int height = aspects[1];
 
@@ -41,7 +41,7 @@ public final class TextureUtils {
         return ImageUtils.registerNativeImage(image, String.valueOf(OpenMCSkins.getHashFunction().hashUnencodedChars(name)));
     }
 
-    public static @NotNull Identifier loadAnimatedTexture(StreamOpener sourceStream, String name, boolean cache) throws Exception {
+    public static @NotNull Identifier loadAnimatedTexture(StreamSupplier sourceStream, String name, boolean cache) throws Exception {
         InputStream stream = cache ? Cache.SKINS.getCache().getOrDownload(name, sourceStream) : sourceStream.openStream();
         AnimatedTexture animatedTexture = new AnimatedTexture(stream);
 
@@ -114,6 +114,7 @@ public final class TextureUtils {
         image.copyRect(x * n, y * n, translateX * n, 32 * n, width * n, height * n, true, false);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static boolean checkNativeImageBackedTexture(@NotNull NativeImageBackedTexture texture) {
         return texture.getImage() == null || NativeImageAccessor.class.cast(texture.getImage()).getPointer() == 0L;
     }

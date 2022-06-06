@@ -5,10 +5,10 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import it.unimi.dsi.fastutil.ints.IntComparators;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.api.resolver.Resolver;
-import net.zatrit.openmcskins.io.skins.Loaders;
 import net.zatrit.openmcskins.io.skins.PlayerRegistry;
 import net.zatrit.openmcskins.io.skins.resolvers.handler.AbstractPlayerHandler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -37,7 +37,7 @@ public class VanillaLoader implements Loader {
     @SuppressWarnings("unchecked")
     @Override
     public void doFinally(Object result, GameProfile profile, Object @NotNull [] args) {
-        final Loaders.SkinResolveCallback callback = (Loaders.SkinResolveCallback) args[0];
+        final SkinResolveCallback callback = (SkinResolveCallback) args[0];
         final Map<MinecraftProfileTexture.Type, AbstractPlayerHandler<?>> leading = (Map<MinecraftProfileTexture.Type, AbstractPlayerHandler<?>>) result;
 
         leading.forEach((k, v) -> {
@@ -48,5 +48,10 @@ public class VanillaLoader implements Loader {
             } catch (Exception ignored) {
             }
         });
+    }
+
+    @FunctionalInterface
+    public interface SkinResolveCallback {
+        void onSkinResolved(MinecraftProfileTexture.Type type, @Nullable Identifier location, String model);
     }
 }

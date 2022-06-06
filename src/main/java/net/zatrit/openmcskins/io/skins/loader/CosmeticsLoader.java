@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
 import net.zatrit.openmcskins.api.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.api.resolver.CosmeticsResolver;
 import net.zatrit.openmcskins.api.resolver.Resolver;
-import net.zatrit.openmcskins.io.skins.Cosmetics;
+import net.zatrit.openmcskins.io.skins.CosmeticsParser;
 import net.zatrit.openmcskins.io.skins.resolvers.handler.AbstractPlayerHandler;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +19,7 @@ public class CosmeticsLoader implements Loader {
 
     @Override
     public Object processHandlers(@NotNull List<? extends AbstractPlayerHandler<?>> handlers) {
-        final List<Cosmetics.CosmeticsItem> allCosmetics = new ArrayList<>();
+        final List<CosmeticsParser.CosmeticsItem> allCosmetics = new ArrayList<>();
 
         handlers.stream().map(x -> ((PlayerCosmeticsHandler) x).downloadCosmetics()).forEach(cosmetics -> {
             if (cosmetics != null) allCosmetics.addAll(cosmetics);
@@ -30,8 +30,13 @@ public class CosmeticsLoader implements Loader {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void doFinally(Object result, @NotNull GameProfile profile, Object[] args) {
-        final List<Cosmetics.CosmeticsItem> cosmetics = (List<Cosmetics.CosmeticsItem>) result;
-        Cosmetics.PLAYER_COSMETICS.put(profile.getName(), cosmetics);
+    public void doFinally(Object result, @NotNull GameProfile profile, Object @NotNull [] args) {
+        final List<CosmeticsParser.CosmeticsItem> cosmetics = (List<CosmeticsParser.CosmeticsItem>) result;
+        ((CosmeticsResolveCallback) args[0]).onCosmeticsResolved(cosmetics);
+    }
+
+    @FunctionalInterface
+    public interface CosmeticsResolveCallback {
+        void onCosmeticsResolved(List<CosmeticsParser.CosmeticsItem> cosmetics);
     }
 }

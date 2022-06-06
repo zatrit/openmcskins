@@ -7,7 +7,7 @@ import static com.google.common.hash.Hashing.*;
 @SuppressWarnings({"UnstableApiUsage", "unused"})
 public enum HashingAlgorithm {
     CRC32(crc32()),
-    @SuppressWarnings("deprecation")
+    @Deprecated
     SHA1(sha1()),
     MURMUR3(murmur3_128()),
     SHA384(sha384());

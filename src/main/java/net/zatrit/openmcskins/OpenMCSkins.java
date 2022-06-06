@@ -10,15 +10,15 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.zatrit.openmcskins.api.resolver.Resolver;
 import net.zatrit.openmcskins.config.Config;
-import net.zatrit.openmcskins.io.skins.Cosmetics;
 import net.zatrit.openmcskins.io.skins.PlayerRegistry;
-import net.zatrit.openmcskins.io.skins.resolvers.OptifineResolver;
 import net.zatrit.openmcskins.mod.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mod.mixin.PlayerListEntryAccessor;
+import net.zatrit.openmcskins.render.CosmeticsFeatureRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class OpenMCSkins {
@@ -55,10 +55,8 @@ public class OpenMCSkins {
     public static synchronized void invalidateAllResolvers() {
         OpenMCSkins.resolvers = null;
         PlayerRegistry.clear();
-        if (isModLoaded("cem"))
-            Cosmetics.clear();
-        OptifineResolver.PlayerSkinHandler.texturesLoaded.forEach(id -> MinecraftClient.getInstance().getTextureManager().getTexture(id).close());
-        OptifineResolver.PlayerSkinHandler.texturesLoaded.clear();
+        CosmeticsFeatureRenderer.clear();
+        Arrays.stream(getResolvers()).forEach(Resolver::clear);
 
         MinecraftClient client = MinecraftClient.getInstance();
 

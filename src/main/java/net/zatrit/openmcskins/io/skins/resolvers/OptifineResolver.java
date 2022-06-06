@@ -11,7 +11,7 @@ import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.api.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.api.resolver.CosmeticsResolver;
 import net.zatrit.openmcskins.io.Cache;
-import net.zatrit.openmcskins.io.skins.Cosmetics;
+import net.zatrit.openmcskins.io.skins.CosmeticsParser;
 import net.zatrit.openmcskins.io.util.NetworkUtils;
 import net.zatrit.openmcskins.io.util.TextureUtils;
 import org.jetbrains.annotations.Contract;
@@ -21,12 +21,12 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
-public record OptifineResolver(String baseUrl) implements CosmeticsResolver<OptifineResolver.PlayerSkinHandler> {
+public final class OptifineResolver implements CosmeticsResolver<OptifineResolver.PlayerSkinHandler> {
+    private final String baseUrl;
+    private final Map<String, CosmeticsParser.CosmeticsItem> cosmeticsCache = new HashMap<>();
+
     public OptifineResolver(String baseUrl) {
         this.baseUrl = NetworkUtils.fixUrl(baseUrl);
     }
@@ -42,7 +42,6 @@ public record OptifineResolver(String baseUrl) implements CosmeticsResolver<Opti
     }
 
     public class PlayerSkinHandler extends DirectResolver.PlayerHandler implements PlayerCosmeticsHandler {
-        public static final List<Identifier> texturesLoaded = new ArrayList<>();
         private final GameProfile profile;
 
         public PlayerSkinHandler(@NotNull GameProfile profile) {
@@ -55,19 +54,15 @@ public record OptifineResolver(String baseUrl) implements CosmeticsResolver<Opti
         }
 
         private static void loadTextureFromUrl(String url, Identifier id) throws Exception {
-            if (texturesLoaded.contains(id)) return;
-
             final NativeImage image = NativeImage.read(Cache.SKINS.getCache().getOrDownload(url, new URL(url)::openStream));
             final NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
             if (TextureUtils.checkNativeImageBackedTexture(texture)) return;
             MinecraftClient.getInstance().getTextureManager().registerTexture(id, texture);
-
-            texturesLoaded.add(id);
         }
 
         @SuppressWarnings("unchecked")
         @Override
-        public List<Cosmetics.CosmeticsItem> downloadCosmetics() {
+        public List<CosmeticsParser.CosmeticsItem> downloadCosmetics() {
             try {
                 final String urlString = baseUrl + "/users/" + profile.getName() + ".cfg";
                 final URL realUrl = new URL(urlString);
@@ -76,22 +71,24 @@ public record OptifineResolver(String baseUrl) implements CosmeticsResolver<Opti
                     final BufferedReader in = new BufferedReader(new InputStreamReader(realUrl.openStream()));
                     final LinkedTreeMap<String, Object> map = mapFromReader(in);
                     final List<Map<String, Object>> items = (List<Map<String, Object>>) map.get("items");
-                    final List<Cosmetics.CosmeticsItem> cosmetics = new ArrayList<>();
+                    final List<CosmeticsParser.CosmeticsItem> cosmetics = new ArrayList<>();
 
                     items.stream().filter(item -> Objects.equals(item.get("active"), "true")).forEach(item -> {
                         final String modelType = (String) item.get("type");
-                        final Identifier textureId = new Identifier("cosmetics_texture", modelType);
-                        final Identifier modelId = new Identifier("cosmetics_model", modelType);
+                        cosmetics.add(cosmeticsCache.computeIfAbsent(modelType, k -> {
+                            final Identifier textureId = new Identifier("cosmetics_texture", modelType);
+                            final Identifier modelId = new Identifier("cosmetics_model", modelType);
 
-                        try {
-                            loadTextureFromUrl(baseUrl + "/" + item.get("texture"), textureId);
-                            final URL modelUrl = new URL(baseUrl + "/" + item.get("model"));
+                            try {
+                                loadTextureFromUrl(baseUrl + "/" + item.get("texture"), textureId);
+                                final URL modelUrl = new URL(baseUrl + "/" + item.get("model"));
 
-                            final LinkedTreeMap<String, Object> model = mapFromReader(new InputStreamReader(Cache.MODELS.getCache().getOrDownload(modelType, modelUrl::openStream)));
-                            cosmetics.add(Cosmetics.loadJemCosmeticItem(textureId, modelId, model, modelType));
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
+                                final LinkedTreeMap<String, Object> model = mapFromReader(new InputStreamReader(Cache.MODELS.getCache().getOrDownload(modelType, modelUrl::openStream)));
+                                return CosmeticsParser.parseJemCosmeticItem(textureId, modelId, model, modelType);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }));
                     });
 
                     return cosmetics;
@@ -101,5 +98,10 @@ public record OptifineResolver(String baseUrl) implements CosmeticsResolver<Opti
             }
             return null;
         }
+    }
+
+    @Override
+    public void clear() {
+        cosmeticsCache.clear();
     }
 }

@@ -7,21 +7,18 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public final class Cosmetics {
-    public static final Map<String, List<CosmeticsItem>> PLAYER_COSMETICS = new HashMap<>(256);
-    public static final Map<String, CosmeticsItem> COSMETICS = new HashMap<>(16);
-
-    private Cosmetics() {
+public final class CosmeticsParser {
+    private CosmeticsParser() {
     }
 
+    @Contract("_, _, _, _ -> new")
     @SuppressWarnings("unchecked")
-    public static CosmeticsItem loadJemCosmeticItem(@NotNull Identifier textureId, Identifier modelId, @NotNull LinkedTreeMap<String, Object> jemData, String modelName) throws Exception {
-        if (COSMETICS.containsKey(modelName)) return COSMETICS.get(modelName);
-
+    public static @NotNull CosmeticsItem parseJemCosmeticItem(@NotNull Identifier textureId, Identifier modelId, @NotNull LinkedTreeMap<String, Object> jemData, String modelName) throws Exception {
         final ResourceManager resourceManager = MinecraftClient.getInstance().getResourceManager();
         jemData.put("texture", textureId.toString());
         final List<LinkedTreeMap<String, Object>> models = ((List<LinkedTreeMap<String, Object>>) jemData.get("models"));
@@ -52,19 +49,11 @@ public final class Cosmetics {
             modelParts = list;
         }
 
-        final CosmeticsItem cosmeticsItem = new CosmeticsItem(textureId, modelParts, attaches);
-        COSMETICS.put(modelName, cosmeticsItem);
-
-        return cosmeticsItem;
+        return new CosmeticsItem(textureId, modelParts, attaches);
     }
 
     private static ModelPart getPartByIndex(@NotNull CemModelRegistry registry, @NotNull List<LinkedTreeMap<String, Object>> models, int index) {
         return registry.getEntryByPartName((String) models.get(index).get("part")).getModel();
-    }
-
-    public static void clear() {
-        PLAYER_COSMETICS.clear();
-        COSMETICS.clear();
     }
 
     public record CosmeticsItem(Identifier texture, List<ModelPart> parts, List<String> attaches) {

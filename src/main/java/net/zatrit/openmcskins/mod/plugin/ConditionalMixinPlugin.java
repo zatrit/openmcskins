@@ -3,6 +3,7 @@ package net.zatrit.openmcskins.mod.plugin;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClass;
 import org.apache.commons.lang3.function.TriFunction;
+import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -28,7 +29,7 @@ public class ConditionalMixinPlugin implements IMixinConfigPlugin {
     }
 
     @Override
-    public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+    public boolean shouldApplyMixin(String targetClassName, @NotNull String mixinClassName) {
         try {
             final String classFile = "/" + mixinClassName.replace('.', '/') + ".class";
             final InputStream classStream = getClass().getResourceAsStream(classFile);

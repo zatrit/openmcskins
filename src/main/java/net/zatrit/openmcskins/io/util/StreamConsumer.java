@@ -3,6 +3,6 @@ package net.zatrit.openmcskins.io.util;
 import java.io.OutputStream;
 
 @FunctionalInterface
-public interface StreamAction {
+public interface StreamConsumer {
     void apply(OutputStream stream) throws Exception;
 }
