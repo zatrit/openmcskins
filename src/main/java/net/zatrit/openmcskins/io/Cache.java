@@ -1,5 +1,8 @@
 package net.zatrit.openmcskins.io;
 
+import net.zatrit.openmcskins.annotation.KeepClass;
+
+@KeepClass
 public enum Cache {
     MODELS("models"),
     SKINS("skins");

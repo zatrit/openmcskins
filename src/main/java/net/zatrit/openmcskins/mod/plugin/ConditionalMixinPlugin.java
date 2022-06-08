@@ -2,6 +2,7 @@ package net.zatrit.openmcskins.mod.plugin;
 
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClass;
+import net.zatrit.openmcskins.annotation.KeepClassMember;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.AnnotationVisitor;
@@ -38,13 +39,16 @@ public class ConditionalMixinPlugin implements IMixinConfigPlugin {
             final Map<String, List<String>> requires = new HashMap<>();
 
             reader.accept(new ClassVisitor(Opcodes.ASM9) {
+                @KeepClassMember
                 @Override
                 public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
                     if (Objects.equals(descriptor, "Lnet/zatrit/openmcskins/annotation/RequiresMod;"))
                         return new AnnotationVisitor(Opcodes.ASM9) {
+                            @KeepClassMember
                             @Override
                             public AnnotationVisitor visitArray(String arrayName) {
                                 return new AnnotationVisitor(Opcodes.ASM9) {
+                                    @KeepClassMember
                                     @Override
                                     public void visit(String name, Object value) {
                                         requires.computeIfAbsent(arrayName, k -> new ArrayList<>()).add(String.valueOf(value));
@@ -53,17 +57,18 @@ public class ConditionalMixinPlugin implements IMixinConfigPlugin {
                             }
                         };
                     return super.visitAnnotation(descriptor, visible);
-                }
+                }`
             }, 0);
 
-            final TriFunction<Map<?, List<String>>, String, Function<List<String>, Boolean>, Boolean> mapValueMatches = (m, k, f) -> m.get(k) == null || f.apply(m.get("all"));
+            // There is a calculateIfAbsent, because it's not working without it
+            final TriFunction<Map<String, List<String>>, String, Function<List<String>, Boolean>, Boolean> mapValueMatches = (m, k, f) -> !m.containsKey(k) || f.apply(m.computeIfAbsent(k, k2 -> new ArrayList<>()));
 
             final boolean allMatch = mapValueMatches.apply(requires, "all", l -> l.stream().allMatch(OpenMCSkins::isModLoaded));
             final boolean anyMatch = mapValueMatches.apply(requires, "any", l -> l.stream().anyMatch(OpenMCSkins::isModLoaded));
 
             return allMatch && anyMatch;
         } catch (IOException ex) {
-            OpenMCSkins.handleError(ex);
+            ex.printStackTrace();
             return false;
         }
     }

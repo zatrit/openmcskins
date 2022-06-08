@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public record SimpleServerResolver(String host, String format) implements Resolver<SimpleServerResolver.PlayerHandler> {
+public record  SimpleServerResolver(String host, String format) implements Resolver<SimpleServerResolver.PlayerHandler> {
     public SimpleServerResolver(String host) {
         this(host, "%s/textures/%s");
     }

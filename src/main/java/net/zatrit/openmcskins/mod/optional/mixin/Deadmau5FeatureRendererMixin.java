@@ -13,13 +13,19 @@ import net.zatrit.openmcskins.mod.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mod.mixin.PlayerListEntryAccessor;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.transformer.meta.MixinMerged;
+import org.spongepowered.asm.mixin.transformer.meta.MixinProxy;
+import org.spongepowered.asm.mixin.transformer.meta.MixinRenamed;
+
+import static net.zatrit.openmcskins.OpenMCSkins.isModLoaded;
 
 @RequiresMod(all = "mm", any = {"fabricloader:>=0.14", "quilt_loader"})
 @Mixin(Deadmau5FeatureRenderer.class)
 public class Deadmau5FeatureRendererMixin {
-    private static final Type earsType = (ClassTinkerers.getEnum(Type.class, "EARS"));
+    private static final Type earsType = ClassTinkerers.getEnum(Type.class, "EARS");
 
     @Redirect(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Ljava/lang/String;equals(Ljava/lang/Object;)Z", remap = false))
     public boolean earsEnabled(@NotNull String string, Object object) {

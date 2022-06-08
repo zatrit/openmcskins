@@ -6,6 +6,7 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.zatrit.openmcskins.annotation.RequiresMod;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.Redirect;

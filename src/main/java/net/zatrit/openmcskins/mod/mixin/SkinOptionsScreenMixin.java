@@ -53,8 +53,7 @@ public abstract class SkinOptionsScreenMixin extends Screen {
                 if (newValue >= Cache.values().length) clearCacheButtonWidget.get().active = true;
             };
 
-            Cache.SKINS.getCache().clear(onFinish);
-            Cache.MODELS.getCache().clear(onFinish);
+            Arrays.stream(Cache.values()).map(Cache::getCache).forEach(x -> x.clear(onFinish));
             OpenMCSkins.invalidateAllResolvers();
             clearCacheButtonWidget.get().active = false;
         };
