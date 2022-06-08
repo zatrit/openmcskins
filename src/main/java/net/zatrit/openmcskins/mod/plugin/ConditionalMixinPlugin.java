@@ -57,10 +57,10 @@ public class ConditionalMixinPlugin implements IMixinConfigPlugin {
                             }
                         };
                     return super.visitAnnotation(descriptor, visible);
-                }`
+                }
             }, 0);
 
-            // There is a calculateIfAbsent, because it's not working without it
+            // There is a computeIfAbsent, because it's not working without it
             final TriFunction<Map<String, List<String>>, String, Function<List<String>, Boolean>, Boolean> mapValueMatches = (m, k, f) -> !m.containsKey(k) || f.apply(m.computeIfAbsent(k, k2 -> new ArrayList<>()));
 
             final boolean allMatch = mapValueMatches.apply(requires, "all", l -> l.stream().allMatch(OpenMCSkins::isModLoaded));
