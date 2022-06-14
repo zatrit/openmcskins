@@ -56,8 +56,8 @@ public final class OptifineResolver implements CosmeticsResolver<OptifineResolve
         private static void loadTextureFromUrl(String url, Identifier id) throws Exception {
             final NativeImage image = NativeImage.read(Cache.SKINS.getCache().getOrDownload(url, new URL(url)::openStream));
             final NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
-            if (TextureUtils.checkNativeImageBackedTexture(texture)) return;
-            MinecraftClient.getInstance().getTextureManager().registerTexture(id, texture);
+            if (!TextureUtils.isValidDynamicTexture(texture))
+                MinecraftClient.getInstance().getTextureManager().registerTexture(id, texture);
         }
 
         @SuppressWarnings("unchecked")
@@ -94,7 +94,7 @@ public final class OptifineResolver implements CosmeticsResolver<OptifineResolve
                     return cosmetics;
                 }
             } catch (Exception ex) {
-                OpenMCSkins.handleError(ex);
+                OpenMCSkins.handleError(Optional.of(ex));
             }
             return null;
         }

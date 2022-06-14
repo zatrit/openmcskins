@@ -30,7 +30,7 @@ public final class TextureUtils {
         NativeImage image = NativeImage.read(Cache.SKINS.getCache().getOrDownload(name, stream -> {
             BufferedImage sourceImage;
 
-            try (InputStream inputStream = sourceStream.openStream()) {
+            try (final InputStream inputStream = sourceStream.openStream()) {
                 sourceImage = ImageIO.read(inputStream);
             }
 
@@ -115,7 +115,7 @@ public final class TextureUtils {
     }
 
     @SuppressWarnings("ConstantConditions")
-    public static boolean checkNativeImageBackedTexture(@NotNull NativeImageBackedTexture texture) {
-        return texture.getImage() == null || NativeImageAccessor.class.cast(texture.getImage()).getPointer() == 0L;
+    public static boolean isValidDynamicTexture(@NotNull NativeImageBackedTexture texture) {
+        return texture.getImage() != null && NativeImageAccessor.class.cast(texture.getImage()).getPointer() != 0L;
     }
 }

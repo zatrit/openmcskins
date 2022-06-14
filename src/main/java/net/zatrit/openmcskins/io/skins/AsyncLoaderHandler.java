@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -39,11 +40,11 @@ public record AsyncLoaderHandler(Loader loader, ExecutorService executor) {
                 if (!loader.filter(host)) return null;
                 return host.resolvePlayer(host.requiresUUID() ? PlayerRegistry.patchProfile(profile) : profile).withIndex(i);
             } catch (Exception e) {
-                OpenMCSkins.handleError(e);
+                OpenMCSkins.handleError(Optional.of(e));
                 return null;
             }
         }, executor).orTimeout(OpenMCSkins.getConfig().resolvingTimeout, TimeUnit.SECONDS)).toList()).whenCompleteAsync((handlers, error) -> {
-            if (error != null) OpenMCSkins.handleError(error);
+            if (error != null) OpenMCSkins.handleError(Optional.of(error));
             else {
                 Object result = loader.processHandlers(handlers.stream().filter(Objects::nonNull).toList());
                 loader.doFinally(result, profile, args);

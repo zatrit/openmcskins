@@ -16,7 +16,6 @@ import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.io.skins.CosmeticsParser;
 import net.zatrit.openmcskins.io.skins.Loaders;
 import net.zatrit.openmcskins.io.skins.loader.CosmeticsLoader;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -30,19 +29,6 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
 
     public CosmeticsFeatureRenderer(FeatureRendererContext<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> context) {
         super(context);
-    }
-
-    @Contract(pure = true)
-    private static ModelPart getPartByName(@NotNull PlayerEntityModel<AbstractClientPlayerEntity> model, String name) {
-        return switch (name) {
-            case "head" -> model.head;
-            case "body" -> model.body;
-            case "leftArm" -> model.leftArm;
-            case "leftLeg" -> model.leftLeg;
-            case "rightArm" -> model.rightArm;
-            case "rightLeg" -> model.rightLeg;
-            default -> null;
-        };
     }
 
     public static void clear() {
@@ -63,10 +49,19 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
 
         for (CosmeticsParser.CosmeticsItem item : items) {
             final VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentCull(item.texture()));
+            final PlayerEntityModel<AbstractClientPlayerEntity> model = getContextModel();
             for (int i = 0; i < item.parts().size(); i++) {
                 final ModelPart part = item.parts().get(i);
                 if (!part.visible) continue;
-                final ModelPart attachPart = getPartByName(getContextModel(), item.attaches().get(i));
+                final ModelPart attachPart = switch (item.attaches().get(i)) {
+                    case "head" -> model.head;
+                    case "body" -> model.body;
+                    case "leftArm" -> model.leftArm;
+                    case "leftLeg" -> model.leftLeg;
+                    case "rightArm" -> model.rightArm;
+                    case "rightLeg" -> model.rightLeg;
+                    default -> null;
+                };
                 if (attachPart != null) part.copyTransform(attachPart);
                 part.render(matrices, buffer, light, OverlayTexture.DEFAULT_UV);
             }

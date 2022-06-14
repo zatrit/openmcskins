@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Optional;
 
 public class _5ZigRebornResolver implements Resolver<_5ZigRebornResolver.PlayerHandler> {
     @Override
@@ -25,7 +26,7 @@ public class _5ZigRebornResolver implements Resolver<_5ZigRebornResolver.PlayerH
         try {
             return new PlayerHandler(profile);
         } catch (IOException e) {
-            OpenMCSkins.handleError(e);
+            OpenMCSkins.handleError(Optional.of(e));
             return null;
         }
     }

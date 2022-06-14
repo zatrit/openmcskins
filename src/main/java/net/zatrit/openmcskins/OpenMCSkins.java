@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 public class OpenMCSkins {
     public static final String MOD_ID = "openmcskins";
@@ -35,7 +36,7 @@ public class OpenMCSkins {
             try {
                 return x.createResolver();
             } catch (Exception ex) {
-                OpenMCSkins.handleError(ex);
+                OpenMCSkins.handleError(Optional.of(ex));
                 return null;
             }
         }).filter(Objects::nonNull).toArray(Resolver[]::new);
@@ -43,9 +44,10 @@ public class OpenMCSkins {
     }
 
 
-    public static void handleError(@NotNull Throwable error) {
-        if (OpenMCSkins.getConfig().fullErrorMessage) error.printStackTrace();
-        else OpenMCSkins.LOGGER.error(error.getMessage());
+    @SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "ResultOfMethodCallIgnored"})
+    public static void handleError(Optional<Throwable> error) {
+        if (OpenMCSkins.getConfig().fullErrorMessage) error.ifPresent(Throwable::printStackTrace);
+        else error.ifPresent(Throwable::getMessage);
     }
 
     public static HashFunction getHashFunction() {

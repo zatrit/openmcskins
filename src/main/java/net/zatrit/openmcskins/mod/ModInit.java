@@ -10,7 +10,6 @@ import me.shedaniel.clothconfig2.impl.builders.StringListBuilder;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
 import net.zatrit.openmcskins.OpenMCSkins;
@@ -21,6 +20,7 @@ import net.zatrit.openmcskins.config.yaml.ConfigConstructor;
 import net.zatrit.openmcskins.config.yaml.ConfigRepresenter;
 
 import java.util.List;
+import java.util.Optional;
 
 @KeepClass
 @Environment(EnvType.CLIENT)
@@ -45,7 +45,7 @@ public class ModInit implements ClientModInitializer {
                 try {
                     field.set(o, ConfigUtil.getHostsFromStrings(x));
                 } catch (IllegalAccessException e) {
-                    OpenMCSkins.handleError(e);
+                    OpenMCSkins.handleError(Optional.of(e));
                 }
             });
             return List.of(hostList.build());

@@ -51,7 +51,7 @@ public final class PlayerRegistry {
                         }
                     });
                 } catch (Exception ex) {
-                    OpenMCSkins.handleError(ex);
+                    OpenMCSkins.handleError(Optional.of(ex));
                 }
             }
         }

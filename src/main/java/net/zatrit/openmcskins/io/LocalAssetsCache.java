@@ -1,25 +1,29 @@
 package net.zatrit.openmcskins.io;
 
+import it.unimi.dsi.fastutil.booleans.BooleanComparators;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.io.util.StreamConsumer;
 import net.zatrit.openmcskins.io.util.StreamSupplier;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public final class LocalAssetsCache {
     private static File cacheRoot;
     private final Supplier<File> cacheDir;
-    private final String type;
 
     public LocalAssetsCache(String type) {
         this.cacheDir = () -> new File(cacheRoot, type);
-        this.type = type;
     }
 
     public static void setCacheRoot(File cacheDir) {
@@ -37,7 +41,7 @@ public final class LocalAssetsCache {
     @Contract("_, _ -> new")
     public @NotNull InputStream getOrDownload(String name, StreamSupplier download) throws Exception {
         return this.getOrDownload(name, stream -> {
-            try (InputStream inputStream = download.openStream()) {
+            try (final InputStream inputStream = download.openStream()) {
                 IOUtils.copy(inputStream, stream);
             }
         });
@@ -50,7 +54,7 @@ public final class LocalAssetsCache {
 
         if (!cacheFile.isFile()) {
             cacheFile.getParentFile().mkdirs();
-            try (OutputStream stream = new FileOutputStream(cacheFile)) {
+            try (final OutputStream stream = new FileOutputStream(cacheFile)) {
                 download.apply(stream);
             }
         }
@@ -58,14 +62,39 @@ public final class LocalAssetsCache {
         return new FileInputStream(cacheFile);
     }
 
-    public void clear(Runnable onFinish) {
-        new Thread(() -> {
+    @Contract("_ -> new")
+    public @NotNull CompletableFuture<Void> clear(Runnable onEachFile) {
+        final Comparator<Path> pathComparator = (a, b) -> BooleanComparators.OPPOSITE_COMPARATOR.compare(Files.isRegularFile(a), Files.isRegularFile(b));
+        final Path cachePath = cacheDir.get().toPath();
+        return CompletableFuture.runAsync(() -> {
             try {
-                FileUtils.deleteDirectory(cacheDir.get());
+                if (cacheDir.get().exists())
+                    try (final Stream<Path> walk = Files.walk(cachePath).sorted(pathComparator)) {
+                        walk.forEach(f -> {
+                            try {
+                                Files.delete(f);
+                            } catch (IOException e) {
+                                OpenMCSkins.handleError(Optional.of(e));
+                            }
+                            if (Files.isRegularFile(f)) onEachFile.run();
+                        });
+                    }
             } catch (IOException e) {
-                OpenMCSkins.handleError(e);
+                OpenMCSkins.handleError(Optional.of(e));
             }
-            onFinish.run();
-        }, "AsyncClear-" + type).start();
+        });
+    }
+
+    public long size() {
+        final Path cachePath = cacheDir.get().toPath();
+        try {
+            if (cacheDir.get().exists())
+                try (final Stream<Path> walk = Files.walk(cachePath).filter(Files::isRegularFile)) {
+                    return walk.count();
+                }
+        } catch (IOException e) {
+            OpenMCSkins.handleError(Optional.of(e));
+        }
+        return 0;
     }
 }

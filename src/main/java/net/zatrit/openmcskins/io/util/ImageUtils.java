@@ -15,14 +15,10 @@ public final class ImageUtils {
     private ImageUtils() {
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     public static @NotNull BufferedImage resizeToAspects(@NotNull BufferedImage source, int width, int height, boolean flushSource) {
-        int newHeight = height;
+        int newHeight = IntMath.ceilingPowerOfTwo(Math.max(source.getHeight(), source.getWidth() / 2));
         final int relation = width / height;
-
-        if (relation != source.getWidth() / source.getHeight() || !IntMath.isPowerOfTwo(source.getHeight()))
-            while (newHeight < source.getHeight() || newHeight * relation < source.getWidth())
-                newHeight *= 2;
-        else newHeight = source.getHeight();
 
         final BufferedImage target = new BufferedImage(newHeight * relation, newHeight, BufferedImage.TYPE_INT_ARGB);
 
@@ -37,8 +33,8 @@ public final class ImageUtils {
 
     public static @Nullable Identifier registerNativeImage(@NotNull NativeImage image, String prefix) {
         NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
-        if (TextureUtils.checkNativeImageBackedTexture(texture))
-            return null;
-        return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture(prefix, texture);
+        if (!TextureUtils.isValidDynamicTexture(texture))
+            return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture(prefix, texture);
+        return null;
     }
 }

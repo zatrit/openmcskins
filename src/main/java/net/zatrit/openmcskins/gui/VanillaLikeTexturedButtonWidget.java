@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
 
 // I just installed a custom GUI resourcepack, and I want to fix button contrast with gui
+// UPD: and it's also reduces texture asset size
 
 public class VanillaLikeTexturedButtonWidget extends ButtonWidget {
     private final Identifier texture;
@@ -30,11 +31,10 @@ public class VanillaLikeTexturedButtonWidget extends ButtonWidget {
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         super.renderButton(matrices, mouseX, mouseY, delta);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, this.texture);
+        RenderSystem.setShaderTexture(0, texture);
         RenderSystem.enableDepthTest();
-        drawTexture(matrices, this.x, this.y, this.u, this.v, this.width, this.height, this.textureWidth, this.textureHeight);
-        if (this.hovered) {
-            this.renderTooltip(matrices, mouseX, mouseY);
-        }
+        drawTexture(matrices, x, y, u, v, width, height, textureWidth, textureHeight);
+        if (hovered)
+            renderTooltip(matrices, mouseX, mouseY);
     }
 }

@@ -7,6 +7,7 @@ import net.zatrit.openmcskins.mod.mixin.MinecraftClientAccessor;
 
 import java.util.function.Supplier;
 
+@SuppressWarnings("unused")
 public enum UUIDResolutionMode {
     AUTO(() -> {
         final MinecraftClient client = MinecraftClient.getInstance();
