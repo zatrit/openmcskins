@@ -33,7 +33,7 @@ public final class ImageUtils {
 
     public static @Nullable Identifier registerNativeImage(@NotNull NativeImage image, String prefix) {
         NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
-        if (!TextureUtils.isValidDynamicTexture(texture))
+        if (TextureUtils.isValidDynamicTexture(texture))
             return MinecraftClient.getInstance().getTextureManager().registerDynamicTexture(prefix, texture);
         return null;
     }
