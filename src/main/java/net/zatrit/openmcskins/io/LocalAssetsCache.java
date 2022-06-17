@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -74,13 +73,13 @@ public final class LocalAssetsCache {
                             try {
                                 Files.delete(f);
                             } catch (IOException e) {
-                                OpenMCSkins.handleError(Optional.of(e));
+                                OpenMCSkins.handleError(e);
                             }
                             if (Files.isRegularFile(f)) onEachFile.run();
                         });
                     }
             } catch (IOException e) {
-                OpenMCSkins.handleError(Optional.of(e));
+                OpenMCSkins.handleError(e);
             }
         });
     }
@@ -93,7 +92,7 @@ public final class LocalAssetsCache {
                     return walk.count();
                 }
         } catch (IOException e) {
-            OpenMCSkins.handleError(Optional.of(e));
+            OpenMCSkins.handleError(e);
         }
         return 0;
     }

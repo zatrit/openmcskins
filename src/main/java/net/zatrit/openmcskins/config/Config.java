@@ -12,7 +12,6 @@ import net.zatrit.openmcskins.config.options.HashingAlgorithm;
 import net.zatrit.openmcskins.config.options.HostType;
 import net.zatrit.openmcskins.config.options.UUIDResolutionMode;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Range;
 
 import java.util.ArrayList;
 import java.util.List;

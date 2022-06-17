@@ -36,7 +36,7 @@ public class OpenMCSkins {
             try {
                 return x.createResolver();
             } catch (Exception ex) {
-                OpenMCSkins.handleError(Optional.of(ex));
+                OpenMCSkins.handleError(ex);
                 return null;
             }
         }).filter(Objects::nonNull).toArray(Resolver[]::new);
@@ -44,10 +44,14 @@ public class OpenMCSkins {
     }
 
 
-    @SuppressWarnings({"OptionalUsedAsFieldOrParameterType", "ResultOfMethodCallIgnored"})
-    public static void handleError(Optional<Throwable> error) {
-        if (OpenMCSkins.getConfig().fullErrorMessage) error.ifPresent(Throwable::printStackTrace);
-        else error.ifPresent(Throwable::getMessage);
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    public static void handleError(@NotNull Optional<Throwable> error) {
+        error.ifPresent(OpenMCSkins::handleError);
+    }
+
+    public static void handleError(Throwable error) {
+        if (OpenMCSkins.getConfig().fullErrorMessage) error.printStackTrace();
+        else OpenMCSkins.LOGGER.error(error.getMessage());
     }
 
     public static HashFunction getHashFunction() {
@@ -84,9 +88,7 @@ public class OpenMCSkins {
 
     public static boolean isModLoaded(@NotNull String name) {
         final String[] splitted = name.split(":");
-        if (splitted.length > 1)
-            return isModLoaded(splitted[0], splitted[1]);
-        else
-            return isModLoaded(splitted[0], "*");
+        if (splitted.length > 1) return isModLoaded(splitted[0], splitted[1]);
+        else return isModLoaded(splitted[0], "*");
     }
 }

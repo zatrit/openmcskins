@@ -20,7 +20,6 @@ import net.zatrit.openmcskins.config.yaml.ConfigConstructor;
 import net.zatrit.openmcskins.config.yaml.ConfigRepresenter;
 
 import java.util.List;
-import java.util.Optional;
 
 @KeepClass
 @Environment(EnvType.CLIENT)
@@ -45,7 +44,7 @@ public class ModInit implements ClientModInitializer {
                 try {
                     field.set(o, ConfigUtil.getHostsFromStrings(x));
                 } catch (IllegalAccessException e) {
-                    OpenMCSkins.handleError(Optional.of(e));
+                    OpenMCSkins.handleError(e);
                 }
             });
             return List.of(hostList.build());

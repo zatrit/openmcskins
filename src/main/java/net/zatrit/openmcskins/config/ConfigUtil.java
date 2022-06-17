@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public final class ConfigUtil {
     private ConfigUtil() {
@@ -31,7 +30,7 @@ public final class ConfigUtil {
                 if (split.length > 1) value = String.join(":", Arrays.copyOfRange(split, 1, split.length));
                 return new ConfigHostOption(HostType.valueOf(split[0].toUpperCase()), value);
             } catch (IllegalArgumentException e) {
-                OpenMCSkins.handleError(Optional.of(e));
+                OpenMCSkins.handleError(e);
                 return null;
             }
         }).filter(Objects::nonNull).toList();

@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-public record  SimpleServerResolver(String host, String format) implements Resolver<SimpleServerResolver.PlayerHandler> {
+public record SimpleServerResolver(String host, String format) implements Resolver<SimpleServerResolver.PlayerHandler> {
     public SimpleServerResolver(String host) {
         this(host, "%s/textures/%s");
     }
@@ -37,14 +37,14 @@ public record  SimpleServerResolver(String host, String format) implements Resol
 
         final URL realUrl = new URL(url);
         final BufferedReader in = new BufferedReader(new InputStreamReader(realUrl.openStream()));
-        final Map<String, Map<String, ?>> map = GSON.<Map<String, Map<String, ?>>>fromJson(in, Map.class);
+        final Map<String, Map<String, Object>> map = GSON.<Map<String, Map<String, Object>>>fromJson(in, Map.class);
 
         return new PlayerHandler(map);
     }
 
     public static class PlayerHandler extends AnimatedPlayerHandler {
         @SuppressWarnings("unchecked")
-        public PlayerHandler(Map<String, Map<String, ?>> data) {
+        public PlayerHandler(Map<String, Map<String, Object>> data) {
             if (data != null) data.forEach((k, v) -> {
                 final MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(k);
                 final Map<String, ?> metadata = (Map<String, ?>) MoreObjects.firstNonNull(v.get("metadata"), new HashMap<>());

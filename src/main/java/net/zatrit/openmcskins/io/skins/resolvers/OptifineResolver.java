@@ -41,6 +41,11 @@ public final class OptifineResolver implements CosmeticsResolver<OptifineResolve
         return false;
     }
 
+    @Override
+    public void clear() {
+        cosmeticsCache.clear();
+    }
+
     public class PlayerSkinHandler extends DirectResolver.PlayerHandler implements PlayerCosmeticsHandler {
         private final GameProfile profile;
 
@@ -94,14 +99,9 @@ public final class OptifineResolver implements CosmeticsResolver<OptifineResolve
                     return cosmetics;
                 }
             } catch (Exception ex) {
-                OpenMCSkins.handleError(Optional.of(ex));
+                OpenMCSkins.handleError(ex);
             }
             return null;
         }
-    }
-
-    @Override
-    public void clear() {
-        cosmeticsCache.clear();
     }
 }

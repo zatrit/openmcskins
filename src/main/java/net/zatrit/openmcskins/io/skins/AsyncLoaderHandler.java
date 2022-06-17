@@ -6,7 +6,6 @@ import net.zatrit.openmcskins.api.resolver.Resolver;
 import net.zatrit.openmcskins.io.skins.loader.Loader;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -40,7 +39,7 @@ public record AsyncLoaderHandler(Loader loader, ExecutorService executor) {
                 if (!loader.filter(host)) return null;
                 return host.resolvePlayer(host.requiresUUID() ? PlayerRegistry.patchProfile(profile) : profile).withIndex(i);
             } catch (Exception e) {
-                OpenMCSkins.handleError(Optional.of(e));
+                OpenMCSkins.handleError(e);
                 return null;
             }
         }, executor).orTimeout(OpenMCSkins.getConfig().resolvingTimeout, TimeUnit.SECONDS)).toList()).whenCompleteAsync((handlers, error) -> {

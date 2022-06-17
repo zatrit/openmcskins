@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
+import net.zatrit.openmcskins.api.resolver.Resolver;
 import net.zatrit.openmcskins.render.textures.AnimatedTexture;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,8 +15,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.*;
-
-import static net.zatrit.openmcskins.api.resolver.Resolver.GSON;
 
 public final class PlayerRegistry {
     private final static YggdrasilMinecraftSessionService sessionService = (YggdrasilMinecraftSessionService) MinecraftClient.getInstance().getSessionService();
@@ -39,7 +38,7 @@ public final class PlayerRegistry {
 
                             final URL url;
                             url = new URL("https://api.mojang.com/users/profiles/minecraft/" + profile.getName());
-                            final LinkedTreeMap<String, Object> map = GSON.<LinkedTreeMap<String, Object>>fromJson(new InputStreamReader(url.openStream()), LinkedTreeMap.class);
+                            final LinkedTreeMap<String, Object> map = Resolver.GSON.<LinkedTreeMap<String, Object>>fromJson(new InputStreamReader(url.openStream()), LinkedTreeMap.class);
                             // https://stackoverflow.com/a/18987428/12245612
                             UUID id = UUID.fromString(String.valueOf(map.get("id")).replaceAll("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5"));
                             cachedProfile = new GameProfile(id, profile.getName());
@@ -51,7 +50,7 @@ public final class PlayerRegistry {
                         }
                     });
                 } catch (Exception ex) {
-                    OpenMCSkins.handleError(Optional.of(ex));
+                    OpenMCSkins.handleError(ex);
                 }
             }
         }

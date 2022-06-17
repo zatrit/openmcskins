@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public record DirectResolver(String baseUrl,
                              MinecraftProfileTexture.Type type) implements Resolver<DirectResolver.PlayerHandler> {
@@ -37,7 +36,7 @@ public record DirectResolver(String baseUrl,
             try {
                 if (NetworkUtils.getResponseCode(formattedUrl) != 200) return;
             } catch (IOException e) {
-                OpenMCSkins.handleError(Optional.of(e));
+                OpenMCSkins.handleError(e);
             }
             textures.put(type, formattedUrl);
         }
