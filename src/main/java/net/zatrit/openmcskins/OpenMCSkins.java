@@ -3,8 +3,7 @@ package net.zatrit.openmcskins;
 import com.google.common.hash.HashFunction;
 import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.impl.util.version.SemanticVersionImpl;
-import net.fabricmc.loader.util.version.SemanticVersionPredicateParser;
+import net.fabricmc.loader.api.metadata.version.VersionPredicate;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
@@ -75,11 +74,11 @@ public class OpenMCSkins {
         }
     }
 
-    @SuppressWarnings({"deprecation", "OptionalGetWithoutIsPresent"})
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public static boolean isModLoaded(String name, String version) {
         try {
-            final var predicate = SemanticVersionPredicateParser.create(version);
-            final var modVersion = new SemanticVersionImpl(FabricLoader.getInstance().getModContainer(name).get().getMetadata().getVersion().getFriendlyString(), false);
+            final var predicate = VersionPredicate.parse(version);
+            final var modVersion = FabricLoader.getInstance().getModContainer(name).get().getMetadata().getVersion();
             return predicate.test(modVersion);
         } catch (Exception e) {
             return false;
