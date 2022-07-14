@@ -38,33 +38,33 @@ public class CosmeticsFeatureRenderer extends FeatureRenderer<AbstractClientPlay
     @KeepClassMember
     @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, @NotNull AbstractClientPlayerEntity entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        if (!OpenMCSkins.getConfig().cosmetics || !hasCem || entity.getGameProfile() == null || entity.isInvisible())
-            return;
+        if (OpenMCSkins.getConfig().cosmetics && hasCem && entity.getGameProfile() != null && !entity.isInvisible()) {
+            final List<CosmeticsParser.CosmeticsItem> items = playerCosmetics.computeIfAbsent(entity.getEntityName(), k -> {
+                List<CosmeticsParser.CosmeticsItem> cosmeticsItems = new ArrayList<>();
+                Loaders.COSMETICS.getHandler().loadAsync(entity.getGameProfile(), (CosmeticsLoader.CosmeticsResolveCallback) cosmeticsItems::addAll);
+                return cosmeticsItems;
+            });
 
-        final List<CosmeticsParser.CosmeticsItem> items = playerCosmetics.computeIfAbsent(entity.getEntityName(), k -> {
-            List<CosmeticsParser.CosmeticsItem> cosmeticsItems = new ArrayList<>();
-            Loaders.COSMETICS.getHandler().loadAsync(entity.getGameProfile(), (CosmeticsLoader.CosmeticsResolveCallback) cosmeticsItems::addAll);
-            return cosmeticsItems;
-        });
-
-        for (CosmeticsParser.CosmeticsItem item : items) {
-            final VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentCull(item.texture()));
-            final PlayerEntityModel<AbstractClientPlayerEntity> model = getContextModel();
-            for (int i = 0; i < item.parts().size(); i++) {
-                final ModelPart part = item.parts().get(i);
-                if (!part.visible) continue;
-                final ModelPart attachPart = switch (item.attaches().get(i)) {
-                    case "head" -> model.head;
-                    case "body" -> model.body;
-                    case "leftArm" -> model.leftArm;
-                    case "leftLeg" -> model.leftLeg;
-                    case "rightArm" -> model.rightArm;
-                    case "rightLeg" -> model.rightLeg;
-                    default -> null;
-                };
-                if (attachPart != null) part.copyTransform(attachPart);
-                part.render(matrices, buffer, light, OverlayTexture.DEFAULT_UV);
+            for (CosmeticsParser.CosmeticsItem item : items) {
+                final VertexConsumer buffer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucentCull(item.texture()));
+                final PlayerEntityModel<AbstractClientPlayerEntity> model = getContextModel();
+                for (int i = 0; i < item.parts().size(); i++) {
+                    final ModelPart part = item.parts().get(i);
+                    if (!part.visible) continue;
+                    final ModelPart attachPart = switch (item.attaches().get(i)) {
+                        case "head" -> model.head;
+                        case "body" -> model.body;
+                        case "leftArm" -> model.leftArm;
+                        case "leftLeg" -> model.leftLeg;
+                        case "rightArm" -> model.rightArm;
+                        case "rightLeg" -> model.rightLeg;
+                        default -> null;
+                    };
+                    if (attachPart != null) part.copyTransform(attachPart);
+                    part.render(matrices, buffer, light, OverlayTexture.DEFAULT_UV);
+                }
             }
         }
+
     }
 }

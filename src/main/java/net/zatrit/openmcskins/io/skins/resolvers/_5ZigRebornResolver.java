@@ -35,9 +35,7 @@ public class _5ZigRebornResolver implements Resolver<_5ZigRebornResolver.PlayerH
 
         public PlayerHandler(@NotNull GameProfile profile) throws IOException {
             String url = BASE_URL + profile.getId();
-            if (NetworkUtils.getResponseCode(url) != 200) return;
-
-            this.textures.put(MinecraftProfileTexture.Type.CAPE, url);
+            if (NetworkUtils.getResponseCode(url) == 200) this.textures.put(MinecraftProfileTexture.Type.CAPE, url);
         }
 
         @SuppressWarnings("unchecked")

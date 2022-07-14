@@ -34,11 +34,10 @@ public record DirectResolver(String baseUrl,
             final String formattedUrl = baseUrl.replace("{name}", profile.getName()).replace("{id}", profile.getId().toString());
 
             try {
-                if (NetworkUtils.getResponseCode(formattedUrl) != 200) return;
+                if (NetworkUtils.getResponseCode(formattedUrl) == 200) textures.put(type, formattedUrl);
             } catch (IOException e) {
                 OpenMCSkins.handleError(e);
             }
-            textures.put(type, formattedUrl);
         }
     }
 }

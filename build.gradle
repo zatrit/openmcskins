@@ -79,8 +79,6 @@ remapJar {
     from "LICENSE"
 }
 
-// Optimize using ProGuard because 3MB is too much
-
 task proguard(type: ProGuardTask) {
     dependsOn(remapJar)
 

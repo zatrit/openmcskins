@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Map;
 
 public class MinecraftCapesResolver implements Resolver<MinecraftCapesResolver.PlayerHandler> {
@@ -32,9 +31,12 @@ public class MinecraftCapesResolver implements Resolver<MinecraftCapesResolver.P
             data = GSON.<Map<String, ?>>fromJson(new InputStreamReader(new URL(url).openStream()), Map.class);
 
             final Map<String, String> textures = (Map<String, String>) data.get("textures");
-            Arrays.stream(MinecraftProfileTexture.Type.values()).parallel().forEach(t -> {
-                String k = t.toString().toLowerCase();
-                if (textures.containsKey(k) && textures.get(k) != null) this.textures.put(t, textures.get(k));
+            textures.forEach((k, v) -> {
+                try {
+                    MinecraftProfileTexture.Type t = MinecraftProfileTexture.Type.valueOf(k.toUpperCase());
+                    this.textures.put(t, v);
+                } catch (Exception ignored) {
+                }
             });
         }
 
