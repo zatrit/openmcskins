@@ -88,11 +88,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         else:
             self.send_error(404, "Not found")
 
-
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("Serving at port", PORT)
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        httpd.shutdown()
-        print("Closing server at port", PORT)
+if __name__ == "__main__":
+    with socketserver.TCPServer(("", PORT), Handler) as httpd:
+        print("Serving at port", PORT)
+        try:
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            httpd.shutdown()
+            print("Closing server at port", PORT)
