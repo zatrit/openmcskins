@@ -17,7 +17,7 @@ def findPath(textureType, redirectHash, extension):
     keys = list(REDIRECTS[textureType].keys())
     values = list(REDIRECTS[textureType].values())
     redirect = keys[values.index(redirectHash)]
-    return f"textures/{textureType}/{redirect}{extension or ".png"}"
+    return f"textures/{textureType}/{redirect}{extension or '.png'}"
 
 
 # https://stackoverflow.com/a/1761615/12245612
