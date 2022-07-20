@@ -74,7 +74,7 @@ public class AnimatedTexture extends AbstractTexture {
     @KeepClassMember
     @Override
     public void clearGlId() {
-        RenderCall clearId = () -> {
+        final RenderCall clearId = () -> {
             GlStateManager._deleteTextures(ids);
             for (int i = 0; i < ids.length; i++)
                 if (ids[i] != -1) {
