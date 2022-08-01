@@ -30,7 +30,6 @@ public class MojangAuthlibResolver implements Resolver<MojangAuthlibResolver.Pla
             if (profile.getProperties().isEmpty() && refillProfiles != RefillProfiles.DONT_REFILL)
                 PlayerRegistry.getSessionService().fillProfileProperties(profile, true);
             PlayerHandler.this.textures.putAll(PlayerRegistry.getSessionService().getTextures(profile, true));
-            this.textures.forEach((type, texture) -> OpenMCSkins.LOGGER.info(type.name() + ": " + texture.getUrl() + ", " + texture.getHash()));
             if (PlayerHandler.this.textures.containsKey(MinecraftProfileTexture.Type.SKIN))
                 PlayerHandler.this.setModel(textures.get(MinecraftProfileTexture.Type.SKIN).getMetadata("model"));
         }
