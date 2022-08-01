@@ -28,7 +28,13 @@ public enum HostType {
     LOCAL(LocalDirectoryResolver::new),
     MANTLE(d -> new OptifineResolver("http://35.190.10.249")),
     MINECRAFTCAPES(d -> new MinecraftCapesResolver()),
-    MOJANG(d -> new MojangAuthlibResolver()),
+
+    MOJANG(d -> {
+        RefillProfiles refillProfiles = RefillProfiles.REFILL_EMPTY;
+        if (!d.isEmpty())
+            refillProfiles = RefillProfiles.valueOf(d.toUpperCase());
+        return new MojangAuthlibResolver(refillProfiles);
+    }),
     OPTIFINE(d -> new OptifineResolver("http://s.optifine.net")),
     SERVER(SimpleServerResolver::new),
     TLAUNCHER(d -> new SimpleServerResolver("https://auth.tlauncher.org/skin/profile/texture/login", "%s/%s"));
