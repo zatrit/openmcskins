@@ -16,7 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@me.shedaniel.autoconfig.annotation.Config.Gui.Background(value = me.shedaniel.autoconfig.annotation.Config.Gui.Background.TRANSPARENT)
+@me.shedaniel.autoconfig.annotation.Config.Gui.Background(
+        value = me.shedaniel.autoconfig.annotation.Config.Gui.Background.TRANSPARENT)
 @me.shedaniel.autoconfig.annotation.Config(name = OpenMCSkins.MOD_ID)
 public class Config implements ConfigData {
     @ConfigEntry.Category("loader")
@@ -65,6 +66,8 @@ public class Config implements ConfigData {
 
     @Override
     public void validatePostLoad() throws ValidationException {
-        if (resolvingTimeout < 1) throw new ValidationException(I18n.translate("text.openmcskins.validation_error"));
+        if (resolvingTimeout < 1) {
+            throw new ValidationException(I18n.translate("text.openmcskins.validation_error"));
+        }
     }
 }

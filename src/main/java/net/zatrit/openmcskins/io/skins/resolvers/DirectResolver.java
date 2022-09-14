@@ -31,10 +31,13 @@ public record DirectResolver(String baseUrl,
 
     public static class PlayerHandler extends AnimatedPlayerHandler {
         public PlayerHandler(@NotNull String baseUrl, @NotNull GameProfile profile, MinecraftProfileTexture.Type type) {
-            final String formattedUrl = baseUrl.replace("{name}", profile.getName()).replace("{id}", profile.getId().toString());
+            final String formattedUrl = baseUrl.replace("{name}", profile.getName()).replace("{id}",
+                    profile.getId().toString());
 
             try {
-                if (NetworkUtils.getResponseCode(formattedUrl) == 200) textures.put(type, formattedUrl);
+                if (NetworkUtils.getResponseCode(formattedUrl) == 200) {
+                    textures.put(type, formattedUrl);
+                }
             } catch (IOException e) {
                 OpenMCSkins.handleError(e);
             }

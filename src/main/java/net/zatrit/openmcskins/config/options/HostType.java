@@ -13,8 +13,11 @@ public enum HostType {
     CLOAKSPLUS(d -> new OptifineResolver("https://server.cloaksplus.com")),
     COSMETICA(d -> {
         String url = "https://api.cosmetica.cc/get/cloak?username={name}";
-        if (!d.isEmpty())
-            if (CosmeticaMode.valueOf(d.toUpperCase()) == CosmeticaMode.NO_THIRD_PARTY) url += "&nothirdparty";
+        if (!d.isEmpty()) {
+            if (CosmeticaMode.valueOf(d.toUpperCase()) == CosmeticaMode.NO_THIRD_PARTY) {
+                url += "&nothirdparty";
+            }
+        }
         return new DirectResolver(url, MinecraftProfileTexture.Type.CAPE);
     }),
     DIRECT(d -> {
@@ -31,8 +34,9 @@ public enum HostType {
 
     MOJANG(d -> {
         RefillProfiles refillProfiles = RefillProfiles.REFILL_EMPTY;
-        if (!d.isEmpty())
+        if (!d.isEmpty()) {
             refillProfiles = RefillProfiles.valueOf(d.toUpperCase());
+        }
         return new MojangAuthlibResolver(refillProfiles);
     }),
     OPTIFINE(d -> new OptifineResolver("http://s.optifine.net")),

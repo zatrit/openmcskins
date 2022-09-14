@@ -16,7 +16,8 @@ public class CacheCleanupResourceReload implements ResourceReload {
 
     public CacheCleanupResourceReload(@NotNull Supplier<Stream<LocalAssetsCache>> caches) {
         this.count = caches.get().mapToLong(LocalAssetsCache::size).sum();
-        this.future = CompletableFuture.allOf(caches.get().map(localAssetsCache -> localAssetsCache.clear(() -> loaded++)).toArray(CompletableFuture[]::new));
+        this.future = CompletableFuture.allOf(caches.get().map(localAssetsCache -> localAssetsCache.clear(() -> loaded++)).toArray(
+                CompletableFuture[]::new));
     }
 
     @KeepClassMember
@@ -29,7 +30,9 @@ public class CacheCleanupResourceReload implements ResourceReload {
     @KeepClassMember
     @Override
     public float getProgress() {
-        if (loaded == 0) return 1;
+        if (loaded == 0) {
+            return 1;
+        }
 
         OpenMCSkins.LOGGER.info(loaded + "/" + count);
         return ((float) loaded) / ((float) count);

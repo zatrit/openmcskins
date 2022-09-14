@@ -7,7 +7,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 public enum Loaders {
-    COSMETICS(new CosmeticsLoader()), VANILLA(new VanillaLoader());
+    COSMETICS(new CosmeticsLoader()),
+    VANILLA(new VanillaLoader());
 
     private final AsyncLoaderHandler handler;
 

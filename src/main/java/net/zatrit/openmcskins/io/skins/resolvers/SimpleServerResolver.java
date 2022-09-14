@@ -45,16 +45,25 @@ public record SimpleServerResolver(String host, String format) implements Resolv
     public static class PlayerHandler extends AnimatedPlayerHandler {
         @SuppressWarnings("unchecked")
         public PlayerHandler(Map<String, Map<String, Object>> data) {
-            if (data != null) data.forEach((k, v) -> {
-                final MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(k);
-                final Map<String, ?> metadata = (Map<String, ?>) MoreObjects.firstNonNull(v.get("metadata"), new HashMap<>());
+            if (data != null) {
+                data.forEach((k, v) -> {
+                    final MinecraftProfileTexture.Type type = MinecraftProfileTexture.Type.valueOf(k);
+                    final Map<String, ?> metadata = (Map<String, ?>) MoreObjects.firstNonNull(v.get("metadata"),
+                            new HashMap<>());
 
-                if (v.containsKey("url")) this.textures.put(type, (String) v.get("url"));
-                if (metadata.containsKey("model")) this.setModel((String) metadata.get("model"));
-                if (metadata.containsKey("animated")) this.setAnimated(type, (boolean) metadata.get("animated"));
+                    if (v.containsKey("url")) {
+                        this.textures.put(type, (String) v.get("url"));
+                    }
+                    if (metadata.containsKey("model")) {
+                        this.setModel((String) metadata.get("model"));
+                    }
+                    if (metadata.containsKey("animated")) {
+                        this.setAnimated(type, (boolean) metadata.get("animated"));
+                    }
 
-                metadata.clear();
-            });
+                    metadata.clear();
+                });
+            }
         }
     }
 }

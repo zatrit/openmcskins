@@ -27,27 +27,35 @@ public record AsyncLoaderHandler(Loader loader, ExecutorService executor) {
     private static <T> CompletableFuture<List<T>> all(@NotNull List<CompletableFuture<T>> futures) {
         final CompletableFuture[] cfs = futures.toArray(new CompletableFuture[0]);
 
-        return CompletableFuture.allOf(cfs).thenApply(ignored -> futures.stream().map(CompletableFuture::join).collect(Collectors.toList()));
+        return CompletableFuture.allOf(cfs).thenApply(ignored -> futures.stream().map(CompletableFuture::join).collect(
+                Collectors.toList()));
     }
 
     public void loadAsync(GameProfile profile, Object... args) {
-        final Resolver<?>[] resolvers = Arrays.stream(OpenMCSkins.getResolvers()).filter(loader::filter).toArray(Resolver[]::new);
+        final Resolver<?>[] resolvers = Arrays.stream(OpenMCSkins.getResolvers()).filter(loader::filter).toArray(
+                Resolver[]::new);
 
         all(IntStream.range(0, resolvers.length).boxed().map(i -> CompletableFuture.supplyAsync(() -> {
             try {
                 Resolver<?> host = resolvers[i];
-                if (!loader.filter(host)) return null;
-                return host.resolvePlayer(host.requiresUUID() ? PlayerRegistry.patchProfile(profile) : profile).withIndex(i);
+                if (!loader.filter(host)) {
+                    return null;
+                }
+                return host.resolvePlayer(host.requiresUUID() ?
+                        PlayerRegistry.patchProfile(profile) :
+                        profile).withIndex(i);
             } catch (Exception e) {
                 OpenMCSkins.handleError(e);
                 return null;
             }
-        }, executor).orTimeout(OpenMCSkins.getConfig().resolvingTimeout, TimeUnit.SECONDS)).toList()).whenCompleteAsync((handlers, error) -> {
-            if (error != null) OpenMCSkins.handleError(Optional.of(error));
-            else {
-                Object result = loader.processHandlers(handlers.stream().filter(Objects::nonNull).toList());
-                loader.doFinally(result, profile, args);
-            }
-        });
+        }, executor).orTimeout(OpenMCSkins.getConfig().resolvingTimeout, TimeUnit.SECONDS)).toList()).whenCompleteAsync(
+                (handlers, error) -> {
+                    if (error != null) {
+                        OpenMCSkins.handleError(Optional.of(error));
+                    } else {
+                        Object result = loader.processHandlers(handlers.stream().filter(Objects::nonNull).toList());
+                        loader.doFinally(result, profile, args);
+                    }
+                });
     }
 }

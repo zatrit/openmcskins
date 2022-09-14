@@ -21,7 +21,9 @@ public final class NetworkUtils {
     }
 
     public static @NotNull String fixUrl(@NotNull String url) {
-        if (URL_PATTERN.matcher(url).matches()) return url;
+        if (URL_PATTERN.matcher(url).matches()) {
+            return url;
+        }
         return "http://" + url;
     }
 }

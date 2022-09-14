@@ -50,7 +50,9 @@ public final class OptifineResolver implements CosmeticsResolver<OptifineResolve
         private final GameProfile profile;
 
         public PlayerSkinHandler(@NotNull GameProfile profile) {
-            super(String.format("%s/capes/%s.png", baseUrl, profile.getName()), profile, MinecraftProfileTexture.Type.CAPE);
+            super(String.format("%s/capes/%s.png", baseUrl, profile.getName()),
+                    profile,
+                    MinecraftProfileTexture.Type.CAPE);
             this.profile = profile;
         }
 
@@ -59,10 +61,12 @@ public final class OptifineResolver implements CosmeticsResolver<OptifineResolve
         }
 
         private static void loadTextureFromUrl(String url, Identifier id) throws Exception {
-            final NativeImage image = NativeImage.read(Cache.SKINS.getCache().getOrDownload(url, new URL(url)::openStream));
+            final NativeImage image = NativeImage.read(Cache.SKINS.getCache().getOrDownload(url,
+                    new URL(url)::openStream));
             final NativeImageBackedTexture texture = new NativeImageBackedTexture(image);
-            if (TextureUtils.isValidDynamicTexture(texture))
+            if (TextureUtils.isValidDynamicTexture(texture)) {
                 MinecraftClient.getInstance().getTextureManager().registerTexture(id, texture);
+            }
         }
 
         @SuppressWarnings("unchecked")
@@ -88,7 +92,9 @@ public final class OptifineResolver implements CosmeticsResolver<OptifineResolve
                                 loadTextureFromUrl(baseUrl + "/" + item.get("texture"), textureId);
                                 final URL modelUrl = new URL(baseUrl + "/" + item.get("model"));
 
-                                final LinkedTreeMap<String, Object> model = mapFromReader(new InputStreamReader(Cache.MODELS.getCache().getOrDownload(modelType, modelUrl::openStream)));
+                                final LinkedTreeMap<String, Object> model = mapFromReader(new InputStreamReader(Cache.MODELS.getCache().getOrDownload(
+                                        modelType,
+                                        modelUrl::openStream)));
                                 return CosmeticsParser.parseJemCosmeticItem(textureId, modelId, model, modelType);
                             } catch (Exception e) {
                                 throw new RuntimeException(e);

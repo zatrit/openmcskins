@@ -22,7 +22,9 @@ public class CosmeticsLoader implements Loader {
         final List<CosmeticsParser.CosmeticsItem> allCosmetics = new ArrayList<>();
 
         handlers.stream().map(x -> ((PlayerCosmeticsHandler) x).downloadCosmetics()).forEach(cosmetics -> {
-            if (cosmetics != null) allCosmetics.addAll(cosmetics);
+            if (cosmetics != null) {
+                allCosmetics.addAll(cosmetics);
+            }
         });
 
         return allCosmetics;

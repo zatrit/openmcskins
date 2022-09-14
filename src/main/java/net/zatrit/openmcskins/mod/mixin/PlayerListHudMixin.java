@@ -10,7 +10,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(PlayerListHud.class)
 public class PlayerListHudMixin {
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/ClientConnection;isEncrypted()Z"))
+    @Redirect(method = "render",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/network/ClientConnection;isEncrypted()Z"))
     public boolean isEncrypted(@NotNull ClientConnection instance) {
         return instance.isEncrypted() || OpenMCSkins.getConfig().forceIcons;
     }

@@ -42,7 +42,7 @@ public class ConditionalMixinPlugin implements IMixinConfigPlugin {
                 @KeepClassMember
                 @Override
                 public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-                    if (Objects.equals(descriptor, "Lnet/zatrit/openmcskins/annotation/RequiresMod;"))
+                    if (Objects.equals(descriptor, "Lnet/zatrit/openmcskins/annotation/RequiresMod;")) {
                         return new AnnotationVisitor(Opcodes.ASM9) {
                             @KeepClassMember
                             @Override
@@ -51,20 +51,28 @@ public class ConditionalMixinPlugin implements IMixinConfigPlugin {
                                     @KeepClassMember
                                     @Override
                                     public void visit(String name, Object value) {
-                                        requires.computeIfAbsent(arrayName, k -> new ArrayList<>()).add(String.valueOf(value));
+                                        requires.computeIfAbsent(arrayName, k -> new ArrayList<>()).add(String.valueOf(
+                                                value));
                                     }
                                 };
                             }
                         };
+                    }
                     return super.visitAnnotation(descriptor, visible);
                 }
             }, 0);
 
             // There is a computeIfAbsent, because it's not working without it
-            final TriFunction<Map<String, List<String>>, String, Function<List<String>, Boolean>, Boolean> mapValueMatches = (m, k, f) -> !m.containsKey(k) || f.apply(m.computeIfAbsent(k, k2 -> new ArrayList<>()));
+            final TriFunction<Map<String, List<String>>, String, Function<List<String>, Boolean>, Boolean> mapValueMatches = (m, k, f) ->
+                    !m.containsKey(k) ||
+                            f.apply(m.computeIfAbsent(k, k2 -> new ArrayList<>()));
 
-            final boolean allMatch = mapValueMatches.apply(requires, "all", l -> l.stream().allMatch(OpenMCSkins::isModLoaded));
-            final boolean anyMatch = mapValueMatches.apply(requires, "any", l -> l.stream().anyMatch(OpenMCSkins::isModLoaded));
+            final boolean allMatch = mapValueMatches.apply(requires,
+                    "all",
+                    l -> l.stream().allMatch(OpenMCSkins::isModLoaded));
+            final boolean anyMatch = mapValueMatches.apply(requires,
+                    "any",
+                    l -> l.stream().anyMatch(OpenMCSkins::isModLoaded));
 
             return allMatch && anyMatch;
         } catch (IOException ex) {

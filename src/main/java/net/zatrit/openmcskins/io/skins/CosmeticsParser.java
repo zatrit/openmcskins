@@ -20,7 +20,10 @@ public final class CosmeticsParser {
 
     @Contract("_, _, _, _ -> new")
     @SuppressWarnings("unchecked")
-    public static @NotNull CosmeticsItem parseJemCosmeticItem(@NotNull Identifier textureId, Identifier modelId, @NotNull LinkedTreeMap<String, Object> jemData, String modelName) throws Exception {
+    public static @NotNull CosmeticsItem parseJemCosmeticItem(@NotNull Identifier textureId,
+                                                              Identifier modelId,
+                                                              @NotNull LinkedTreeMap<String, Object> jemData,
+                                                              String modelName) throws Exception {
         final ResourceManager resourceManager = MinecraftClient.getInstance().getResourceManager();
         jemData.put("texture", textureId.toString());
         final List<LinkedTreeMap<String, Object>> models = ((List<LinkedTreeMap<String, Object>>) jemData.get("models"));
@@ -29,8 +32,10 @@ public final class CosmeticsParser {
         models.forEach(model -> model.put("part", modelName + models.indexOf(model)));
         models.forEach(model -> {
             List<LinkedTreeMap<String, Object>> submodels = (List<LinkedTreeMap<String, Object>>) model.get("submodels");
-            if (submodels != null && submodels.size() > 1) for (int i = 0; i < submodels.size(); i++)
-                submodels.get(i).putIfAbsent("id", ((String) submodels.get(i).get("id")) + i);
+            if (submodels != null && submodels.size() > 1) {
+                for (int i = 0; i < submodels.size(); i++)
+                    submodels.get(i).putIfAbsent("id", ((String) submodels.get(i).get("id")) + i);
+            }
         });
 
         final JemFile jemFile = new JemFile(jemData, modelId, resourceManager);
@@ -38,8 +43,9 @@ public final class CosmeticsParser {
 
         final List<ModelPart> modelParts;
 
-        if (models.size() == 1) modelParts = Collections.singletonList(getPartByIndex(registry, models, 0));
-        else {
+        if (models.size() == 1) {
+            modelParts = Collections.singletonList(getPartByIndex(registry, models, 0));
+        } else {
             List<ModelPart> list = new ArrayList<>();
             int bound = models.size();
             for (int i = 0; i < bound; i++) {
@@ -54,7 +60,9 @@ public final class CosmeticsParser {
         return new CosmeticsItem(textureId, modelParts, attaches);
     }
 
-    private static ModelPart getPartByIndex(@NotNull CemModelRegistry registry, @NotNull List<LinkedTreeMap<String, Object>> models, int index) {
+    private static ModelPart getPartByIndex(@NotNull CemModelRegistry registry,
+                                            @NotNull List<LinkedTreeMap<String, Object>> models,
+                                            int index) {
         return registry.getEntryByPartName((String) models.get(index).get("part")).getModel();
     }
 

@@ -18,7 +18,17 @@ public class VanillaLikeTexturedButtonWidget extends ButtonWidget {
     private final int textureWidth;
     private final int textureHeight;
 
-    public VanillaLikeTexturedButtonWidget(int x, int y, int width, int height, int u, int v, Identifier texture, int textureWidth, int textureHeight, ButtonWidget.PressAction pressAction, ButtonWidget.TooltipSupplier tooltipSupplier) {
+    public VanillaLikeTexturedButtonWidget(int x,
+                                           int y,
+                                           int width,
+                                           int height,
+                                           int u,
+                                           int v,
+                                           Identifier texture,
+                                           int textureWidth,
+                                           int textureHeight,
+                                           ButtonWidget.PressAction pressAction,
+                                           ButtonWidget.TooltipSupplier tooltipSupplier) {
         super(x, y, width, height, Text.of(""), pressAction, tooltipSupplier);
         this.textureWidth = textureWidth;
         this.textureHeight = textureHeight;
@@ -34,7 +44,8 @@ public class VanillaLikeTexturedButtonWidget extends ButtonWidget {
         RenderSystem.setShaderTexture(0, texture);
         RenderSystem.enableDepthTest();
         drawTexture(matrices, x, y, u, v, width, height, textureWidth, textureHeight);
-        if (hovered)
+        if (hovered) {
             renderTooltip(matrices, mouseX, mouseY);
+        }
     }
 }

@@ -22,7 +22,8 @@ public class VanillaLoader implements Loader {
 
     @Override
     public Object processHandlers(List<? extends AbstractPlayerHandler<?>> handlers) {
-        final Map<MinecraftProfileTexture.Type, AbstractPlayerHandler<?>> leading = new EnumMap<>(MinecraftProfileTexture.Type.class);
+        final Map<MinecraftProfileTexture.Type, AbstractPlayerHandler<?>> leading = new EnumMap<>(
+                MinecraftProfileTexture.Type.class);
 
         for (MinecraftProfileTexture.Type type : MinecraftProfileTexture.Type.values()) {
             leading.put(type, handlers.stream()

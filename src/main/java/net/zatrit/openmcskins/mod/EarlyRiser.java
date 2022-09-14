@@ -9,6 +9,7 @@ public class EarlyRiser implements Runnable {
     @KeepClassMember
     @Override
     public void run() {
-        ClassTinkerers.enumBuilder("com/mojang/authlib/minecraft/MinecraftProfileTexture$Type").addEnum("EARS").build();
+        ClassTinkerers.enumBuilder("com/mojang/authlib/minecraft/MinecraftProfileTexture$Type", new Class[0]).addEnum(
+                "EARS").build();
     }
 }

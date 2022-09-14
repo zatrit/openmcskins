@@ -83,7 +83,10 @@ public class AnimatedTexture extends AbstractTexture {
                 }
         };
 
-        if (RenderSystem.isOnRenderThread()) clearId.execute();
-        else RenderSystem.recordRenderCall(clearId);
+        if (RenderSystem.isOnRenderThread()) {
+            clearId.execute();
+        } else {
+            RenderSystem.recordRenderCall(clearId);
+        }
     }
 }

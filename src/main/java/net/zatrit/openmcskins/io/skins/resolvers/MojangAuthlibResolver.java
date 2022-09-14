@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
-import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.api.resolver.Resolver;
 import net.zatrit.openmcskins.config.options.RefillProfiles;
 import net.zatrit.openmcskins.io.skins.PlayerRegistry;
@@ -25,13 +24,16 @@ public class MojangAuthlibResolver implements Resolver<MojangAuthlibResolver.Pla
 
     public class PlayerHandler extends AbstractPlayerHandler<MinecraftProfileTexture> {
         public PlayerHandler(@NotNull GameProfile profile) {
-            if (refillProfiles == RefillProfiles.REFILL_ALWAYS)
+            if (refillProfiles == RefillProfiles.REFILL_ALWAYS) {
                 profile.getProperties().clear();
-            if (profile.getProperties().isEmpty() && refillProfiles != RefillProfiles.DONT_REFILL)
+            }
+            if (profile.getProperties().isEmpty() && refillProfiles != RefillProfiles.DONT_REFILL) {
                 PlayerRegistry.getSessionService().fillProfileProperties(profile, true);
+            }
             PlayerHandler.this.textures.putAll(PlayerRegistry.getSessionService().getTextures(profile, true));
-            if (PlayerHandler.this.textures.containsKey(MinecraftProfileTexture.Type.SKIN))
+            if (PlayerHandler.this.textures.containsKey(MinecraftProfileTexture.Type.SKIN)) {
                 PlayerHandler.this.setModel(textures.get(MinecraftProfileTexture.Type.SKIN).getMetadata("model"));
+            }
         }
 
         @Override

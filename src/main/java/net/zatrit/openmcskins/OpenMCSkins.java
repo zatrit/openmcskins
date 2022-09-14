@@ -31,14 +31,16 @@ public class OpenMCSkins {
     }
 
     public static synchronized Resolver<?>[] getResolvers() {
-        if (resolvers == null) resolvers = (Resolver<?>[]) getConfig().hosts.stream().parallel().map(x -> {
-            try {
-                return x.createResolver();
-            } catch (Exception ex) {
-                OpenMCSkins.handleError(ex);
-                return null;
-            }
-        }).filter(Objects::nonNull).toArray(Resolver[]::new);
+        if (resolvers == null) {
+            resolvers = (Resolver<?>[]) getConfig().hosts.stream().parallel().map(x -> {
+                try {
+                    return x.createResolver();
+                } catch (Exception ex) {
+                    OpenMCSkins.handleError(ex);
+                    return null;
+                }
+            }).filter(Objects::nonNull).toArray(Resolver[]::new);
+        }
         return resolvers;
     }
 
@@ -49,8 +51,11 @@ public class OpenMCSkins {
     }
 
     public static void handleError(Throwable error) {
-        if (OpenMCSkins.getConfig().fullErrorMessage) error.printStackTrace();
-        else OpenMCSkins.LOGGER.error(error.getMessage());
+        if (OpenMCSkins.getConfig().fullErrorMessage) {
+            error.printStackTrace();
+        } else {
+            OpenMCSkins.LOGGER.error(error.getMessage());
+        }
     }
 
     public static HashFunction getHashFunction() {
@@ -69,7 +74,9 @@ public class OpenMCSkins {
             AbstractClientPlayerEntity[] players = client.world.getPlayers().toArray(new AbstractClientPlayerEntity[0]);
             for (AbstractClientPlayerEntity player : players) {
                 final PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) player).invokeGetPlayerListEntry();
-                if (entry != null) ((PlayerListEntryAccessor) entry).setTexturesLoaded(false);
+                if (entry != null) {
+                    ((PlayerListEntryAccessor) entry).setTexturesLoaded(false);
+                }
             }
         }
     }
@@ -87,7 +94,10 @@ public class OpenMCSkins {
 
     public static boolean isModLoaded(@NotNull String name) {
         final String[] splitted = name.split(":");
-        if (splitted.length > 1) return isModLoaded(splitted[0], splitted[1]);
-        else return isModLoaded(splitted[0], "*");
+        if (splitted.length > 1) {
+            return isModLoaded(splitted[0], splitted[1]);
+        } else {
+            return isModLoaded(splitted[0], "*");
+        }
     }
 }

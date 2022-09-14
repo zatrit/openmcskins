@@ -21,12 +21,17 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class Deadmau5FeatureRendererMixin {
     private static final Type earsType = ClassTinkerers.getEnum(Type.class, "EARS");
 
-    @Redirect(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Ljava/lang/String;equals(Ljava/lang/Object;)Z", remap = false))
+    @Redirect(
+            method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V",
+            at = @At(value = "INVOKE", target = "Ljava/lang/String;equals(Ljava/lang/Object;)Z", remap = false))
     public boolean earsEnabled(@NotNull String string, Object object) {
         return OpenMCSkins.getConfig().ears;
     }
 
-    @Redirect(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getSkinTexture()Lnet/minecraft/util/Identifier;"))
+    @Redirect(
+            method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V",
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;getSkinTexture()Lnet/minecraft/util/Identifier;"))
     public Identifier playerEarsInsteadOfSkin(AbstractClientPlayerEntity instance) {
         final PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) instance).invokeGetPlayerListEntry();
         ((PlayerListEntryAccessor) entry).invokeLoadTextures();
@@ -34,10 +39,15 @@ public class Deadmau5FeatureRendererMixin {
         return MoreObjects.firstNonNull(ears, entry.getSkinTexture());
     }
 
-    @Redirect(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;hasSkinTexture()Z"))
+    @Redirect(
+            method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/network/AbstractClientPlayerEntity;FFFFFF)V",
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;hasSkinTexture()Z"))
     public boolean hasEars(AbstractClientPlayerEntity instance) {
         final PlayerListEntry entry = ((AbstractClientPlayerEntityAccessor) instance).invokeGetPlayerListEntry();
-        if (entry == null) return false;
+        if (entry == null) {
+            return false;
+        }
         ((PlayerListEntryAccessor) entry).invokeLoadTextures();
         return ((PlayerListEntryAccessor) entry).getTextures().containsKey(earsType);
     }

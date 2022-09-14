@@ -35,7 +35,9 @@ public class _5ZigRebornResolver implements Resolver<_5ZigRebornResolver.PlayerH
 
         public PlayerHandler(@NotNull GameProfile profile) throws IOException {
             String url = BASE_URL + profile.getId();
-            if (NetworkUtils.getResponseCode(url) == 200) this.textures.put(MinecraftProfileTexture.Type.CAPE, url);
+            if (NetworkUtils.getResponseCode(url) == 200) {
+                this.textures.put(MinecraftProfileTexture.Type.CAPE, url);
+            }
         }
 
         @SuppressWarnings("unchecked")
@@ -43,12 +45,18 @@ public class _5ZigRebornResolver implements Resolver<_5ZigRebornResolver.PlayerH
         public @Nullable Identifier downloadTexture(MinecraftProfileTexture.Type type) {
             try {
                 final String url = textures.get(type);
-                final InputStreamReader reader = new InputStreamReader(new URL(url).openStream(), StandardCharsets.UTF_8);
+                final InputStreamReader reader = new InputStreamReader(new URL(url).openStream(),
+                        StandardCharsets.UTF_8);
                 final Map<String, String> map = GSON.fromJson(reader, Map.class);
                 final String base64String = map.get("d");
-                if (base64String == null) return null;
+                if (base64String == null) {
+                    return null;
+                }
                 final byte[] bytes = Base64.decodeBase64(base64String);
-                return TextureUtils.loadStaticTexture(() -> new ByteArrayInputStream(bytes), url, TextureUtils.getAspects(type), true);
+                return TextureUtils.loadStaticTexture(() -> new ByteArrayInputStream(bytes),
+                        url,
+                        TextureUtils.getAspects(type),
+                        true);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

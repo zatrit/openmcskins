@@ -27,7 +27,9 @@ public final class ConfigUtil {
             try {
                 final String[] split = Arrays.stream(x.split(":")).parallel().map(String::trim).toArray(String[]::new);
                 String value = null;
-                if (split.length > 1) value = String.join(":", Arrays.copyOfRange(split, 1, split.length));
+                if (split.length > 1) {
+                    value = String.join(":", Arrays.copyOfRange(split, 1, split.length));
+                }
                 return new ConfigHostOption(HostType.valueOf(split[0].toUpperCase()), value);
             } catch (IllegalArgumentException e) {
                 OpenMCSkins.handleError(e);

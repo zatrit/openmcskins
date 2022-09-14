@@ -38,7 +38,9 @@ public class LocalDirectoryResolver implements Resolver<LocalDirectoryResolver.P
             final File texturesDirectory = new File(directory, "textures");
             final File metadataDirectory = new File(directory, "metadata");
 
-            if (!texturesDirectory.exists()) throw new FileNotFoundException(texturesDirectory.getAbsolutePath());
+            if (!texturesDirectory.exists()) {
+                throw new FileNotFoundException(texturesDirectory.getAbsolutePath());
+            }
 
             final File[] subdirectories = texturesDirectory.listFiles(File::isDirectory);
             for (File subdirectory : Objects.requireNonNull(subdirectories))
@@ -53,10 +55,14 @@ public class LocalDirectoryResolver implements Resolver<LocalDirectoryResolver.P
                     final File metadataTypeDirectory = new File(metadataDirectory, typeName);
                     final File metadataFile = new File(metadataTypeDirectory, name + ".json");
                     if (metadataFile.exists()) {
-                        final Map<String, ?> metadata = GSON.<Map<String, String>>fromJson(new FileReader(metadataFile), Map.class);
-                        if (metadata.containsKey("model")) this.setModel(String.valueOf(metadata.get("model")));
-                        if (metadata.containsKey("animated"))
+                        final Map<String, ?> metadata = GSON.<Map<String, String>>fromJson(new FileReader(metadataFile),
+                                Map.class);
+                        if (metadata.containsKey("model")) {
+                            this.setModel(String.valueOf(metadata.get("model")));
+                        }
+                        if (metadata.containsKey("animated")) {
                             this.setAnimated(type, (boolean) metadata.get("animated"));
+                        }
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();

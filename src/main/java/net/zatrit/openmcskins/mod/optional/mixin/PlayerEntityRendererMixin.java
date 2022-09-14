@@ -15,7 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @RequiresMod(all = "cem")
 @Mixin(value = PlayerEntityRenderer.class)
 public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<AbstractClientPlayerEntity, PlayerEntityModel<AbstractClientPlayerEntity>> {
-    PlayerEntityRendererMixin(EntityRendererFactory.Context ctx, PlayerEntityModel<AbstractClientPlayerEntity> model, float shadowRadius) {
+    PlayerEntityRendererMixin(EntityRendererFactory.Context ctx,
+                              PlayerEntityModel<AbstractClientPlayerEntity> model,
+                              float shadowRadius) {
         super(ctx, model, shadowRadius);
     }
 

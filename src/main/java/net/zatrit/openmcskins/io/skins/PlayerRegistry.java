@@ -38,9 +38,13 @@ public final class PlayerRegistry {
 
                             final URL url;
                             url = new URL("https://api.mojang.com/users/profiles/minecraft/" + profile.getName());
-                            final LinkedTreeMap<String, Object> map = Resolver.GSON.<LinkedTreeMap<String, Object>>fromJson(new InputStreamReader(url.openStream()), LinkedTreeMap.class);
+                            final LinkedTreeMap<String, Object> map = Resolver.GSON.<LinkedTreeMap<String, Object>>fromJson(
+                                    new InputStreamReader(url.openStream()),
+                                    LinkedTreeMap.class);
                             // https://stackoverflow.com/a/18987428/12245612
-                            UUID id = UUID.fromString(String.valueOf(map.get("id")).replaceAll("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5"));
+                            UUID id = UUID.fromString(String.valueOf(map.get("id")).replaceAll(
+                                    "(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})",
+                                    "$1-$2-$3-$4-$5"));
                             cachedProfile = new GameProfile(id, profile.getName());
                             cachedProfile.getProperties().putAll(profile.getProperties());
 
@@ -63,7 +67,8 @@ public final class PlayerRegistry {
 
     public static synchronized void clear() {
         final TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
-        idRegistry.stream().parallel().filter(Objects::nonNull).filter(x -> textureManager.getTexture(x) instanceof AnimatedTexture).forEach(x -> textureManager.getTexture(x).close());
+        idRegistry.stream().parallel().filter(Objects::nonNull).filter(x -> textureManager.getTexture(x) instanceof AnimatedTexture).forEach(
+                x -> textureManager.getTexture(x).close());
         idRegistry.clear();
         profileCache.clear();
     }

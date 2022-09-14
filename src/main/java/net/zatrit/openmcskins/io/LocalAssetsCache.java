@@ -63,11 +63,12 @@ public final class LocalAssetsCache {
 
     @Contract("_ -> new")
     public @NotNull CompletableFuture<Void> clear(Runnable onEachFile) {
-        final Comparator<Path> pathComparator = (a, b) -> BooleanComparators.OPPOSITE_COMPARATOR.compare(Files.isRegularFile(a), Files.isRegularFile(b));
+        final Comparator<Path> pathComparator = (a, b) -> BooleanComparators.OPPOSITE_COMPARATOR.compare(Files.isRegularFile(
+                a), Files.isRegularFile(b));
         final Path cachePath = cacheDir.get().toPath();
         return CompletableFuture.runAsync(() -> {
             try {
-                if (cacheDir.get().exists())
+                if (cacheDir.get().exists()) {
                     try (final Stream<Path> walk = Files.walk(cachePath).sorted(pathComparator)) {
                         walk.forEach(f -> {
                             try {
@@ -75,9 +76,12 @@ public final class LocalAssetsCache {
                             } catch (IOException e) {
                                 OpenMCSkins.handleError(e);
                             }
-                            if (Files.isRegularFile(f)) onEachFile.run();
+                            if (Files.isRegularFile(f)) {
+                                onEachFile.run();
+                            }
                         });
                     }
+                }
             } catch (IOException e) {
                 OpenMCSkins.handleError(e);
             }
@@ -87,10 +91,11 @@ public final class LocalAssetsCache {
     public long size() {
         final Path cachePath = cacheDir.get().toPath();
         try {
-            if (cacheDir.get().exists())
+            if (cacheDir.get().exists()) {
                 try (final Stream<Path> walk = Files.walk(cachePath).filter(Files::isRegularFile)) {
                     return walk.count();
                 }
+            }
         } catch (IOException e) {
             OpenMCSkins.handleError(e);
         }

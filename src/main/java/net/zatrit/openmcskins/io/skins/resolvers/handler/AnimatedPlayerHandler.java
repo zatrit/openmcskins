@@ -40,15 +40,27 @@ public abstract class AnimatedPlayerHandler extends AbstractPlayerHandler<String
         try {
             final String textureUrl = textures.get(type);
 
-            if (isAnimated(type) && !OpenMCSkins.getConfig().animatedCapes && type == MinecraftProfileTexture.Type.CAPE)
+            if (isAnimated(type) &&
+                    !OpenMCSkins.getConfig().animatedCapes &&
+                    type == MinecraftProfileTexture.Type.CAPE) {
                 return null;
+            }
 
-            if (type == MinecraftProfileTexture.Type.SKIN)
-                return TextureUtils.loadPlayerSkin(() -> openStream(textureUrl, type), getModel(), textureUrl, this.cacheEnabled());
-            else if (isAnimated(type))
-                return TextureUtils.loadAnimatedTexture(() -> openStream(textureUrl, type), textureUrl, this.cacheEnabled());
-            else
-                return TextureUtils.loadStaticTexture(() -> openStream(textureUrl, type), textureUrl, TextureUtils.getAspects(type), this.cacheEnabled());
+            if (type == MinecraftProfileTexture.Type.SKIN) {
+                return TextureUtils.loadPlayerSkin(() -> openStream(textureUrl, type),
+                        getModel(),
+                        textureUrl,
+                        this.cacheEnabled());
+            } else if (isAnimated(type)) {
+                return TextureUtils.loadAnimatedTexture(() -> openStream(textureUrl, type),
+                        textureUrl,
+                        this.cacheEnabled());
+            } else {
+                return TextureUtils.loadStaticTexture(() -> openStream(textureUrl, type),
+                        textureUrl,
+                        TextureUtils.getAspects(type),
+                        this.cacheEnabled());
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

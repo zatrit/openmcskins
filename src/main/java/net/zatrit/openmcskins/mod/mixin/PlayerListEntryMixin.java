@@ -41,12 +41,15 @@ public abstract class PlayerListEntryMixin {
                 this.textures.clear();
                 this.model = null;
 
-                Loaders.VANILLA.getHandler().loadAsync(getProfile(), (VanillaLoader.SkinResolveCallback) (t, r, model) -> {
-                    if (r != null) {
-                        this.textures.put(t, r);
-                        if (t == MinecraftProfileTexture.Type.SKIN) this.model = model;
-                    }
-                });
+                Loaders.VANILLA.getHandler().loadAsync(getProfile(),
+                        (VanillaLoader.SkinResolveCallback) (t, r, model) -> {
+                            if (r != null) {
+                                this.textures.put(t, r);
+                                if (t == MinecraftProfileTexture.Type.SKIN) {
+                                    this.model = model;
+                                }
+                            }
+                        });
                 this.texturesLoaded = true;
             }
         }
