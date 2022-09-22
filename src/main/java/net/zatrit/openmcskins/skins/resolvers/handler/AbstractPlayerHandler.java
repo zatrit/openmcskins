@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.io.skins.resolvers.handler;
+package net.zatrit.openmcskins.skins.resolvers.handler;
 
 import com.google.common.base.MoreObjects;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;

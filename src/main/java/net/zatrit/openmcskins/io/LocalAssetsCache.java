@@ -2,8 +2,8 @@ package net.zatrit.openmcskins.io;
 
 import it.unimi.dsi.fastutil.booleans.BooleanComparators;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.io.util.StreamConsumer;
-import net.zatrit.openmcskins.io.util.StreamSupplier;
+import net.zatrit.openmcskins.util.StreamConsumer;
+import net.zatrit.openmcskins.util.StreamSupplier;
 import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

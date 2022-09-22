@@ -1,5 +1,8 @@
 package net.zatrit.openmcskins.mod;
 
+import com.chocohead.mm.api.ClassTinkerers;
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.gui.registry.GuiRegistry;
 import me.shedaniel.autoconfig.serializer.YamlConfigSerializer;
@@ -13,17 +16,19 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.Text;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.annotation.KeepClass;
+import net.zatrit.openmcskins.annotation.KeepClassMember;
 import net.zatrit.openmcskins.config.Config;
 import net.zatrit.openmcskins.config.ConfigUtil;
 import net.zatrit.openmcskins.config.yaml.ConfigConstructor;
 import net.zatrit.openmcskins.config.yaml.ConfigRepresenter;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-@KeepClass
 @Environment(EnvType.CLIENT)
-public class ModInit implements ClientModInitializer {
+public class ModEntry implements ClientModInitializer, ModMenuApi, Runnable {
+    @KeepClassMember
     @Override
     public void onInitializeClient() {
         AutoConfig.register(Config.class, (d, c) -> {
@@ -49,5 +54,19 @@ public class ModInit implements ClientModInitializer {
             });
             return List.of(hostList.build());
         }, List.class);
+    }
+
+    @Contract(pure = true)
+    @Override
+    public @NotNull ConfigScreenFactory<?> getModConfigScreenFactory() {
+        return parent -> AutoConfig.getConfigScreen(Config.class, parent).get();
+    }
+
+    // Early riser
+    @KeepClassMember
+    @Override
+    public void run() {
+        ClassTinkerers.enumBuilder("com/mojang/authlib/minecraft/MinecraftProfileTexture$Type", new Class[0]).addEnum(
+                "EARS").build();
     }
 }

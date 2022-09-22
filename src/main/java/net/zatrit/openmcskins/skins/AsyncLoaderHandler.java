@@ -1,9 +1,9 @@
-package net.zatrit.openmcskins.io.skins;
+package net.zatrit.openmcskins.skins;
 
 import com.mojang.authlib.GameProfile;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.api.resolver.Resolver;
-import net.zatrit.openmcskins.io.skins.loader.Loader;
+import net.zatrit.openmcskins.skins.loader.Loader;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

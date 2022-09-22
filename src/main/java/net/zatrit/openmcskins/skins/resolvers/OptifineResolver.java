@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.io.skins.resolvers;
+package net.zatrit.openmcskins.skins.resolvers;
 
 import com.google.gson.internal.LinkedTreeMap;
 import com.mojang.authlib.GameProfile;
@@ -11,9 +11,9 @@ import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.api.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.api.resolver.CosmeticsResolver;
 import net.zatrit.openmcskins.io.Cache;
-import net.zatrit.openmcskins.io.skins.CosmeticsParser;
-import net.zatrit.openmcskins.io.util.NetworkUtils;
-import net.zatrit.openmcskins.io.util.TextureUtils;
+import net.zatrit.openmcskins.skins.CosmeticsParser;
+import net.zatrit.openmcskins.util.NetworkUtils;
+import net.zatrit.openmcskins.util.TextureUtils;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

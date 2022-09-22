@@ -1,11 +1,11 @@
-package net.zatrit.openmcskins.io.skins.loader;
+package net.zatrit.openmcskins.skins.loader;
 
 import com.mojang.authlib.GameProfile;
 import net.zatrit.openmcskins.api.handler.PlayerCosmeticsHandler;
 import net.zatrit.openmcskins.api.resolver.CosmeticsResolver;
 import net.zatrit.openmcskins.api.resolver.Resolver;
-import net.zatrit.openmcskins.io.skins.CosmeticsParser;
-import net.zatrit.openmcskins.io.skins.resolvers.handler.AbstractPlayerHandler;
+import net.zatrit.openmcskins.skins.CosmeticsParser;
+import net.zatrit.openmcskins.skins.resolvers.handler.AbstractPlayerHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

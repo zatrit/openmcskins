@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.io.skins;
+package net.zatrit.openmcskins.skins;
 
 import com.google.gson.internal.LinkedTreeMap;
 import net.dorianpb.cem.internal.file.JemFile;

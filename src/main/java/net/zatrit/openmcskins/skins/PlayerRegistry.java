@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.io.skins;
+package net.zatrit.openmcskins.skins;
 
 import com.google.gson.internal.LinkedTreeMap;
 import com.mojang.authlib.GameProfile;

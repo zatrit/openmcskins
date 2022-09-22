@@ -11,6 +11,10 @@
 -renamesourcefileattribute
 -repackageclasses
 
+-adaptresourcefilenames
+-adaptresourcefilecontents
+-adaptclassstrings
+
 -keep @org.spongepowered.asm.mixin.Mixin class ** { *; }
 -keep @org.spongepowered.asm.mixin.Mixin interface ** { *; }
 -keep @org.spongepowered.asm.mixin.Mixin enum ** { *; }

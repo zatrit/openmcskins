@@ -13,9 +13,9 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
-import net.zatrit.openmcskins.io.skins.CosmeticsParser;
-import net.zatrit.openmcskins.io.skins.Loaders;
-import net.zatrit.openmcskins.io.skins.loader.CosmeticsLoader;
+import net.zatrit.openmcskins.skins.CosmeticsParser;
+import net.zatrit.openmcskins.skins.loader.Loaders;
+import net.zatrit.openmcskins.skins.loader.CosmeticsLoader;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

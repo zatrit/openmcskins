@@ -1,8 +1,8 @@
-package net.zatrit.openmcskins.io.skins.loader;
+package net.zatrit.openmcskins.skins.loader;
 
 import com.mojang.authlib.GameProfile;
 import net.zatrit.openmcskins.api.resolver.Resolver;
-import net.zatrit.openmcskins.io.skins.resolvers.handler.AbstractPlayerHandler;
+import net.zatrit.openmcskins.skins.resolvers.handler.AbstractPlayerHandler;
 
 import java.util.List;
 

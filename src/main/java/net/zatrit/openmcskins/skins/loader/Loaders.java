@@ -1,8 +1,6 @@
-package net.zatrit.openmcskins.io.skins;
+package net.zatrit.openmcskins.skins.loader;
 
-import net.zatrit.openmcskins.io.skins.loader.CosmeticsLoader;
-import net.zatrit.openmcskins.io.skins.loader.Loader;
-import net.zatrit.openmcskins.io.skins.loader.VanillaLoader;
+import net.zatrit.openmcskins.skins.AsyncLoaderHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

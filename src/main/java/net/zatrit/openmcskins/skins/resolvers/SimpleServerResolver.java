@@ -1,11 +1,11 @@
-package net.zatrit.openmcskins.io.skins.resolvers;
+package net.zatrit.openmcskins.skins.resolvers;
 
 import com.google.common.base.MoreObjects;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.zatrit.openmcskins.api.resolver.Resolver;
-import net.zatrit.openmcskins.io.skins.resolvers.handler.AnimatedPlayerHandler;
-import net.zatrit.openmcskins.io.util.NetworkUtils;
+import net.zatrit.openmcskins.skins.resolvers.handler.AnimatedPlayerHandler;
+import net.zatrit.openmcskins.util.NetworkUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;

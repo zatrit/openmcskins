@@ -1,13 +1,13 @@
-package net.zatrit.openmcskins.io.skins.resolvers;
+package net.zatrit.openmcskins.skins.resolvers;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.util.Identifier;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.api.resolver.Resolver;
-import net.zatrit.openmcskins.io.skins.resolvers.handler.AbstractPlayerHandler;
-import net.zatrit.openmcskins.io.util.NetworkUtils;
-import net.zatrit.openmcskins.io.util.TextureUtils;
+import net.zatrit.openmcskins.skins.resolvers.handler.AbstractPlayerHandler;
+import net.zatrit.openmcskins.util.NetworkUtils;
+import net.zatrit.openmcskins.util.TextureUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

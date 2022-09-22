@@ -4,7 +4,7 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.Tag;
 import net.zatrit.openmcskins.api.resolver.Resolver;
 import net.zatrit.openmcskins.api.resolver.ResolverConstructor;
-import net.zatrit.openmcskins.io.skins.resolvers.*;
+import net.zatrit.openmcskins.skins.resolvers.*;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,7 +41,8 @@ public enum HostType {
     }),
     OPTIFINE(d -> new OptifineResolver("http://s.optifine.net")),
     SERVER(SimpleServerResolver::new),
-    TLAUNCHER(d -> new SimpleServerResolver("https://auth.tlauncher.org/skin/profile/texture/login", "%s/%s"));
+    TLAUNCHER(d -> new SimpleServerResolver("https://auth.tlauncher.org/skin/profile/texture/login", "%s/%s")),
+    WYNNTILS(d -> new DirectResolver("https://athena.wynntils.com/capes/user/{id}", MinecraftProfileTexture.Type.CAPE));
 
     private final ResolverConstructor construct;
 

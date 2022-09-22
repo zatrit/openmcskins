@@ -9,7 +9,7 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
 import net.zatrit.openmcskins.api.resolver.Resolver;
 import net.zatrit.openmcskins.config.Config;
-import net.zatrit.openmcskins.io.skins.PlayerRegistry;
+import net.zatrit.openmcskins.skins.PlayerRegistry;
 import net.zatrit.openmcskins.mod.mixin.AbstractClientPlayerEntityAccessor;
 import net.zatrit.openmcskins.mod.mixin.PlayerListEntryAccessor;
 import net.zatrit.openmcskins.render.CosmeticsFeatureRenderer;

@@ -18,13 +18,13 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "net.zatrit.openmcskins.mod.ModInit"
+      "net.zatrit.openmcskins.mod.ModEntry"
     ],
     "modmenu": [
-      "net.zatrit.openmcskins.mod.ModMenu"
+      "net.zatrit.openmcskins.mod.ModEntry"
     ],
     "mm:early_risers": [
-      "net.zatrit.openmcskins.mod.EarlyRiser"
+      "net.zatrit.openmcskins.mod.ModEntry"
     ]
   },
   "mixins": [
@@ -35,7 +35,7 @@
     "fabricloader": ">=0.13.2",
     "fabric-resource-loader-v0": "*",
     "minecraft": ">=1.17",
-    "java": ">=16",
+    "java": ">=17",
     "cloth-config": ">=6.0.0"
   },
   "breaks": {

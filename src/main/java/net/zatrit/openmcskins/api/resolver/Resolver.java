@@ -3,7 +3,7 @@ package net.zatrit.openmcskins.api.resolver;
 import com.google.gson.Gson;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.util.Clearable;
-import net.zatrit.openmcskins.io.skins.resolvers.handler.AbstractPlayerHandler;
+import net.zatrit.openmcskins.skins.resolvers.handler.AbstractPlayerHandler;
 
 import java.io.IOException;
 

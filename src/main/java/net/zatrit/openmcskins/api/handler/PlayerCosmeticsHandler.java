@@ -1,6 +1,6 @@
 package net.zatrit.openmcskins.api.handler;
 
-import net.zatrit.openmcskins.io.skins.CosmeticsParser;
+import net.zatrit.openmcskins.skins.CosmeticsParser;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
