@@ -35,6 +35,7 @@ It's a custom Minecraft skin loader, that's supports custom ears and some cosmet
 * From [MinecraftCapes](https://minecraftcapes.net/) capes system
 * From [Mantle](https://mantle.gg) capes system
 * From [Cloaks+](https://cloaksplus.com/) capes system
+* From [Wynntils](https://wynntils.com/) capes system (no custom ears)
 
 ### Screenshots
 
