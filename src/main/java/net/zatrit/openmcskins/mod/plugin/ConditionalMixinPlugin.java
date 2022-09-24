@@ -39,7 +39,6 @@ public class ConditionalMixinPlugin implements IMixinConfigPlugin {
             final Map<String, List<String>> requires = new HashMap<>();
 
             reader.accept(new ClassVisitor(Opcodes.ASM9) {
-                @KeepClassMember
                 @Override
                 public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
                     if (Objects.equals(descriptor, "Lnet/zatrit/openmcskins/annotation/RequiresMod;")) {

@@ -18,13 +18,13 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "net.zatrit.openmcskins.mod.ModEntry"
+      "net.zatrit.openmcskins.mod.entry.Client"
     ],
     "modmenu": [
-      "net.zatrit.openmcskins.mod.ModEntry"
+      "net.zatrit.openmcskins.mod.entry.ModMenu"
     ],
     "mm:early_risers": [
-      "net.zatrit.openmcskins.mod.ModEntry"
+      "net.zatrit.openmcskins.mod.entry.EarlyRisers"
     ]
   },
   "mixins": [
