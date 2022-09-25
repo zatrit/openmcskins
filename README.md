@@ -5,7 +5,7 @@
 [![Modrinth](https://img.shields.io/modrinth/dt/openmcskins?style=flat-square)](https://modrinth.com/mod/openmcskins)
 [![DeepSource](https://deepsource.io/gh/zatrit/openmcskins.svg/?label=resolved+issues&token=QZ_WP20fjwD0OJZeCwi9yxlW)](https://deepsource.io/gh/zatrit/openmcskins/?ref=repository-badge)
 
-*This mod is not affiliated with Mojang, Optifine, LabyMod, MinecraftCapes mod, Cloaks+, TLauncher, ely.by, 5ZigReborn,
+*This mod is not affiliated with Mojang, Wynntils, Optifine, LabyMod, MinecraftCapes mod, Cloaks+, TLauncher, ely.by, 5ZigReborn,
 Mantle or Cosmetica mod*
 
 ## What is it?
