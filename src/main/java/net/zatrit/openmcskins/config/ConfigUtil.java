@@ -2,8 +2,8 @@ package net.zatrit.openmcskins.config;
 
 import joptsimple.internal.Strings;
 import net.zatrit.openmcskins.OpenMCSkins;
-import net.zatrit.openmcskins.config.options.ConfigHostOption;
-import net.zatrit.openmcskins.config.options.HostType;
+import net.zatrit.openmcskins.operators.ConfigHostOption;
+import net.zatrit.openmcskins.operators.Host;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -30,7 +30,7 @@ public final class ConfigUtil {
                 if (split.length > 1) {
                     value = String.join(":", Arrays.copyOfRange(split, 1, split.length));
                 }
-                return new ConfigHostOption(HostType.valueOf(split[0].toUpperCase()), value);
+                return new ConfigHostOption(Host.valueOf(split[0].toUpperCase()), value);
             } catch (IllegalArgumentException e) {
                 OpenMCSkins.handleError(e);
                 return null;

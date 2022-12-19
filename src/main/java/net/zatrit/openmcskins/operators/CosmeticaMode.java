@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.config.options;
+package net.zatrit.openmcskins.operators;
 
 @SuppressWarnings("unused")
 public enum CosmeticaMode {

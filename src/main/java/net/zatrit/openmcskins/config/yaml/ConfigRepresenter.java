@@ -7,7 +7,7 @@ import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.Tag;
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.representer.Represent;
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.representer.Representer;
 import net.zatrit.openmcskins.config.Config;
-import net.zatrit.openmcskins.config.options.ConfigHostOption;
+import net.zatrit.openmcskins.operators.ConfigHostOption;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

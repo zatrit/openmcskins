@@ -5,22 +5,22 @@ import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.constructor.Co
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.Node;
 import me.shedaniel.cloth.clothconfig.shadowed.org.yaml.snakeyaml.nodes.ScalarNode;
 import net.zatrit.openmcskins.config.Config;
-import net.zatrit.openmcskins.config.options.ConfigHostOption;
-import net.zatrit.openmcskins.config.options.HostType;
+import net.zatrit.openmcskins.operators.ConfigHostOption;
+import net.zatrit.openmcskins.operators.Host;
 import org.jetbrains.annotations.NotNull;
 
 public class ConfigConstructor extends Constructor {
     public ConfigConstructor() {
         super(Config.class);
 
-        for (HostType type : HostType.values())
+        for (Host type : Host.values())
             this.yamlConstructors.put(type.getTag(), new HostConstructRepresent(type));
     }
 
     private class HostConstructRepresent extends AbstractConstruct {
-        private final HostType type;
+        private final Host type;
 
-        public HostConstructRepresent(HostType type) {
+        public HostConstructRepresent(Host type) {
             this.type = type;
         }
 

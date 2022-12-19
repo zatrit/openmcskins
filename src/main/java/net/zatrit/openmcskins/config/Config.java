@@ -7,10 +7,10 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.resource.language.I18n;
 import net.zatrit.openmcskins.OpenMCSkins;
 import net.zatrit.openmcskins.annotation.KeepClassMember;
-import net.zatrit.openmcskins.config.options.ConfigHostOption;
-import net.zatrit.openmcskins.config.options.HashingAlgorithm;
-import net.zatrit.openmcskins.config.options.HostType;
-import net.zatrit.openmcskins.config.options.UUIDResolutionMode;
+import net.zatrit.openmcskins.operators.ConfigHostOption;
+import net.zatrit.openmcskins.operators.HashingAlgorithm;
+import net.zatrit.openmcskins.operators.Host;
+import net.zatrit.openmcskins.operators.UUIDResolutionMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -59,9 +59,9 @@ public class Config implements ConfigData {
     public boolean fullErrorMessage = false;
 
     public Config() {
-        this.hosts.add(new ConfigHostOption(HostType.OPTIFINE, null));
-        this.hosts.add(new ConfigHostOption(HostType.ELYBY, null));
-        this.hosts.add(new ConfigHostOption(HostType.MOJANG, null));
+        this.hosts.add(new ConfigHostOption(Host.OPTIFINE, null));
+        this.hosts.add(new ConfigHostOption(Host.ELYBY, null));
+        this.hosts.add(new ConfigHostOption(Host.MOJANG, null));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.config.options;
+package net.zatrit.openmcskins.operators;
 
 import net.zatrit.openmcskins.api.resolver.Resolver;
 import org.apache.commons.lang3.ObjectUtils;
@@ -7,9 +7,9 @@ import javax.annotation.Nullable;
 
 public class ConfigHostOption {
     private final String value;
-    public HostType type;
+    public Host type;
 
-    public ConfigHostOption(HostType type, @Nullable String value) {
+    public ConfigHostOption(Host type, @Nullable String value) {
         this.type = type;
         this.value = value;
     }

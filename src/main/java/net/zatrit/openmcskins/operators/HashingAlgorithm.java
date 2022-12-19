@@ -1,4 +1,4 @@
-package net.zatrit.openmcskins.config.options;
+package net.zatrit.openmcskins.operators;
 
 import com.google.common.hash.HashFunction;
 
